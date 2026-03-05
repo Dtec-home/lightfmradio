@@ -30,69 +30,69 @@ const itemVariants = {
 
 const articles = [
   {
-    id: 'new-show-announcement',
-    title: 'New Show Announcement: "Sound Explorers" Documentary Series',
-    excerpt: 'Join us for our latest music documentary series exploring the stories behind your favorite artists and genres. Every week we dive deep into the history, culture, and creative process.',
+    id: 'signs-of-times',
+    title: 'Signs of the Times: Jesus is Coming Soon',
+    excerpt: 'Biblical prophecy fulfilled and end-times events unfolding before our eyes. Discover what Scripture reveals about Christ\'s imminent return and the importance of spiritual readiness.',
     date: 'Mar 3, 2024',
-    category: 'Shows',
+    category: 'Scripture',
     featured: true,
   },
   {
-    id: 'awards-recognition',
-    title: 'Light FM Wins Best Independent Radio Award',
-    excerpt: 'Recognition for our commitment to quality programming and community engagement. We\'re honored to receive this prestigious award.',
+    id: 'testimony-darkness-light',
+    title: 'Testimony: From Darkness to Light - A Life Transformed',
+    excerpt: 'Hear the powerful story of how one man encountered Jesus Christ and experienced complete spiritual transformation. His journey from despair to hope will inspire your faith.',
     date: 'Feb 28, 2024',
-    category: 'Awards',
+    category: 'Testimonies',
     featured: true,
   },
   {
-    id: 'wavelengths-session',
-    title: 'Live Session: Indie Band "The Wavelengths"',
-    excerpt: 'Catch their exclusive acoustic performance on our platform this weekend. A must-listen for indie music fans.',
+    id: 'gospel-message',
+    title: 'The Gospel Message: Jesus Saves - Understanding Salvation',
+    excerpt: 'Explore the foundational truth of salvation through Christ\'s sacrifice. Learn why surrendering your life to Jesus is the most important decision you\'ll ever make.',
     date: 'Feb 25, 2024',
-    category: 'Events',
+    category: 'Gospel',
   },
   {
-    id: 'platform-update',
-    title: 'New Features: Enhanced Streaming Experience',
-    excerpt: 'We\'ve upgraded our platform with improved audio quality, better playlist recommendations, and offline listening capabilities.',
+    id: 'revival-prayer',
+    title: 'Revival is Coming: The Power of Corporate Prayer',
+    excerpt: 'God\'s desire for His people is spiritual awakening. Join us as we explore how united, believing prayer releases God\'s power for revival in our churches and nations.',
     date: 'Feb 20, 2024',
-    category: 'Technology',
+    category: 'Prayer',
   },
   {
-    id: 'jazz-festival',
-    title: 'Light FM Presents: International Jazz Festival',
-    excerpt: 'Celebrate jazz music with live performances from world-renowned musicians. Three days of incredible music and culture.',
+    id: 'testimony-freedom',
+    title: 'Freedom in Christ: Breaking Chains of Addiction',
+    excerpt: 'A gripping testimony of deliverance from addiction through Christ\'s power. Discover how Jesus broke the chains and set a captive free through the Gospel.',
     date: 'Feb 15, 2024',
-    category: 'Events',
+    category: 'Testimonies',
   },
   {
-    id: 'artist-interview',
-    title: 'Interview: Conversations with Electronic Pioneer Maya K',
-    excerpt: 'Maya K shares her journey in electronic music, creative inspirations, and upcoming projects. A fascinating insight into her artistic process.',
+    id: 'biblical-truth-identity',
+    title: 'Who Am I in Christ? Understanding Your Identity in Jesus',
+    excerpt: 'Explore the biblical truth of your identity as a child of God. Learn how understanding your position in Christ brings confidence, purpose, and transformational change.',
     date: 'Feb 10, 2024',
-    category: 'Interviews',
+    category: 'Scripture',
   },
   {
-    id: 'community-spotlight',
-    title: 'Community Spotlight: Supporting Local Musicians',
-    excerpt: 'We\'re proud to showcase the incredible talent in our community. Meet three emerging artists breaking boundaries in their genres.',
+    id: 'community-outreach',
+    title: 'Light FM Community: Serving Jesus in Our City',
+    excerpt: 'See how our church family is reaching souls with the Gospel, caring for the poor, and sharing Christ\'s love throughout our community with compassion and truth.',
     date: 'Feb 5, 2024',
     category: 'Community',
   },
   {
-    id: 'milestone-celebration',
-    title: '1 Million Listeners Milestone Celebration',
-    excerpt: 'We\'ve reached an incredible milestone with one million listeners worldwide. Thank you for supporting independent radio.',
+    id: 'discernment-deception',
+    title: 'Spiritual Discernment in a Deceived World',
+    excerpt: 'False doctrines and spiritual deception abound. Discover biblical discernment tools to test all things against God\'s Word and remain rooted in Christ.',
     date: 'Jan 30, 2024',
-    category: 'Announcements',
+    category: 'Scripture',
   },
   {
-    id: 'summer-series',
-    title: 'Announcing: Summer Music Series 2024',
-    excerpt: 'Get ready for an unforgettable summer with our new curated music series featuring sessions, performances, and exclusive interviews.',
+    id: 'answered-prayer-story',
+    title: 'Testimonies of Prayer: How God Answers the Cries of His People',
+    excerpt: 'Real stories of answered prayer that reveal God\'s faithfulness, power, and care. These testimonies will strengthen your faith and encourage persistent intercession.',
     date: 'Jan 25, 2024',
-    category: 'Shows',
+    category: 'Prayer',
   },
 ];
 
@@ -120,10 +120,10 @@ export default function NewsPage() {
               transition={{ duration: 0.8 }}
             >
               <h1 className="text-5xl md:text-6xl font-serif font-bold text-foreground mb-4">
-                News & Updates
+                Biblical Truth & Testimonies
               </h1>
               <p className="text-xl text-muted-foreground max-w-2xl">
-                Stay connected with the latest from Light FM. Discover news, announcements, and stories from our community.
+                Scripture insights, life-changing testimonies of God's grace, and biblical teaching to deepen your faith and prepare your heart for eternity.
               </p>
             </motion.div>
           </div>
@@ -192,10 +192,10 @@ export default function NewsPage() {
               viewport={{ once: true }}
             >
               <h2 className="text-3xl font-serif font-bold text-foreground mb-4">
-                Subscribe to Our Newsletter
+                Stay Updated in Your Faith Journey
               </h2>
               <p className="text-lg text-muted-foreground mb-8">
-                Get the latest news, show announcements, and exclusive content delivered to your inbox.
+                Subscribe to receive daily Scripture reflections, teaching updates, testimonies, and prayer requests from Light FM Christian Ministry.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
                 <input

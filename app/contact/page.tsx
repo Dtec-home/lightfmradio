@@ -61,11 +61,11 @@ export default function ContactPage() {
         name: '',
         email: '',
         subject: '',
-        category: 'general',
+        category: 'salvation',
         message: '',
       });
       setSubmitted(false);
-    }, 3000);
+    }, 5000);
   };
 
   return (
@@ -83,10 +83,10 @@ export default function ContactPage() {
               transition={{ duration: 0.8 }}
             >
               <h1 className="text-5xl md:text-6xl font-serif font-bold text-foreground mb-4">
-                Get in Touch
+                Your Spiritual Journey Matters
               </h1>
               <p className="text-xl text-muted-foreground max-w-2xl">
-                Have questions, feedback, or partnership opportunities? We'd love to hear from you.
+                Whether you're accepting Jesus for the first time, seeking prayer, or have questions about faith, we're here to help you on your path to Christ.
               </p>
             </motion.div>
           </div>
@@ -96,7 +96,7 @@ export default function ContactPage() {
         <section className="py-20 bg-background">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-              {/* Contact Info */}
+              {/* Spiritual Resources & Contact Info */}
               <motion.div
                 className="space-y-8"
                 variants={containerVariants}
@@ -111,9 +111,9 @@ export default function ContactPage() {
                     <Mail className="w-6 h-6 text-accent" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-foreground mb-2">Email</h3>
-                    <p className="text-muted-foreground">hello@lightfm.com</p>
-                    <p className="text-muted-foreground">support@lightfm.com</p>
+                    <h3 className="text-lg font-semibold text-foreground mb-2">Get Help Now</h3>
+                    <p className="text-muted-foreground">prayer@lightfm.com</p>
+                    <p className="text-muted-foreground">counsel@lightfm.com</p>
                   </div>
                 </motion.div>
 
@@ -121,13 +121,13 @@ export default function ContactPage() {
                   className="flex gap-4"
                   variants={itemVariants}
                 >
-                  <div className="w-12 h-12 bg-accent/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Phone className="w-6 h-6 text-accent" />
+                  <div className="w-12 h-12 bg-accent-alt/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Phone className="w-6 h-6 text-accent-alt" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-foreground mb-2">Phone</h3>
-                    <p className="text-muted-foreground">+1 (555) 123-4567</p>
-                    <p className="text-xs text-muted-foreground mt-1">Mon-Fri, 9am-6pm UTC</p>
+                    <h3 className="text-lg font-semibold text-foreground mb-2">Prayer Line (24/7)</h3>
+                    <p className="text-muted-foreground">+1 (555) PRAY-911</p>
+                    <p className="text-xs text-muted-foreground mt-1">Call anytime for prayer or counseling</p>
                   </div>
                 </motion.div>
 
@@ -139,31 +139,24 @@ export default function ContactPage() {
                     <MapPin className="w-6 h-6 text-accent" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-foreground mb-2">Location</h3>
-                    <p className="text-muted-foreground">123 Radio Street</p>
-                    <p className="text-muted-foreground">Music City, MC 12345</p>
+                    <h3 className="text-lg font-semibold text-foreground mb-2">Visit Us</h3>
+                    <p className="text-muted-foreground">Light FM Christian Center</p>
+                    <p className="text-muted-foreground">123 Grace Street, Faith City, FC 12345</p>
                   </div>
                 </motion.div>
 
-                {/* Social Links */}
+                {/* Gospel Message Box */}
                 <motion.div
-                  className="border-t border-border pt-8"
+                  className="border-t border-border pt-8 bg-primary/50 border border-accent rounded-lg p-6"
                   variants={itemVariants}
                 >
-                  <h3 className="text-lg font-semibold text-foreground mb-4">Follow Us</h3>
-                  <div className="flex gap-4">
-                    {['Twitter', 'Instagram', 'YouTube', 'Spotify'].map((social) => (
-                      <motion.a
-                        key={social}
-                        href="#"
-                        className="w-10 h-10 bg-secondary rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors flex items-center justify-center text-sm font-medium"
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        {social.charAt(0)}
-                      </motion.a>
-                    ))}
-                  </div>
+                  <h3 className="text-lg font-semibold text-foreground mb-4">The Gospel in 3 Minutes</h3>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    <span className="font-semibold text-accent">God loves you</span> (John 3:16) and has a plan for your life. But our sins separate us from God. Jesus died for your sins and rose again. Believe in Him, confess your sins, and accept His forgiveness today.
+                  </p>
+                  <p className="text-xs text-muted-foreground italic">
+                    "If you confess with your mouth that Jesus is Lord and believe in your heart that God raised him from the dead, you will be saved." - Romans 10:9
+                  </p>
                 </motion.div>
               </motion.div>
 
@@ -182,17 +175,20 @@ export default function ContactPage() {
                       animate={{ opacity: 1, scale: 1 }}
                     >
                       <motion.div
-                        className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mb-4"
+                        className="w-16 h-16 bg-accent-alt/20 rounded-full flex items-center justify-center mb-4"
                         animate={{ scale: [1, 1.1, 1] }}
                         transition={{ duration: 0.5 }}
                       >
-                        <CheckCircle className="w-8 h-8 text-accent" />
+                        <CheckCircle className="w-8 h-8 text-accent-alt" />
                       </motion.div>
                       <h3 className="text-2xl font-serif font-bold text-foreground mb-2">
-                        Message Sent!
+                        Thank You, Friend!
                       </h3>
-                      <p className="text-muted-foreground max-w-sm">
-                        Thank you for reaching out. We'll get back to you as soon as possible.
+                      <p className="text-muted-foreground max-w-sm mb-4">
+                        Your request has been received. Our ministry team will reach out to you within 24 hours to pray with you and support your spiritual journey.
+                      </p>
+                      <p className="text-sm text-accent font-semibold">
+                        May the peace of Christ be with you. John 14:27
                       </p>
                     </motion.div>
                   ) : (
@@ -244,7 +240,7 @@ export default function ContactPage() {
 
                       <motion.div variants={itemVariants}>
                         <label className="block text-sm font-medium text-foreground mb-2">
-                          Category
+                          How Can We Help You?
                         </label>
                         <select
                           name="category"
@@ -252,11 +248,13 @@ export default function ContactPage() {
                           onChange={handleChange}
                           className="w-full px-4 py-3 bg-primary border border-border rounded-lg text-foreground focus:outline-none focus:border-accent transition-colors cursor-pointer"
                         >
-                          <option value="general">General Inquiry</option>
-                          <option value="feedback">Feedback</option>
-                          <option value="partnership">Partnership</option>
-                          <option value="sponsorship">Sponsorship</option>
-                          <option value="support">Technical Support</option>
+                          <option value="salvation">I Want to Accept Jesus Christ</option>
+                          <option value="prayer">I Need Prayer</option>
+                          <option value="counseling">I Need Spiritual Counseling</option>
+                          <option value="questions">I Have Questions About Faith</option>
+                          <option value="volunteer">I Want to Volunteer</option>
+                          <option value="giving">I Want to Give/Support Ministry</option>
+                          <option value="other">Other</option>
                         </select>
                       </motion.div>
 
@@ -294,7 +292,7 @@ export default function ContactPage() {
           </div>
         </section>
 
-        {/* FAQ Section */}
+        {/* FAQ Section - Gospel & Faith Questions */}
         <section className="py-20 bg-primary">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
@@ -304,10 +302,10 @@ export default function ContactPage() {
               viewport={{ once: true }}
             >
               <h2 className="text-4xl font-serif font-bold text-foreground mb-4">
-                Frequently Asked Questions
+                Common Questions About Jesus & Salvation
               </h2>
               <p className="text-muted-foreground">
-                Find answers to common questions about Light FM
+                Biblical answers to help you understand faith and God's plan for your life
               </p>
             </motion.div>
 
@@ -320,25 +318,25 @@ export default function ContactPage() {
             >
               {[
                 {
-                  q: 'How can I listen to Light FM?',
-                  a: 'You can stream Light FM directly from our website, or download our mobile app for iOS and Android.',
+                  q: 'How do I become a Christian?',
+                  a: 'Simply believe in Jesus Christ, repent of your sins, and accept Him as your Lord and Savior. Pray and tell God you want to follow Jesus. We\'re here to help you take this life-changing step.',
                 },
                 {
-                  q: 'Is Light FM free?',
-                  a: 'Yes! Light FM is completely free to listen to. We support our operation through partnerships and sponsorships.',
+                  q: 'What happens after I accept Jesus?',
+                  a: 'You experience God\'s forgiveness, peace, and eternal life. We recommend finding a local church, getting baptized, and connecting with a faith community to grow in your relationship with Christ.',
                 },
                 {
-                  q: 'Can I submit music to be played on Light FM?',
-                  a: 'We love discovering new artists! Please fill out our submission form and email us your tracks.',
+                  q: 'Is it too late for God to forgive me?',
+                  a: 'No! God\'s grace is unlimited. No matter what you\'ve done, Jesus can forgive you. He died for ALL our sins. It\'s never too late to turn to Him.',
                 },
                 {
-                  q: 'How can I advertise with Light FM?',
-                  a: 'For advertising and sponsorship opportunities, please contact our partnerships team at partnerships@lightfm.com',
+                  q: 'How can I know Jesus is real?',
+                  a: 'Millions testify to encountering Jesus through prayer, Scripture, and the Holy Spirit. We invite you to seek Him with an open heart. Jesus said, "Ask and it will be given to you." (Matthew 7:7)',
                 },
               ].map((faq, i) => (
                 <motion.div
                   key={i}
-                  className="bg-card border border-border rounded-lg p-6 hover:border-accent transition-colors"
+                  className="bg-card border border-border rounded-lg p-6 hover:border-accent-alt transition-colors"
                   variants={itemVariants}
                 >
                   <h3 className="text-lg font-semibold text-foreground mb-3">
