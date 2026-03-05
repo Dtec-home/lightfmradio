@@ -10,8 +10,8 @@ const playfair = Playfair_Display({ subsets: ["latin"], variable: '--font-serif'
 const dmSans = DM_Sans({ subsets: ["latin"], variable: '--font-sans' });
 
 export const metadata: Metadata = {
-  title: 'Light FM - Independent Radio',
-  description: 'Light FM: Your independent radio station streaming quality music and content',
+  title: 'Light FM - Christian Ministry | Prepare for Christ\'s Return',
+  description: 'Light FM Christian Ministry: Biblical teaching, worship, prayer, and Gospel truth. Prepare your heart for Jesus Christ\'s return. Accept Jesus today.',
   generator: 'v0.app',
   icons: {
     icon: [
