@@ -85,7 +85,7 @@ export const metadata: Metadata = {
   },
 
   // ── Theme ─────────────────────────────────────────────────────────────────
-  themeColor: '#0a0a14',
+  themeColor: '#faf9f6',
 }
 
 export default function RootLayout({
@@ -94,12 +94,12 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="dark" style={{
+    <html lang="en" style={{
       '--font-serif': playfair.style.fontFamily,
       '--font-sans': dmSans.style.fontFamily,
     } as React.CSSProperties}>
       <body className={`${geist.className} font-sans antialiased bg-background text-foreground`}>
-        <ThemeProvider attribute="class" defaultTheme="dark" forcedTheme="dark" disableTransitionOnChange>
+        <ThemeProvider attribute="class" defaultTheme="light" forcedTheme="light" disableTransitionOnChange>
           {children}
         </ThemeProvider>
         <Analytics />

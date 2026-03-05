@@ -2,10 +2,10 @@
 
 import { usePlayer } from '@/context/PlayerContext';
 import { motion } from 'framer-motion';
-import { Play, Pause, Volume2, VolumeX, SkipBack, SkipForward } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
 
 export function Player() {
-  const { isPlaying, setIsPlaying, volume, setVolume, currentTrack } = usePlayer();
+  const { isPlaying, setIsPlaying, volume, setVolume, currentTrack, isLive } = usePlayer();
 
   return (
     <motion.div
@@ -17,30 +17,36 @@ export function Player() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex items-center justify-between gap-4">
           {/* Now Playing Info */}
-          <div className="flex-1 min-w-0">
-            {currentTrack ? (
-              <div>
-                <p className="text-sm font-medium text-foreground truncate">
-                  {currentTrack.title}
-                </p>
-                <p className="text-xs text-muted-foreground truncate">
-                  {currentTrack.artist}
-                </p>
-              </div>
-            ) : (
-              <div>
-                <p className="text-sm font-medium text-foreground">Not playing</p>
-                <p className="text-xs text-muted-foreground">Select a show to play</p>
-              </div>
+          <div className="flex items-center gap-3 flex-1 min-w-0">
+            {currentTrack?.art && (
+              <img src={currentTrack.art} alt="Album art" className="w-12 h-12 rounded object-cover" />
             )}
+            <div className="flex-1 min-w-0">
+              {currentTrack ? (
+                <div>
+                  <div className="flex items-center gap-2">
+                    <p className="text-sm font-medium text-foreground truncate">
+                      {currentTrack.title}
+                    </p>
+                    {isLive && (
+                      <span className="px-2 py-0.5 bg-red-500 text-white text-xs rounded-full">LIVE</span>
+                    )}
+                  </div>
+                  <p className="text-xs text-muted-foreground truncate">
+                    {currentTrack.artist}
+                  </p>
+                </div>
+              ) : (
+                <div>
+                  <p className="text-sm font-medium text-foreground">Light FM Radio</p>
+                  <p className="text-xs text-muted-foreground">Click play to listen</p>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Player Controls */}
-          <div className="flex items-center gap-4">
-            <button className="p-2 hover:bg-primary rounded-lg transition-colors">
-              <SkipBack size={18} className="text-foreground" />
-            </button>
-
+          <div className="flex items-center gap-2">
             <motion.button
               onClick={() => setIsPlaying(!isPlaying)}
               className="p-3 bg-accent rounded-lg hover:bg-accent/90 transition-colors"
@@ -53,19 +59,17 @@ export function Player() {
                 <Play size={20} className="text-accent-foreground fill-accent-foreground" />
               )}
             </motion.button>
-
-            <button className="p-2 hover:bg-primary rounded-lg transition-colors">
-              <SkipForward size={18} className="text-foreground" />
-            </button>
           </div>
 
           {/* Volume Control */}
           <div className="flex items-center gap-2 w-32">
-            {volume === 0 ? (
-              <VolumeX size={18} className="text-foreground" />
-            ) : (
-              <Volume2 size={18} className="text-foreground" />
-            )}
+            <button onClick={() => setVolume(volume === 0 ? 80 : 0)}>
+              {volume === 0 ? (
+                <VolumeX size={18} className="text-foreground" />
+              ) : (
+                <Volume2 size={18} className="text-foreground" />
+              )}
+            </button>
             <input
               type="range"
               min="0"
