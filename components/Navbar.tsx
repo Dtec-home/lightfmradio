@@ -10,9 +10,9 @@ export function Navbar() {
 
   const navItems = [
     { label: 'Home', href: '/' },
-    { label: 'Shows', href: '/shows' },
-    { label: 'News', href: '/news' },
-    { label: 'Contact', href: '/contact' },
+    { label: 'Teachings', href: '/shows' },
+    { label: 'Testimonies', href: '/news' },
+    { label: 'Respond', href: '/contact' },
   ];
 
   return (
@@ -20,13 +20,16 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-3">
             <motion.div
               className="text-2xl font-serif font-bold text-accent"
               whileHover={{ scale: 1.05 }}
             >
-              Light FM
+              🕯️ Light FM
             </motion.div>
+            <div className="hidden sm:block text-xs text-muted-foreground font-medium">
+              Christ is Coming
+            </div>
           </Link>
 
           {/* Desktop Menu */}

@@ -9,7 +9,7 @@ import { NewsCard } from '@/components/NewsCard';
 import { PlayerProvider } from '@/context/PlayerContext';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowRight, Radio, Headphones, Zap } from 'lucide-react';
+import { ArrowRight, Radio, Headphones, Zap, Heart, BookOpen, Users } from 'lucide-react';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -63,10 +63,13 @@ export default function Home() {
                     <LiveIndicator isLive={true} currentShow="Morning Mix with Alex" />
                   </motion.div>
                   <h1 className="text-5xl md:text-7xl font-serif font-bold text-foreground leading-tight mb-4">
-                    Light <span className="text-accent">FM</span>
+                    Prepare Your <span className="text-accent">Heart</span>
                   </h1>
+                  <p className="text-2xl font-serif text-accent mb-6">
+                    For Christ's Return
+                  </p>
                   <p className="text-xl text-muted-foreground leading-relaxed">
-                    Independent radio station bringing you quality music, engaging shows, and vibrant culture. Stream live or discover our collection.
+                    Light FM is a Christian ministry radio station dedicated to drawing souls closer to Jesus Christ and preparing believers for His glorious return. Join us for biblical teaching, worship, prayer, and testimony.
                   </p>
                 </div>
 
@@ -80,13 +83,15 @@ export default function Home() {
                     <Radio size={20} />
                     Listen Now
                   </motion.button>
-                  <motion.button
-                    className="px-8 py-4 border border-accent text-accent rounded-lg font-semibold hover:bg-accent/10 transition-colors"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    Schedule
-                  </motion.button>
+                  <Link href="/contact">
+                    <motion.button
+                      className="px-8 py-4 border border-accent-alt text-accent-alt rounded-lg font-semibold hover:bg-accent-alt/10 transition-colors"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      Accept Jesus
+                    </motion.button>
+                  </Link>
                 </div>
               </motion.div>
 
@@ -137,7 +142,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Featured Shows Section */}
+        {/* Featured Teachings Section */}
         <section className="py-24 bg-background">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
@@ -147,10 +152,10 @@ export default function Home() {
               viewport={{ once: true }}
             >
               <h2 className="text-4xl font-serif font-bold text-foreground mb-4">
-                Featured Shows
+                Featured Teachings
               </h2>
               <p className="text-muted-foreground">
-                Discover our diverse lineup of engaging programs
+                Deepen your faith with biblical instruction and spiritual growth
               </p>
             </motion.div>
 
@@ -164,27 +169,27 @@ export default function Home() {
               {[
                 {
                   id: '1',
-                  title: 'Morning Mix',
-                  host: 'Alex Chen',
-                  description: 'Start your day with curated indie, electronic, and pop hits.',
+                  title: 'Daily Devotionals',
+                  host: 'Pastor David',
+                  description: 'Start your day in God\'s Word with scripture-based reflections for spiritual transformation.',
                   image: '/gradient-1.jpg',
                   schedule: 'Mon-Fri 7am',
                 },
                 {
                   id: '2',
-                  title: 'Jazz Sessions',
-                  host: 'Marcus Thompson',
-                  description: 'Exploring timeless jazz classics and contemporary interpretations.',
+                  title: 'Bible Study & Prayer',
+                  host: 'Rev. Sarah',
+                  description: 'Deep dive into Scripture and intercede for revival, awakening, and Christ\'s return.',
                   image: '/gradient-2.jpg',
-                  schedule: 'Sat 8pm',
+                  schedule: 'Wed 7pm',
                 },
                 {
                   id: '3',
-                  title: 'Electronic Nights',
-                  host: 'DJ Luna',
-                  description: 'Deep electronic beats and cutting-edge experimental sounds.',
+                  title: 'Young Believers',
+                  host: 'Joshua Ministry',
+                  description: 'Equipping the next generation to live for Jesus and share the Gospel boldly.',
                   image: '/gradient-3.jpg',
-                  schedule: 'Fri-Sat 10pm',
+                  schedule: 'Sat 10am',
                 },
               ].map((show) => (
                 <motion.div key={show.id} variants={itemVariants}>
@@ -203,14 +208,14 @@ export default function Home() {
                 href="/shows"
                 className="inline-flex items-center gap-2 px-6 py-3 border border-accent text-accent rounded-lg font-semibold hover:bg-accent/10 transition-colors group"
               >
-                View All Shows
+                View All Teachings
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>
           </div>
         </section>
 
-        {/* Latest News Section */}
+        {/* Biblical Truth & Testimonies Section */}
         <section className="py-24 bg-primary">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
@@ -220,10 +225,10 @@ export default function Home() {
               viewport={{ once: true }}
             >
               <h2 className="text-4xl font-serif font-bold text-foreground mb-4">
-                Latest News
+                Biblical Truth & Testimonies
               </h2>
               <p className="text-muted-foreground">
-                Stay updated with Light FM news and announcements
+                Scripture, revival stories, and testimonies of God's transforming grace
               </p>
             </motion.div>
 
@@ -237,25 +242,25 @@ export default function Home() {
               {[
                 {
                   id: '1',
-                  title: 'New Show Announcement: "Sound Explorers"',
-                  excerpt: 'Join us for our latest music documentary series exploring the stories behind your favorite artists.',
+                  title: 'Signs of the Times: Jesus is Coming',
+                  excerpt: 'Exploring biblical prophecy and end-times events that point to Christ\'s imminent return and the importance of spiritual readiness.',
                   date: 'Mar 3, 2024',
-                  category: 'Shows',
+                  category: 'Scripture',
                   featured: true,
                 },
                 {
                   id: '2',
-                  title: 'Light FM Wins Best Independent Radio Award',
-                  excerpt: 'Recognition for our commitment to quality programming and community engagement.',
+                  title: 'Testimony: From Darkness to Light',
+                  excerpt: 'How one man\'s encounter with Jesus Christ transformed his life completely and redirected his eternal destiny.',
                   date: 'Feb 28, 2024',
-                  category: 'Awards',
+                  category: 'Testimonies',
                 },
                 {
                   id: '3',
-                  title: 'Live Session: Indie Band "The Wavelengths"',
-                  excerpt: 'Catch their exclusive acoustic performance on our platform this weekend.',
+                  title: 'The Gospel Message: Jesus Saves',
+                  excerpt: 'Understanding the foundational truth of salvation through Christ\'s sacrifice and the call to surrender all to Him.',
                   date: 'Feb 25, 2024',
-                  category: 'Events',
+                  category: 'Gospel',
                 },
               ].map((article) => (
                 <motion.div key={article.id} variants={itemVariants}>
@@ -274,14 +279,14 @@ export default function Home() {
                 href="/news"
                 className="inline-flex items-center gap-2 px-6 py-3 border border-accent text-accent rounded-lg font-semibold hover:bg-accent/10 transition-colors group"
               >
-                Read All News
+                Read All Articles
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>
           </div>
         </section>
 
-        {/* Features Section */}
+        {/* Why Choose Light FM Section */}
         <section className="py-24 bg-background">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
@@ -291,10 +296,10 @@ export default function Home() {
               viewport={{ once: true }}
             >
               <h2 className="text-4xl font-serif font-bold text-foreground mb-4">
-                Why Light FM?
+                Why Choose Light FM?
               </h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">
-                Experience radio like never before with our curated selection and community-driven content
+                A ministry dedicated to Christ-centered teaching, prayer, and preparing hearts for eternity
               </p>
             </motion.div>
 
@@ -307,19 +312,19 @@ export default function Home() {
             >
               {[
                 {
-                  icon: Radio,
-                  title: '24/7 Streaming',
-                  description: 'Listen anytime, anywhere to your favorite shows and music',
+                  icon: BookOpen,
+                  title: 'Biblical Teaching',
+                  description: 'Solid Scripture-based instruction rooted in God\'s Word for spiritual growth and transformation',
                 },
                 {
-                  icon: Headphones,
-                  title: 'Curated Content',
-                  description: 'Expert selection of music and shows tailored for you',
+                  icon: Heart,
+                  title: 'Prayer & Worship',
+                  description: 'Intercession for revival, worship that draws you closer to Jesus, and spiritual renewal',
                 },
                 {
-                  icon: Zap,
-                  title: 'Live Events',
-                  description: 'Exclusive sessions and interviews with artists',
+                  icon: Users,
+                  title: 'Community & Testimonies',
+                  description: 'Stories of God\'s grace, redemption, and transformation in real lives that inspire faith',
                 },
               ].map((feature, i) => {
                 const Icon = feature.icon;
@@ -343,7 +348,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* CTA Section */}
+        {/* Gospel CTA Section */}
         <section className="py-24 bg-gradient-to-r from-accent/10 via-primary to-accent-alt/10">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <motion.div
@@ -352,18 +357,29 @@ export default function Home() {
               viewport={{ once: true }}
             >
               <h2 className="text-4xl font-serif font-bold text-foreground mb-6">
-                Ready to Listen?
+                Are You Ready for Jesus?
               </h2>
               <p className="text-lg text-muted-foreground mb-8">
-                Join thousands of listeners enjoying independent radio at its finest
+                Christ is coming again. Don't be left behind. Give your life to Jesus today and experience the peace, purpose, and eternal salvation only He can provide.
               </p>
-              <motion.button
-                className="px-8 py-4 bg-accent text-accent-foreground rounded-lg font-semibold hover:bg-accent/90 transition-colors"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Start Listening
-              </motion.button>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <motion.button
+                  className="px-8 py-4 bg-accent-alt text-accent-alt-foreground rounded-lg font-semibold hover:bg-accent-alt/90 transition-colors"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Link href="/contact" className="block">
+                    Accept Jesus Now
+                  </Link>
+                </motion.button>
+                <motion.button
+                  className="px-8 py-4 bg-accent text-accent-foreground rounded-lg font-semibold hover:bg-accent/90 transition-colors"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Listen to Teachings
+                </motion.button>
+              </div>
             </motion.div>
           </div>
         </section>

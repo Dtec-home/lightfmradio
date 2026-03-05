@@ -31,57 +31,57 @@ const itemVariants = {
 const shows = [
   {
     id: '1',
-    title: 'Morning Mix with Alex',
-    host: 'Alex Chen',
-    description: 'Start your day with curated indie, electronic, and pop hits.',
+    title: 'Daily Devotionals',
+    host: 'Pastor David',
+    description: 'Start your day in God\'s Word with scripture-based reflections for spiritual transformation and preparation for eternity.',
     image: '/gradient-1.jpg',
     schedule: 'Mon-Fri 7am',
-    category: 'Music',
+    category: 'Devotions',
   },
   {
     id: '2',
-    title: 'Jazz Sessions',
-    host: 'Marcus Thompson',
-    description: 'Exploring timeless jazz classics and contemporary interpretations.',
+    title: 'Bible Study & Prayer',
+    host: 'Rev. Sarah',
+    description: 'Deep dive into Scripture, explore biblical truth, and intercede for revival, awakening, and Christ\'s imminent return.',
     image: '/gradient-2.jpg',
-    schedule: 'Sat 8pm',
-    category: 'Jazz',
+    schedule: 'Wed 7pm',
+    category: 'Study',
   },
   {
     id: '3',
-    title: 'Electronic Nights',
-    host: 'DJ Luna',
-    description: 'Deep electronic beats and cutting-edge experimental sounds.',
+    title: 'Young Believers',
+    host: 'Joshua Ministry Team',
+    description: 'Equipping the next generation to live radically for Jesus, share the Gospel boldly, and stand for Christ in dark times.',
     image: '/gradient-3.jpg',
-    schedule: 'Fri-Sat 10pm',
-    category: 'Electronic',
+    schedule: 'Sat 10am',
+    category: 'Youth',
   },
   {
     id: '4',
-    title: 'Late Night Talk',
-    host: 'Jamie Rodriguez',
-    description: 'Conversations with artists, creators, and cultural icons.',
+    title: 'Women\'s Fellowship & Growth',
+    host: 'Pastor\'s Wife Helen',
+    description: 'Biblical womanhood, prayer, faith testimonies, and encouragement for women on their journey to Christ likeness.',
     image: '/gradient-4.jpg',
-    schedule: 'Wed-Thu 11pm',
-    category: 'Talk',
+    schedule: 'Tue & Thu 2pm',
+    category: 'Women',
   },
   {
     id: '5',
-    title: 'Indie Underground',
-    host: 'Sam Williams',
-    description: 'Discovering underground indie bands and emerging artists.',
+    title: 'Testimonies of Grace',
+    host: 'Various Guests',
+    description: 'Real stories of transformation, redemption, and God\'s healing power in the lives of those who encountered Jesus.',
     image: '/gradient-5.jpg',
-    schedule: 'Tue 9pm',
-    category: 'Indie',
+    schedule: 'Fri 6pm',
+    category: 'Testimonies',
   },
   {
     id: '6',
-    title: 'Soul & Funk Express',
-    host: 'DJ Melo',
-    description: 'Groovy soul, funk, and R&B from classic to contemporary.',
+    title: 'End Times & Prophecy',
+    host: 'Pastor Michael',
+    description: 'Exploring biblical prophecy, the signs of Christ\'s return, and preparing your heart for eternity with Jesus.',
     image: '/gradient-6.jpg',
     schedule: 'Sun 7pm',
-    category: 'Soul',
+    category: 'Prophecy',
   },
 ];
 
@@ -109,10 +109,10 @@ export default function ShowsPage() {
               transition={{ duration: 0.8 }}
             >
               <h1 className="text-5xl md:text-6xl font-serif font-bold text-foreground mb-4">
-                All Shows
+                Christian Teachings & Programs
               </h1>
               <p className="text-xl text-muted-foreground max-w-2xl">
-                Explore our complete lineup of engaging programs, from morning shows to late-night sessions.
+                Discover our complete lineup of Bible-centered teachings, devotions, and programs designed to draw you closer to Jesus and prepare your heart for His return.
               </p>
             </motion.div>
           </div>
@@ -181,17 +181,17 @@ export default function ShowsPage() {
               viewport={{ once: true }}
             >
               <h2 className="text-2xl font-serif font-bold text-foreground mb-4">
-                Broadcasting Schedule
+                Teaching Schedule & Prayer Coverage
               </h2>
               <p className="text-muted-foreground mb-6">
-                All times are in UTC. Check your local timezone for exact broadcast times.
+                Our programs cover every day with biblical teaching and intercession. All times shown; contact us for details in your timezone.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {[
-                  { day: 'Monday - Friday', time: '7:00 AM - 6:00 PM' },
-                  { day: 'Saturday', time: '8:00 AM - 11:59 PM' },
-                  { day: 'Sunday', time: '7:00 AM - 10:00 PM' },
-                  { day: 'Nightly', time: '10:00 PM - 2:00 AM' },
+                  { day: 'Monday - Friday', time: 'Devotions & Study 7am-2pm' },
+                  { day: 'Midweek', time: 'Women\'s Ministry & Prayer 2pm-7pm' },
+                  { day: 'Saturday', time: 'Youth Programs 10am, Teachings all day' },
+                  { day: 'Sunday', time: 'Full Day Teaching & Worship' },
                 ].map((slot, i) => (
                   <div key={i} className="flex justify-between items-center py-2 border-b border-border last:border-b-0">
                     <span className="text-foreground font-medium">{slot.day}</span>
