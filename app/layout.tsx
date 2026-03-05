@@ -10,26 +10,82 @@ const playfair = Playfair_Display({ subsets: ["latin"], variable: '--font-serif'
 const dmSans = DM_Sans({ subsets: ["latin"], variable: '--font-sans' });
 
 export const metadata: Metadata = {
-  title: 'Light FM - Christian Ministry | Prepare for Christ\'s Return',
-  description: 'Light FM Christian Ministry: Biblical teaching, worship, prayer, and Gospel truth. Prepare your heart for Jesus Christ\'s return. Accept Jesus today.',
-  generator: 'v0.app',
-  icons: {
-    icon: [
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? 'https://lightfmradio.org'
+  ),
+  // ── Core SEO ──────────────────────────────────────────────────────────────
+
+  title: {
+    default: 'Light FM – Christian Ministry Radio | Prepare for Christ\'s Return',
+    template: '%s | Light FM',
+  },
+  description:
+    'Light FM is a 24/7 Christian ministry radio station dedicated to biblical teaching, worship, prayer, testimonies, and Gospel truth. Prepare your heart for Jesus Christ\'s glorious return. Accept Jesus today.',
+  keywords: [
+    'Christian radio',
+    'Light FM',
+    'Gospel music',
+    'biblical teaching',
+    'Christian ministry',
+    'Jesus Christ',
+    'second coming',
+    'Christian worship',
+    'prayer',
+    'faith',
+    'salvation',
+    'spiritual growth',
+    'Bible study',
+    'Christian online radio',
+    'revival',
+  ],
+  authors: [{ name: 'Light FM Ministry' }],
+  creator: 'Light FM Ministry',
+  publisher: 'Light FM Ministry',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
+  },
+
+  // ── Open Graph (WhatsApp, Facebook, LinkedIn, etc.) ───────────────────────
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    siteName: 'Light FM – Christian Ministry Radio',
+    title: 'Light FM – Prepare Your Heart for Christ\'s Return',
+    description:
+      'A 24/7 Christian ministry radio station: biblical teaching, worship, prayer, and Gospel truth. Join us and give your life to Jesus today.',
+    images: [
       {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Light FM – Christian Ministry Radio – Prepare Your Heart for Christ\'s Return',
       },
     ],
-    apple: '/apple-icon.png',
   },
+
+  // ── Twitter / X Card ──────────────────────────────────────────────────────
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Light FM – Prepare Your Heart for Christ\'s Return',
+    description:
+      'A 24/7 Christian ministry radio: biblical teaching, worship, prayer, and Gospel truth. Accept Jesus today.',
+    images: ['/og-image.png'],
+  },
+
+  // ── Favicons ──────────────────────────────────────────────────────────────
+  icons: {
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/icon-light-32x32.png', sizes: '32x32', media: '(prefers-color-scheme: light)' },
+      { url: '/icon-dark-32x32.png', sizes: '32x32', media: '(prefers-color-scheme: dark)' },
+    ],
+    apple: [{ url: '/apple-icon.png', sizes: '180x180' }],
+  },
+
+  // ── Theme ─────────────────────────────────────────────────────────────────
+  themeColor: '#0a0a14',
 }
 
 export default function RootLayout({
