@@ -28,7 +28,7 @@ export function Navbar() {
               <img src="/logo.png" alt="Light FM Logo" className="h-full w-auto object-contain" />
             </motion.div>
             <div className="hidden sm:block text-xs text-muted-foreground font-medium">
-              Christ is Coming
+              Edify with the truth
             </div>
           </Link>
 

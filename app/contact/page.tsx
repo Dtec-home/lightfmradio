@@ -38,6 +38,7 @@ export default function ContactPage() {
   });
   const [submitted, setSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -50,22 +51,35 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setError('');
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    setSubmitted(true);
-    setIsLoading(false);
-    setTimeout(() => {
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        category: 'salvation',
-        message: '',
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
       });
-      setSubmitted(false);
-    }, 5000);
+
+      if (response.ok) {
+        setSubmitted(true);
+        setTimeout(() => {
+          setFormData({
+            name: '',
+            email: '',
+            subject: '',
+            category: 'salvation',
+            message: '',
+          });
+          setSubmitted(false);
+        }, 5000);
+      } else {
+        setError('Failed to send message. Please try again.');
+      }
+    } catch (error) {
+      setError('Failed to send message. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -112,8 +126,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-foreground mb-2">Get Help Now</h3>
-                    <p className="text-muted-foreground">prayer@lightfm.com</p>
-                    <p className="text-muted-foreground">counsel@lightfm.com</p>
+                    <p className="text-muted-foreground">lcministries254@gmail.com</p>
                   </div>
                 </motion.div>
 
@@ -126,12 +139,12 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-foreground mb-2">Prayer Line (24/7)</h3>
-                    <p className="text-muted-foreground">+1 (555) PRAY-911</p>
+                    <p className="text-muted-foreground">0713710041</p>
                     <p className="text-xs text-muted-foreground mt-1">Call anytime for prayer or counseling</p>
                   </div>
                 </motion.div>
 
-                <motion.div
+                {/* <motion.div
                   className="flex gap-4"
                   variants={itemVariants}
                 >
@@ -143,7 +156,7 @@ export default function ContactPage() {
                     <p className="text-muted-foreground">Light FM Christian Center</p>
                     <p className="text-muted-foreground">123 Grace Street, Faith City, FC 12345</p>
                   </div>
-                </motion.div>
+                </motion.div> */}
 
                 {/* Gospel Message Box */}
                 <motion.div
@@ -284,6 +297,16 @@ export default function ContactPage() {
                         <Send size={18} />
                         {isLoading ? 'Sending...' : 'Send Message'}
                       </motion.button>
+
+                      {error && (
+                        <motion.div
+                          className="text-red-500 text-sm text-center"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                        >
+                          {error}
+                        </motion.div>
+                      )}
                     </form>
                   )}
                 </div>

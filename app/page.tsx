@@ -56,22 +56,22 @@ export default function Home() {
           {/* Background Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <motion.div
-              className="absolute top-0 left-1/4 w-[40rem] h-[40rem] bg-accent/10 rounded-full blur-3xl mix-blend-multiply"
+              className="absolute top-[-10%] left-[10%] w-[50rem] h-[50rem] bg-accent/30 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-screen"
               animate={{
-                x: [0, 100, -50, 0],
-                y: [0, 50, 100, 0],
-                scale: [1, 1.1, 0.9, 1]
+                x: [0, 150, -100, 0],
+                y: [0, 80, 150, 0],
+                scale: [1, 1.25, 0.8, 1]
               }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
             />
             <motion.div
-              className="absolute bottom-0 right-1/4 w-[35rem] h-[35rem] bg-accent-alt/10 rounded-full blur-3xl mix-blend-multiply"
+              className="absolute bottom-[-10%] right-[10%] w-[45rem] h-[45rem] bg-accent-alt/25 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-screen"
               animate={{
-                x: [0, -80, 50, 0],
-                y: [0, -100, -50, 0],
-                scale: [1, 0.9, 1.1, 1]
+                x: [0, -120, 80, 0],
+                y: [0, -150, -80, 0],
+                scale: [1, 0.85, 1.2, 1]
               }}
-              transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+              transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
             />
           </div>
 
@@ -92,10 +92,10 @@ export default function Home() {
                     <LiveIndicator />
                   </motion.div>
                   <h1 className="text-5xl md:text-7xl font-serif font-bold text-foreground leading-tight mb-4">
-                    Prepare Your <span className="text-accent">Heart</span>
+                    Listen, Read & <span className="text-accent">Witness</span>
                   </h1>
                   <p className="text-2xl font-serif text-accent mb-6">
-                    For Christ's Return
+                    Christ's love illuminate your life
                   </p>
                   <p className="text-xl text-muted-foreground leading-relaxed">
                     Welcome to the no. 1 leading online family christian radio station in east africa.

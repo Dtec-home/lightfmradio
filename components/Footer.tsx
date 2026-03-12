@@ -86,7 +86,7 @@ export function Footer() {
         <div className="border-t border-border pt-8 flex flex-col md:flex-row items-center justify-between">
           <div className="flex flex-col gap-2">
             <p className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} Light FM Radio - edifying with the truth. All rights reserved. "I am the light of the world." - John 8:12
+              © {new Date().getFullYear()} The loud cry ministries-Kenya. All rights reserved. "I am the light of the world." - John 8:12
             </p>
             <p className="text-sm text-muted-foreground">
               Powered By Grace Through <a href="https://www.allons-ysuite.com/" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors font-medium">Allons-y Ministry</a>

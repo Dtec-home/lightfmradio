@@ -9,9 +9,9 @@ export function Player() {
 
   return (
     <motion.div
-      className="fixed bottom-0 left-0 right-0 bg-background/80 backdrop-blur-xl border-t border-border/50 shadow-[0_-4px_24px_rgba(0,0,0,0.05)] z-40"
-      initial={{ y: 100 }}
-      animate={{ y: 0 }}
+      className="fixed bottom-6 left-1/2 w-[95%] max-w-4xl rounded-2xl bg-background/80 backdrop-blur-xl border border-border/50 shadow-2xl z-50"
+      initial={{ y: 100, x: "-50%" }}
+      animate={{ y: 0, x: "-50%" }}
       transition={{ duration: 0.5 }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
