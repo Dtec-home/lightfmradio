@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   // ── Core SEO ──────────────────────────────────────────────────────────────
 
   title: {
-    default: 'Light FM – Christian Ministry Radio | Prepare for Christ\'s Return',
+    default: 'Light FM, edify with the truth',
     template: '%s | Light FM',
   },
   description:
@@ -52,16 +52,16 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    siteName: 'Light FM – Christian Ministry Radio',
-    title: 'Light FM – Prepare Your Heart for Christ\'s Return',
+    siteName: 'Light FM',
+    title: 'Light FM, edify with the truth',
     description:
       'Welcome to the no. 1 leading online family christian radio station in east africa. Make disciples of Jesus Christ who live as His loving witnesses and proclaim to all people the everlasting gospel.',
     images: [
       {
-        url: '/og-image.png',
+        url: '/logo.png',
         width: 1200,
         height: 630,
-        alt: 'Light FM – Christian Ministry Radio – Prepare Your Heart for Christ\'s Return',
+        alt: 'Light FM, edify with the truth',
       },
     ],
   },
@@ -69,10 +69,10 @@ export const metadata: Metadata = {
   // ── Twitter / X Card ──────────────────────────────────────────────────────
   twitter: {
     card: 'summary_large_image',
-    title: 'Light FM – Prepare Your Heart for Christ\'s Return',
+    title: 'Light FM, edify with the truth',
     description:
       'Welcome to the no. 1 leading online family christian radio station in east africa. Make disciples of Jesus Christ who live as His loving witnesses and proclaim to all people the everlasting gospel.',
-    images: ['/og-image.png'],
+    images: ['/logo.png'],
   },
 
   // ── Favicons ──────────────────────────────────────────────────────────────
