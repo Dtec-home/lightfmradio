@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Mail, Instagram, Twitter, Music } from 'lucide-react';
+import { Facebook, Instagram, Twitter, Youtube } from 'lucide-react';
 
 export function Footer() {
   return (
@@ -66,17 +66,17 @@ export function Footer() {
           <div>
             <h4 className="text-sm font-semibold text-foreground mb-4">Follow Us</h4>
             <div className="flex gap-4">
-              <a href="#" className="p-2 bg-secondary rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors">
-                <Mail size={18} />
+              <a href="https://www.facebook.com/lightfmkenya" target="_blank" rel="noopener noreferrer" className="p-2 bg-secondary rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors">
+                <Facebook size={18} />
               </a>
-              <a href="#" className="p-2 bg-secondary rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors">
-                <Instagram size={18} />
-              </a>
-              <a href="#" className="p-2 bg-secondary rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors">
+              <a href="https://x.com/LightFmKenya" target="_blank" rel="noopener noreferrer" className="p-2 bg-secondary rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors">
                 <Twitter size={18} />
               </a>
-              <a href="#" className="p-2 bg-secondary rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors">
-                <Music size={18} />
+              <a href="https://www.instagram.com/lightfmkenya/" target="_blank" rel="noopener noreferrer" className="p-2 bg-secondary rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors">
+                <Instagram size={18} />
+              </a>
+              <a href="https://www.youtube.com/@lcmstudiosKe/videos" target="_blank" rel="noopener noreferrer" className="p-2 bg-secondary rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors">
+                <Youtube size={18} />
               </a>
             </div>
           </div>
@@ -84,9 +84,14 @@ export function Footer() {
 
         {/* Divider */}
         <div className="border-t border-border pt-8 flex flex-col md:flex-row items-center justify-between">
-          <p className="text-sm text-muted-foreground">
-            © 2024 Light FM Christian Ministry. All rights reserved. "I am the light of the world." - John 8:12
-          </p>
+          <div className="flex flex-col gap-2">
+            <p className="text-sm text-muted-foreground">
+              © {new Date().getFullYear()} Light FM Radio. All rights reserved. "I am the light of the world." - John 8:12
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Powered By Grace Through <a href="https://www.allons-ysuite.com/" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors font-medium">Allons-y Ministry</a>
+            </p>
+          </div>
           <p className="text-sm text-accent-alt font-semibold mt-4 md:mt-0">
             Jesus is Coming Again! Be Ready.
           </p>
