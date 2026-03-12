@@ -62,13 +62,45 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
   const [playingNext, setPlayingNext] = useState<Track | null>(null);
   const [songHistory, setSongHistory] = useState<SongHistory[]>([]);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const isPlayingRef = useRef(isPlaying);
+
+  // Keep a ref to the latest isPlaying state for event listeners
+  useEffect(() => {
+    isPlayingRef.current = isPlaying;
+  }, [isPlaying]);
 
   useEffect(() => {
-    audioRef.current = new Audio(STREAM_URL);
+    const audio = new Audio(STREAM_URL);
+    audio.preload = 'none'; // Avoid buffering when not playing
+    audioRef.current = audio;
     audioRef.current.volume = volume / 100;
 
+    const attemptRecovery = () => {
+      if (isPlayingRef.current && audioRef.current) {
+        console.warn('Radio stream interrupted. Attempting to recover...');
+        // Add a slight delay before reconnecting
+        setTimeout(() => {
+          if (isPlayingRef.current && audioRef.current) {
+            audioRef.current.load(); // Force reset of the stream connection
+            audioRef.current.play().catch((err) => {
+              console.error('Audio recovery failed', err);
+              setIsPlaying(false);
+            });
+          }
+        }, 3000);
+      }
+    };
+
+    // When a live stream connection drops, it often triggers 'ended', 'error', or 'stalled'
+    audio.addEventListener('error', attemptRecovery);
+    audio.addEventListener('ended', attemptRecovery);
+    audio.addEventListener('stalled', attemptRecovery);
+
     return () => {
-      audioRef.current?.pause();
+      audio.removeEventListener('error', attemptRecovery);
+      audio.removeEventListener('ended', attemptRecovery);
+      audio.removeEventListener('stalled', attemptRecovery);
+      audio.pause();
       audioRef.current = null;
     };
   }, []);
@@ -76,6 +108,8 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (audioRef.current) {
       if (isPlaying) {
+        // Use load() to ensure we get the live edge when resuming, not stale cache
+        audioRef.current.load();
         audioRef.current.play().catch(() => setIsPlaying(false));
       } else {
         audioRef.current.pause();
@@ -94,7 +128,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
       try {
         const res = await fetch(API_URL);
         const data = await res.json();
-        
+
         // Current track
         const song = data.now_playing?.song;
         if (song) {
@@ -107,14 +141,14 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
             playlist: data.now_playing?.playlist,
           });
         }
-        
+
         // Live info
         setIsLive(data.live?.is_live || false);
         setLiveInfo(data.live || null);
-        
+
         // Listeners
         setListeners(data.listeners || null);
-        
+
         // Playing next
         if (data.playing_next?.song) {
           const next = data.playing_next.song;
@@ -127,10 +161,10 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
             playlist: data.playing_next.playlist,
           });
         }
-        
+
         // Song history
         setSongHistory(data.song_history?.slice(0, 5) || []);
-        
+
       } catch (error) {
         console.error('Failed to fetch now playing:', error);
       }
