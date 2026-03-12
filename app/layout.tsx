@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono, Playfair_Display, DM_Sans } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { ThemeProvider } from '@/components/theme-provider'
+import { ClientProviders } from '@/components/ClientProviders'
 import './globals.css'
 
 const geist = Geist({ subsets: ["latin"] });
@@ -100,7 +101,9 @@ export default function RootLayout({
       <body className={`${geist.className} font-sans antialiased bg-background text-foreground`}>
         <div className="noise-overlay" />
         <ThemeProvider attribute="class" defaultTheme="light" forcedTheme="light" disableTransitionOnChange>
-          {children}
+          <ClientProviders>
+            {children}
+          </ClientProviders>
         </ThemeProvider>
         <Analytics />
       </body>

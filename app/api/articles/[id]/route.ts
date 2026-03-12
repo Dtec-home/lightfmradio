@@ -3,6 +3,23 @@ import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
 import { verifyToken } from '@/lib/auth';
 
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  try {
+    const { id } = await params;
+    const article = await prisma.article.findUnique({
+      where: { id }
+    });
+    
+    if (!article) {
+      return NextResponse.json({ error: 'Article not found' }, { status: 404 });
+    }
+    
+    return NextResponse.json(article);
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to fetch article' }, { status: 500 });
+  }
+}
+
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const cookieStore = await cookies();

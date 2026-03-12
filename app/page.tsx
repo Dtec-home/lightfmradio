@@ -46,7 +46,7 @@ export default function Home() {
   }, []);
 
   return (
-    <PlayerProvider>
+    <>
       <Navbar />
       <Player />
 
@@ -56,7 +56,7 @@ export default function Home() {
           {/* Background Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <motion.div
-              className="absolute top-[-10%] left-[10%] w-[50rem] h-[50rem] bg-accent/30 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-screen"
+              className="absolute top-[-10%] left-[10%] w-[50rem] h-[50rem] bg-accent/10 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-screen"
               animate={{
                 x: [0, 150, -100, 0],
                 y: [0, 80, 150, 0],
@@ -65,7 +65,7 @@ export default function Home() {
               transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
             />
             <motion.div
-              className="absolute bottom-[-10%] right-[10%] w-[45rem] h-[45rem] bg-accent-alt/25 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-screen"
+              className="absolute bottom-[-10%] right-[10%] w-[45rem] h-[45rem] bg-accent-alt/10 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-screen"
               animate={{
                 x: [0, -120, 80, 0],
                 y: [0, -150, -80, 0],
@@ -279,10 +279,8 @@ export default function Home() {
                     variants={itemVariants}
                   >
                     <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent to-accent-alt p-0.5 mb-6 shadow-md group-hover:scale-110 transition-transform duration-300">
-                      <div className="w-full h-full bg-background rounded-[14px] flex items-center justify-center">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8 text-accent">
-                          <path d={feature.iconPath} />
-                        </svg>
+                      <div className="w-full h-full bg-background rounded-[14px] flex items-center justify-center p-2">
+                        <img src="/logo.png" alt="Light FM" className="w-full h-full object-contain opacity-80" />
                       </div>
                     </div>
                     <h3 className="text-xl font-serif font-bold text-foreground mb-3">
@@ -385,6 +383,6 @@ export default function Home() {
       </main>
 
       <Footer />
-    </PlayerProvider>
+    </>
   );
 }

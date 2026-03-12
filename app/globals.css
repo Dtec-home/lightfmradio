@@ -11,35 +11,53 @@
   --card-foreground: #1a2040;
   --popover: #ffffff;
   --popover-foreground: #1a2040;
-  --primary: #F4F0E6;
+  --primary: #eae3d5;
+  /* White Rock */
   --primary-foreground: #1a2040;
-  --secondary: #e8e4db;
+  --secondary: #bcac8c;
+  /* Indian Khaki */
   --secondary-foreground: #1a2040;
-  --muted: #d6d1c6;
+  --muted: #eae3d5;
+  /* White Rock */
   --muted-foreground: #6b7180;
-  --accent: #896929;
+  --accent: #be1821;
+  /* Thunderbird */
   --accent-foreground: #ffffff;
-  --accent-alt: #5A4315;
+  --accent-alt: #8e6a30;
+  /* Potters Clay */
   --accent-alt-foreground: #ffffff;
-  --destructive: #c0392b;
+  --destructive: #be1821;
+  /* Thunderbird */
   --destructive-foreground: #ffffff;
-  --border: #ddd9d0;
-  --input: #e8e4db;
-  --ring: #c9841a;
-  --chart-1: #c9841a;
-  --chart-2: #c0392b;
-  --chart-3: #3d6cb5;
-  --chart-4: #764ba2;
-  --chart-5: #e67e22;
+  --border: #bcac8c;
+  /* Indian Khaki */
+  --input: #bcac8c;
+  /* Indian Khaki */
+  --ring: #be1821;
+  /* Thunderbird */
+  --chart-1: #be1821;
+  /* Thunderbird */
+  --chart-2: #8e6a30;
+  /* Potters Clay */
+  --chart-3: #bcac8c;
+  /* Indian Khaki */
+  --chart-4: #eae3d5;
+  /* White Rock */
+  --chart-5: #1a2040;
   --radius: 0.625rem;
-  --sidebar: #f0ede6;
+  --sidebar: #eae3d5;
+  /* White Rock */
   --sidebar-foreground: #1a2040;
-  --sidebar-primary: #c9841a;
+  --sidebar-primary: #be1821;
+  /* Thunderbird */
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #c0392b;
+  --sidebar-accent: #8e6a30;
+  /* Potters Clay */
   --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #ddd9d0;
-  --sidebar-ring: #c9841a;
+  --sidebar-border: #bcac8c;
+  /* Indian Khaki */
+  --sidebar-ring: #be1821;
+  /* Thunderbird */
 }
 
 .dark {
@@ -138,7 +156,7 @@
   inset: 0;
   z-index: 50;
   pointer-events: none;
-  opacity: 0.08;
-  /* Increased from 0.04 */
+  opacity: 0.04;
+  /* Reduced per user request */
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }

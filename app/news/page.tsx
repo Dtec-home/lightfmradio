@@ -61,7 +61,7 @@ export default function NewsPage() {
     : articles.filter(article => article.category === selectedCategory);
 
   return (
-    <PlayerProvider>
+    <>
       <Navbar />
       <Player />
 
@@ -172,6 +172,6 @@ export default function NewsPage() {
       </main>
 
       <Footer />
-    </PlayerProvider>
+    </>
   );
 }

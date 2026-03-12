@@ -59,7 +59,7 @@ export default function ShowsPage() {
     : shows.filter(show => show.category === selectedCategory);
 
   return (
-    <PlayerProvider>
+    <>
       <Navbar />
       <Player />
 
@@ -169,6 +169,6 @@ export default function ShowsPage() {
       </main>
 
       <Footer />
-    </PlayerProvider>
+    </>
   );
 }

@@ -83,7 +83,7 @@ export default function ContactPage() {
   };
 
   return (
-    <PlayerProvider>
+    <>
       <Navbar />
       <Player />
 
@@ -376,6 +376,6 @@ export default function ContactPage() {
       </main>
 
       <Footer />
-    </PlayerProvider>
+    </>
   );
 }
