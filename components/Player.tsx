@@ -9,7 +9,7 @@ export function Player() {
 
   return (
     <motion.div
-      className="fixed bottom-0 left-0 right-0 bg-secondary border-t border-accent/30 z-40"
+      className="fixed bottom-0 left-0 right-0 bg-background/80 backdrop-blur-xl border-t border-border/50 shadow-[0_-4px_24px_rgba(0,0,0,0.05)] z-40"
       initial={{ y: 100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
@@ -35,7 +35,7 @@ export function Player() {
                     )}
                   </div>
                   <p className="text-xs text-muted-foreground truncate">
-                    {isLive && liveInfo?.streamer_name 
+                    {isLive && liveInfo?.streamer_name
                       ? `${liveInfo.streamer_name} • ${currentTrack.artist}`
                       : currentTrack.artist
                     }

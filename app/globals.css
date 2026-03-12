@@ -5,21 +5,21 @@
 
 :root {
   /* ── Light theme (default) ───────────────────────────────────────── */
-  --background: #faf9f6;
+  --background: #FCFAf6;
   --foreground: #1a2040;
   --card: #ffffff;
   --card-foreground: #1a2040;
   --popover: #ffffff;
   --popover-foreground: #1a2040;
-  --primary: #f0ede6;
+  --primary: #F4F0E6;
   --primary-foreground: #1a2040;
   --secondary: #e8e4db;
   --secondary-foreground: #1a2040;
   --muted: #d6d1c6;
   --muted-foreground: #6b7180;
-  --accent: #c9841a;
+  --accent: #896929;
   --accent-foreground: #ffffff;
-  --accent-alt: #c0392b;
+  --accent-alt: #5A4315;
   --accent-alt-foreground: #ffffff;
   --destructive: #c0392b;
   --destructive-foreground: #ffffff;
@@ -55,10 +55,10 @@
   --secondary-foreground: #ffffff;
   --muted: #4a5568;
   --muted-foreground: #cbd5e0;
-  --accent: #F5A623;
+  --accent: #D4AF37;
   --accent-foreground: #0f1419;
-  --accent-alt: #FF4757;
-  --accent-alt-foreground: #ffffff;
+  --accent-alt: #F5C754;
+  --accent-alt-foreground: #1a202c;
   --destructive: #FF4757;
   --destructive-foreground: #ffffff;
   --border: #2d3748;
@@ -127,6 +127,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }

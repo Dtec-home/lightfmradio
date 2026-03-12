@@ -13,6 +13,7 @@ import { UpNext } from '@/components/UpNext';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowRight, Radio, Headphones, Zap, Heart, BookOpen, Users } from 'lucide-react';
+import { HeroIllustration } from '@/components/illustrations/HeroIllustration';
 import { useState, useEffect } from 'react';
 
 const containerVariants = {
@@ -112,43 +113,7 @@ export default function Home() {
                 variants={itemVariants}
                 className="relative h-96 md:h-full hidden md:block"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-accent/20 to-accent-alt/20 rounded-2xl overflow-hidden">
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-transparent"
-                    animate={{
-                      backgroundPosition: ['0% 0%', '0% 100%'],
-                    }}
-                    transition={{
-                      duration: 8,
-                      repeat: Infinity,
-                      repeatType: 'reverse',
-                    }}
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <motion.div
-                      className="w-64 h-64 bg-gradient-to-br from-accent to-accent-alt rounded-full opacity-20 blur-3xl"
-                      animate={{
-                        scale: [1, 1.2, 1],
-                      }}
-                      transition={{
-                        duration: 4,
-                        repeat: Infinity,
-                      }}
-                    />
-                  </div>
-                  <motion.div
-                    className="absolute inset-0 flex items-center justify-center"
-                    animate={{
-                      scale: [1, 1.1, 1],
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                    }}
-                  >
-                    <Headphones size={120} className="text-accent/40" />
-                  </motion.div>
-                </div>
+                <HeroIllustration />
               </motion.div>
             </motion.div>
           </div>
@@ -276,33 +241,38 @@ export default function Home() {
             >
               {[
                 {
-                  icon: BookOpen,
+                  iconPath: "M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z", // Book Open
                   title: 'Our Mission',
                   description: 'Make disciples of Jesus Christ who live as His loving witnesses and proclaim to all people the everlasting gospel of the Three Angels’ Messages in preparation for His soon return.',
                 },
                 {
-                  icon: Heart,
+                  iconPath: "M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z", // Heart
                   title: 'Our Method',
                   description: 'Guided by the Bible and the Holy Spirit, Seventh-day Adventists pursue this mission through Christ-like living, communicating, discipling, teaching, healing, and serving.',
                 },
                 {
-                  icon: Users,
+                  iconPath: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M22 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75", // Users
                   title: 'Our Vision',
                   description: 'In harmony with Bible revelation, Seventh-day Adventists see as the climax of God’s plan the restoration of all His creation to full harmony with His perfect will and righteousness.',
                 },
               ].map((feature, i) => {
-                const Icon = feature.icon;
                 return (
                   <motion.div
                     key={i}
-                    className="p-8 border border-border rounded-lg bg-primary hover:border-accent transition-colors"
+                    className="p-8 rounded-2xl bg-background/40 backdrop-blur-xl border border-border/50 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group"
                     variants={itemVariants}
                   >
-                    <Icon className="w-12 h-12 text-accent mb-4" />
-                    <h3 className="text-lg font-semibold text-foreground mb-2">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent to-accent-alt p-0.5 mb-6 shadow-md group-hover:scale-110 transition-transform duration-300">
+                      <div className="w-full h-full bg-background rounded-[14px] flex items-center justify-center">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8 text-accent">
+                          <path d={feature.iconPath} />
+                        </svg>
+                      </div>
+                    </div>
+                    <h3 className="text-xl font-serif font-bold text-foreground mb-3">
                       {feature.title}
                     </h3>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-muted-foreground leading-relaxed">
                       {feature.description}
                     </p>
                   </motion.div>
