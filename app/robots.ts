@@ -8,7 +8,7 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
       },
     ],
-    sitemap: 'https://lightfmradio.org/sitemap.xml',
-    host: 'https://lightfmradio.org',
+    sitemap: 'https://www.lightfmradio.org/sitemap.xml',
+    host: 'https://www.lightfmradio.org',
   }
 }

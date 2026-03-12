@@ -11,7 +11,7 @@ const dmSans = DM_Sans({ subsets: ["latin"], variable: '--font-sans' });
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? 'https://lightfmradio.org'
+    process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.lightfmradio.org'
   ),
   // ── Core SEO ──────────────────────────────────────────────────────────────
 
