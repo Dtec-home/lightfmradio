@@ -10,9 +10,11 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           {/* Brand */}
           <div>
-            <h3 className="text-xl font-serif font-bold text-accent mb-4">🕯️ Light FM Ministry</h3>
+            <div className="mb-4 h-12">
+              <img src="/logo.png" alt="Light FM Logo" className="h-full w-auto object-contain" />
+            </div>
             <p className="text-sm text-muted-foreground">
-              Proclaiming Jesus Christ and preparing hearts for His return. Biblical teaching, prayer, and Gospel truth.
+              Welcome to the no. 1 leading online family christian radio station in east africa.
             </p>
           </div>
 

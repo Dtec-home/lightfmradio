@@ -7,6 +7,31 @@ interface Track {
   artist: string;
   duration: number;
   art?: string;
+  album?: string;
+  playlist?: string;
+}
+
+interface Listeners {
+  total: number;
+  unique: number;
+  current: number;
+}
+
+interface LiveInfo {
+  is_live: boolean;
+  streamer_name: string;
+  broadcast_start: number | null;
+}
+
+interface SongHistory {
+  played_at: number;
+  song: {
+    title: string;
+    artist: string;
+    art?: string;
+    album?: string;
+  };
+  playlist: string;
 }
 
 interface PlayerContextType {
@@ -16,6 +41,10 @@ interface PlayerContextType {
   setVolume: (volume: number) => void;
   currentTrack: Track | null;
   isLive: boolean;
+  liveInfo: LiveInfo | null;
+  listeners: Listeners | null;
+  playingNext: Track | null;
+  songHistory: SongHistory[];
 }
 
 const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
@@ -28,6 +57,10 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
   const [volume, setVolume] = useState(80);
   const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
   const [isLive, setIsLive] = useState(false);
+  const [liveInfo, setLiveInfo] = useState<LiveInfo | null>(null);
+  const [listeners, setListeners] = useState<Listeners | null>(null);
+  const [playingNext, setPlayingNext] = useState<Track | null>(null);
+  const [songHistory, setSongHistory] = useState<SongHistory[]>([]);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -61,6 +94,8 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
       try {
         const res = await fetch(API_URL);
         const data = await res.json();
+        
+        // Current track
         const song = data.now_playing?.song;
         if (song) {
           setCurrentTrack({
@@ -68,9 +103,34 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
             artist: song.artist || 'Unknown Artist',
             duration: data.now_playing?.duration || 0,
             art: song.art,
+            album: song.album,
+            playlist: data.now_playing?.playlist,
           });
         }
+        
+        // Live info
         setIsLive(data.live?.is_live || false);
+        setLiveInfo(data.live || null);
+        
+        // Listeners
+        setListeners(data.listeners || null);
+        
+        // Playing next
+        if (data.playing_next?.song) {
+          const next = data.playing_next.song;
+          setPlayingNext({
+            title: next.title || 'Unknown',
+            artist: next.artist || 'Unknown Artist',
+            duration: data.playing_next.duration || 0,
+            art: next.art,
+            album: next.album,
+            playlist: data.playing_next.playlist,
+          });
+        }
+        
+        // Song history
+        setSongHistory(data.song_history?.slice(0, 5) || []);
+        
       } catch (error) {
         console.error('Failed to fetch now playing:', error);
       }
@@ -89,6 +149,10 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
       setVolume,
       currentTrack,
       isLive,
+      liveInfo,
+      listeners,
+      playingNext,
+      songHistory,
     }}>
       {children}
     </PlayerContext.Provider>

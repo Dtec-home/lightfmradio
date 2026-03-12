@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     template: '%s | Light FM',
   },
   description:
-    'Light FM is a 24/7 Christian ministry radio station dedicated to biblical teaching, worship, prayer, testimonies, and Gospel truth. Prepare your heart for Jesus Christ\'s glorious return. Accept Jesus today.',
+    'Welcome to the no. 1 leading online family christian radio station in east africa. Make disciples of Jesus Christ who live as His loving witnesses and proclaim to all people the everlasting gospel.',
   keywords: [
     'Christian radio',
     'Light FM',
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     siteName: 'Light FM – Christian Ministry Radio',
     title: 'Light FM – Prepare Your Heart for Christ\'s Return',
     description:
-      'A 24/7 Christian ministry radio station: biblical teaching, worship, prayer, and Gospel truth. Join us and give your life to Jesus today.',
+      'Welcome to the no. 1 leading online family christian radio station in east africa. Make disciples of Jesus Christ who live as His loving witnesses and proclaim to all people the everlasting gospel.',
     images: [
       {
         url: '/og-image.png',
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Light FM – Prepare Your Heart for Christ\'s Return',
     description:
-      'A 24/7 Christian ministry radio: biblical teaching, worship, prayer, and Gospel truth. Accept Jesus today.',
+      'Welcome to the no. 1 leading online family christian radio station in east africa. Make disciples of Jesus Christ who live as His loving witnesses and proclaim to all people the everlasting gospel.',
     images: ['/og-image.png'],
   },
 

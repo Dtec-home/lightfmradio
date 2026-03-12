@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
 
 export function Player() {
-  const { isPlaying, setIsPlaying, volume, setVolume, currentTrack, isLive } = usePlayer();
+  const { isPlaying, setIsPlaying, volume, setVolume, currentTrack, isLive, liveInfo } = usePlayer();
 
   return (
     <motion.div
@@ -29,12 +29,22 @@ export function Player() {
                       {currentTrack.title}
                     </p>
                     {isLive && (
-                      <span className="px-2 py-0.5 bg-red-500 text-white text-xs rounded-full">LIVE</span>
+                      <span className="px-2 py-0.5 bg-red-500 text-white text-xs rounded-full animate-pulse">
+                        LIVE
+                      </span>
                     )}
                   </div>
                   <p className="text-xs text-muted-foreground truncate">
-                    {currentTrack.artist}
+                    {isLive && liveInfo?.streamer_name 
+                      ? `${liveInfo.streamer_name} • ${currentTrack.artist}`
+                      : currentTrack.artist
+                    }
                   </p>
+                  {currentTrack.playlist && !isLive && (
+                    <p className="text-xs text-muted-foreground/70 truncate">
+                      {currentTrack.playlist}
+                    </p>
+                  )}
                 </div>
               ) : (
                 <div>

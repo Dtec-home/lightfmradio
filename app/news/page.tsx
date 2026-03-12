@@ -6,7 +6,7 @@ import { Footer } from '@/components/Footer';
 import { NewsCard } from '@/components/NewsCard';
 import { PlayerProvider } from '@/context/PlayerContext';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -28,79 +28,34 @@ const itemVariants = {
   },
 };
 
-const articles = [
-  {
-    id: 'signs-of-times',
-    title: 'Signs of the Times: Jesus is Coming Soon',
-    excerpt: 'Biblical prophecy fulfilled and end-times events unfolding before our eyes. Discover what Scripture reveals about Christ\'s imminent return and the importance of spiritual readiness.',
-    date: 'Mar 3, 2024',
-    category: 'Scripture',
-    featured: true,
-  },
-  {
-    id: 'testimony-darkness-light',
-    title: 'Testimony: From Darkness to Light - A Life Transformed',
-    excerpt: 'Hear the powerful story of how one man encountered Jesus Christ and experienced complete spiritual transformation. His journey from despair to hope will inspire your faith.',
-    date: 'Feb 28, 2024',
-    category: 'Testimonies',
-    featured: true,
-  },
-  {
-    id: 'gospel-message',
-    title: 'The Gospel Message: Jesus Saves - Understanding Salvation',
-    excerpt: 'Explore the foundational truth of salvation through Christ\'s sacrifice. Learn why surrendering your life to Jesus is the most important decision you\'ll ever make.',
-    date: 'Feb 25, 2024',
-    category: 'Gospel',
-  },
-  {
-    id: 'revival-prayer',
-    title: 'Revival is Coming: The Power of Corporate Prayer',
-    excerpt: 'God\'s desire for His people is spiritual awakening. Join us as we explore how united, believing prayer releases God\'s power for revival in our churches and nations.',
-    date: 'Feb 20, 2024',
-    category: 'Prayer',
-  },
-  {
-    id: 'testimony-freedom',
-    title: 'Freedom in Christ: Breaking Chains of Addiction',
-    excerpt: 'A gripping testimony of deliverance from addiction through Christ\'s power. Discover how Jesus broke the chains and set a captive free through the Gospel.',
-    date: 'Feb 15, 2024',
-    category: 'Testimonies',
-  },
-  {
-    id: 'biblical-truth-identity',
-    title: 'Who Am I in Christ? Understanding Your Identity in Jesus',
-    excerpt: 'Explore the biblical truth of your identity as a child of God. Learn how understanding your position in Christ brings confidence, purpose, and transformational change.',
-    date: 'Feb 10, 2024',
-    category: 'Scripture',
-  },
-  {
-    id: 'community-outreach',
-    title: 'Light FM Community: Serving Jesus in Our City',
-    excerpt: 'See how our church family is reaching souls with the Gospel, caring for the poor, and sharing Christ\'s love throughout our community with compassion and truth.',
-    date: 'Feb 5, 2024',
-    category: 'Community',
-  },
-  {
-    id: 'discernment-deception',
-    title: 'Spiritual Discernment in a Deceived World',
-    excerpt: 'False doctrines and spiritual deception abound. Discover biblical discernment tools to test all things against God\'s Word and remain rooted in Christ.',
-    date: 'Jan 30, 2024',
-    category: 'Scripture',
-  },
-  {
-    id: 'answered-prayer-story',
-    title: 'Testimonies of Prayer: How God Answers the Cries of His People',
-    excerpt: 'Real stories of answered prayer that reveal God\'s faithfulness, power, and care. These testimonies will strengthen your faith and encourage persistent intercession.',
-    date: 'Jan 25, 2024',
-    category: 'Prayer',
-  },
-];
-
-const categories = ['All', ...new Set(articles.map(article => article.category))];
+interface Article {
+  id: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  category: string;
+  featured: boolean;
+}
 
 export default function NewsPage() {
+  const [articles, setArticles] = useState<Article[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    fetch('/api/articles')
+      .then(res => res.json())
+      .then(data => {
+        setArticles(data.map((a: any) => ({
+          ...a,
+          date: new Date(a.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+        })));
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  const categories = ['All', ...new Set(articles.map(article => article.category))];
   const filteredArticles = selectedCategory === 'All'
     ? articles
     : articles.filter(article => article.category === selectedCategory);

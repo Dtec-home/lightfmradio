@@ -7,9 +7,13 @@ import { LiveIndicator } from '@/components/LiveIndicator';
 import { ShowCard } from '@/components/ShowCard';
 import { NewsCard } from '@/components/NewsCard';
 import { PlayerProvider } from '@/context/PlayerContext';
+import { RecentlyPlayed } from '@/components/RecentlyPlayed';
+import { ListenerStats } from '@/components/ListenerStats';
+import { UpNext } from '@/components/UpNext';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowRight, Radio, Headphones, Zap, Heart, BookOpen, Users } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -32,11 +36,19 @@ const itemVariants = {
 };
 
 export default function Home() {
+  const [shows, setShows] = useState([]);
+  const [articles, setArticles] = useState([]);
+
+  useEffect(() => {
+    fetch('/api/shows').then(res => res.json()).then(data => setShows(data.slice(0, 3)));
+    fetch('/api/articles').then(res => res.json()).then(data => setArticles(data.slice(0, 3)));
+  }, []);
+
   return (
     <PlayerProvider>
       <Navbar />
       <Player />
-      
+
       <main className="pt-20">
         {/* Hero Section */}
         <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-b from-primary via-background to-primary">
@@ -69,7 +81,7 @@ export default function Home() {
                     For Christ's Return
                   </p>
                   <p className="text-xl text-muted-foreground leading-relaxed">
-                    Light FM is a Christian ministry radio station dedicated to drawing souls closer to Jesus Christ and preparing believers for His glorious return. Join us for biblical teaching, worship, prayer, and testimony.
+                    Welcome to the no. 1 leading online family christian radio station in east africa.
                   </p>
                 </div>
 
@@ -166,32 +178,7 @@ export default function Home() {
               whileInView="visible"
               viewport={{ once: true }}
             >
-              {[
-                {
-                  id: '1',
-                  title: 'Daily Devotionals',
-                  host: 'Pastor David',
-                  description: 'Start your day in God\'s Word with scripture-based reflections for spiritual transformation.',
-                  image: '/gradient-1.jpg',
-                  schedule: 'Mon-Fri 7am',
-                },
-                {
-                  id: '2',
-                  title: 'Bible Study & Prayer',
-                  host: 'Rev. Sarah',
-                  description: 'Deep dive into Scripture and intercede for revival, awakening, and Christ\'s return.',
-                  image: '/gradient-2.jpg',
-                  schedule: 'Wed 7pm',
-                },
-                {
-                  id: '3',
-                  title: 'Young Believers',
-                  host: 'Joshua Ministry',
-                  description: 'Equipping the next generation to live for Jesus and share the Gospel boldly.',
-                  image: '/gradient-3.jpg',
-                  schedule: 'Sat 10am',
-                },
-              ].map((show) => (
+              {shows.map((show: any) => (
                 <motion.div key={show.id} variants={itemVariants}>
                   <ShowCard {...show} />
                 </motion.div>
@@ -239,32 +226,9 @@ export default function Home() {
               whileInView="visible"
               viewport={{ once: true }}
             >
-              {[
-                {
-                  id: '1',
-                  title: 'Signs of the Times: Jesus is Coming',
-                  excerpt: 'Exploring biblical prophecy and end-times events that point to Christ\'s imminent return and the importance of spiritual readiness.',
-                  date: 'Mar 3, 2024',
-                  category: 'Scripture',
-                  featured: true,
-                },
-                {
-                  id: '2',
-                  title: 'Testimony: From Darkness to Light',
-                  excerpt: 'How one man\'s encounter with Jesus Christ transformed his life completely and redirected his eternal destiny.',
-                  date: 'Feb 28, 2024',
-                  category: 'Testimonies',
-                },
-                {
-                  id: '3',
-                  title: 'The Gospel Message: Jesus Saves',
-                  excerpt: 'Understanding the foundational truth of salvation through Christ\'s sacrifice and the call to surrender all to Him.',
-                  date: 'Feb 25, 2024',
-                  category: 'Gospel',
-                },
-              ].map((article) => (
+              {articles.map((article: any) => (
                 <motion.div key={article.id} variants={itemVariants}>
-                  <NewsCard {...article} />
+                  <NewsCard {...article} date={new Date(article.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} />
                 </motion.div>
               ))}
             </motion.div>
@@ -313,18 +277,18 @@ export default function Home() {
               {[
                 {
                   icon: BookOpen,
-                  title: 'Biblical Teaching',
-                  description: 'Solid Scripture-based instruction rooted in God\'s Word for spiritual growth and transformation',
+                  title: 'Our Mission',
+                  description: 'Make disciples of Jesus Christ who live as His loving witnesses and proclaim to all people the everlasting gospel of the Three Angels’ Messages in preparation for His soon return.',
                 },
                 {
                   icon: Heart,
-                  title: 'Prayer & Worship',
-                  description: 'Intercession for revival, worship that draws you closer to Jesus, and spiritual renewal',
+                  title: 'Our Method',
+                  description: 'Guided by the Bible and the Holy Spirit, Seventh-day Adventists pursue this mission through Christ-like living, communicating, discipling, teaching, healing, and serving.',
                 },
                 {
                   icon: Users,
-                  title: 'Community & Testimonies',
-                  description: 'Stories of God\'s grace, redemption, and transformation in real lives that inspire faith',
+                  title: 'Our Vision',
+                  description: 'In harmony with Bible revelation, Seventh-day Adventists see as the climax of God’s plan the restoration of all His creation to full harmony with His perfect will and righteousness.',
                 },
               ].map((feature, i) => {
                 const Icon = feature.icon;
@@ -345,6 +309,55 @@ export default function Home() {
                 );
               })}
             </motion.div>
+          </div>
+        </section>
+
+        {/* Live Stats & Recently Played Section */}
+        <section className="py-24 bg-primary">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.div
+              className="mb-16"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-4xl font-serif font-bold text-foreground mb-4">
+                Live on Air
+              </h2>
+              <p className="text-muted-foreground">
+                See what's playing now and who's listening
+              </p>
+            </motion.div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+              >
+                <ListenerStats />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+              >
+                <UpNext />
+              </motion.div>
+
+              <motion.div
+                className="lg:row-span-2"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 }}
+              >
+                <RecentlyPlayed />
+              </motion.div>
+            </div>
           </div>
         </section>
 

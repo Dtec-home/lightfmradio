@@ -6,7 +6,7 @@ import { Footer } from '@/components/Footer';
 import { ShowCard } from '@/components/ShowCard';
 import { PlayerProvider } from '@/context/PlayerContext';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -28,68 +28,32 @@ const itemVariants = {
   },
 };
 
-const shows = [
-  {
-    id: '1',
-    title: 'Daily Devotionals',
-    host: 'Pastor David',
-    description: 'Start your day in God\'s Word with scripture-based reflections for spiritual transformation and preparation for eternity.',
-    image: '/gradient-1.jpg',
-    schedule: 'Mon-Fri 7am',
-    category: 'Devotions',
-  },
-  {
-    id: '2',
-    title: 'Bible Study & Prayer',
-    host: 'Rev. Sarah',
-    description: 'Deep dive into Scripture, explore biblical truth, and intercede for revival, awakening, and Christ\'s imminent return.',
-    image: '/gradient-2.jpg',
-    schedule: 'Wed 7pm',
-    category: 'Study',
-  },
-  {
-    id: '3',
-    title: 'Young Believers',
-    host: 'Joshua Ministry Team',
-    description: 'Equipping the next generation to live radically for Jesus, share the Gospel boldly, and stand for Christ in dark times.',
-    image: '/gradient-3.jpg',
-    schedule: 'Sat 10am',
-    category: 'Youth',
-  },
-  {
-    id: '4',
-    title: 'Women\'s Fellowship & Growth',
-    host: 'Pastor\'s Wife Helen',
-    description: 'Biblical womanhood, prayer, faith testimonies, and encouragement for women on their journey to Christ likeness.',
-    image: '/gradient-4.jpg',
-    schedule: 'Tue & Thu 2pm',
-    category: 'Women',
-  },
-  {
-    id: '5',
-    title: 'Testimonies of Grace',
-    host: 'Various Guests',
-    description: 'Real stories of transformation, redemption, and God\'s healing power in the lives of those who encountered Jesus.',
-    image: '/gradient-5.jpg',
-    schedule: 'Fri 6pm',
-    category: 'Testimonies',
-  },
-  {
-    id: '6',
-    title: 'End Times & Prophecy',
-    host: 'Pastor Michael',
-    description: 'Exploring biblical prophecy, the signs of Christ\'s return, and preparing your heart for eternity with Jesus.',
-    image: '/gradient-6.jpg',
-    schedule: 'Sun 7pm',
-    category: 'Prophecy',
-  },
-];
-
-const categories = ['All', ...new Set(shows.map(show => show.category))];
+interface Show {
+  id: string;
+  title: string;
+  host: string;
+  description: string;
+  image: string;
+  schedule: string;
+  category: string;
+}
 
 export default function ShowsPage() {
+  const [shows, setShows] = useState<Show[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    fetch('/api/shows')
+      .then(res => res.json())
+      .then(data => {
+        setShows(data);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  const categories = ['All', ...new Set(shows.map(show => show.category))];
   const filteredShows = selectedCategory === 'All'
     ? shows
     : shows.filter(show => show.category === selectedCategory);

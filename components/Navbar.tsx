@@ -22,10 +22,10 @@ export function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
             <motion.div
-              className="text-2xl font-serif font-bold text-accent"
               whileHover={{ scale: 1.05 }}
+              className="relative h-12 w-auto flex items-center"
             >
-              🕯️ Light FM
+              <img src="/logo.png" alt="Light FM Logo" className="h-full w-auto object-contain" />
             </motion.div>
             <div className="hidden sm:block text-xs text-muted-foreground font-medium">
               Christ is Coming
