@@ -72,7 +72,7 @@ export default function Home() {
                     className="inline-block mb-4"
                     whileHover={{ scale: 1.05 }}
                   >
-                    <LiveIndicator isLive={true} currentShow="Morning Mix with Alex" />
+                    <LiveIndicator />
                   </motion.div>
                   <h1 className="text-5xl md:text-7xl font-serif font-bold text-foreground leading-tight mb-4">
                     Prepare Your <span className="text-accent">Heart</span>
