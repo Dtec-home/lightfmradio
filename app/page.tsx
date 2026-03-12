@@ -54,9 +54,25 @@ export default function Home() {
         {/* Hero Section */}
         <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-b from-primary via-background to-primary">
           {/* Background Elements */}
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute top-20 right-10 w-96 h-96 bg-accent/5 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-20 left-10 w-96 h-96 bg-accent-alt/5 rounded-full blur-3xl"></div>
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <motion.div
+              className="absolute top-0 left-1/4 w-[40rem] h-[40rem] bg-accent/10 rounded-full blur-3xl mix-blend-multiply"
+              animate={{
+                x: [0, 100, -50, 0],
+                y: [0, 50, 100, 0],
+                scale: [1, 1.1, 0.9, 1]
+              }}
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+            />
+            <motion.div
+              className="absolute bottom-0 right-1/4 w-[35rem] h-[35rem] bg-accent-alt/10 rounded-full blur-3xl mix-blend-multiply"
+              animate={{
+                x: [0, -80, 50, 0],
+                y: [0, -100, -50, 0],
+                scale: [1, 0.9, 1.1, 1]
+              }}
+              transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+            />
           </div>
 
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">

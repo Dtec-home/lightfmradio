@@ -98,6 +98,7 @@ export default function RootLayout({
       '--font-sans': dmSans.style.fontFamily,
     } as React.CSSProperties}>
       <body className={`${geist.className} font-sans antialiased bg-background text-foreground`}>
+        <div className="noise-overlay" />
         <ThemeProvider attribute="class" defaultTheme="light" forcedTheme="light" disableTransitionOnChange>
           {children}
         </ThemeProvider>
