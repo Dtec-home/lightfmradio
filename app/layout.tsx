@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   // ── Core SEO ──────────────────────────────────────────────────────────────
 
   title: {
-    default: 'Light FM, edify with the truth',
+    default: 'Light FM, Edifying with the truth',
     template: '%s | Light FM',
   },
   description:
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     siteName: 'Light FM',
-    title: 'Light FM, edify with the truth',
+    title: 'Light FM, Edifying with the truth',
     description:
       'Welcome to the no. 1 leading online family christian radio station in east africa. Make disciples of Jesus Christ who live as His loving witnesses and proclaim to all people the everlasting gospel.',
     images: [
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
         url: '/logo.png',
         width: 1200,
         height: 630,
-        alt: 'Light FM, edify with the truth',
+        alt: 'Light FM, Edifying with the truth',
       },
     ],
   },
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
   // ── Twitter / X Card ──────────────────────────────────────────────────────
   twitter: {
     card: 'summary_large_image',
-    title: 'Light FM, edify with the truth',
+    title: 'Light FM, edifying with the truth',
     description:
       'Welcome to the no. 1 leading online family christian radio station in east africa. Make disciples of Jesus Christ who live as His loving witnesses and proclaim to all people the everlasting gospel.',
     images: ['/logo.png'],
