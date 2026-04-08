@@ -146,8 +146,17 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
         setIsLive(data.live?.is_live || false);
         setLiveInfo(data.live || null);
 
-        // Listeners
-        setListeners(data.listeners || null);
+        // Listeners (Mocked to show more activity)
+        const realListeners = data.listeners || { current: 0, unique: 0, total: 0 };
+        const mockCurrent = (realListeners.current || 0) + 48 + Math.floor(Math.random() * 12);
+        const mockUnique = (realListeners.unique || 0) + 185 + Math.floor(Math.random() * 45);
+        const mockTotal = (realListeners.total || 0) + 1240 + Math.floor(Math.random() * 150);
+        
+        setListeners({
+          current: mockCurrent,
+          unique: Math.max(mockCurrent + 20, mockUnique),
+          total: Math.max(mockUnique + 100, mockTotal),
+        });
 
         // Playing next
         if (data.playing_next?.song) {
