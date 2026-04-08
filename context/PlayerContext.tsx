@@ -146,16 +146,25 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
         setIsLive(data.live?.is_live || false);
         setLiveInfo(data.live || null);
 
-        // Listeners (Mocked to show more activity)
+        // Listeners (Mocked to show more activity and impact)
+        // Ratio logic: Current -> Daily Unique (~12x) -> Monthly Total (~220x current)
         const realListeners = data.listeners || { current: 0, unique: 0, total: 0 };
-        const mockCurrent = (realListeners.current || 0) + 48 + Math.floor(Math.random() * 12);
-        const mockUnique = (realListeners.unique || 0) + 185 + Math.floor(Math.random() * 45);
-        const mockTotal = (realListeners.total || 0) + 1240 + Math.floor(Math.random() * 150);
+        
+        // 1. Current: Base of 48-65
+        const mockCurrent = (realListeners.current || 0) + 48 + Math.floor(Math.random() * 17);
+        
+        // 2. Unique (Daily Reach): Proportional to Current (8x - 12x)
+        const uniqueMultiplier = 8.5 + (Math.random() * 3.5);
+        const mockUnique = Math.floor(mockCurrent * uniqueMultiplier) + (realListeners.unique || 0);
+        
+        // 3. Total (Monthly Impact): Proportional to Unique (15x - 20x)
+        const totalMultiplier = 16 + (Math.random() * 4);
+        const mockTotal = Math.floor(mockUnique * totalMultiplier) + (realListeners.total || 0);
         
         setListeners({
           current: mockCurrent,
-          unique: Math.max(mockCurrent + 20, mockUnique),
-          total: Math.max(mockUnique + 100, mockTotal),
+          unique: mockUnique,
+          total: mockTotal,
         });
 
         // Playing next

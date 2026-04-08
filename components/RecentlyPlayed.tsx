@@ -22,10 +22,14 @@ export function RecentlyPlayed() {
               />
             )}
             <div className="flex-1 min-w-0">
-              <p className="font-medium truncate">{item.song.title || 'Unknown Track'}</p>
-              <p className="text-sm text-muted-foreground truncate">{item.song.artist || 'Unknown Artist'}</p>
+              <p className="font-bold text-sm truncate leading-tight">{item.song.title || 'Inspirational Message'}</p>
+              <p className="text-xs text-muted-foreground truncate font-medium">
+                {item.song.artist === 'Unknown Artist' || !item.song.artist ? 'Light FM Ministry' : item.song.artist}
+              </p>
               {item.playlist && (
-                <p className="text-xs text-muted-foreground mt-1">From: {item.playlist}</p>
+                <span className="inline-block mt-1 text-[9px] px-1 py-0.5 rounded bg-secondary text-primary font-bold uppercase tracking-tighter opacity-80">
+                  {item.playlist === 'default' ? 'Global Stream' : item.playlist}
+                </span>
               )}
             </div>
             <div className="text-xs text-muted-foreground flex items-center gap-1">

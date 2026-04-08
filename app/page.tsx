@@ -10,6 +10,7 @@ import { PlayerProvider } from '@/context/PlayerContext';
 import { RecentlyPlayed } from '@/components/RecentlyPlayed';
 import { ListenerStats } from '@/components/ListenerStats';
 import { UpNext } from '@/components/UpNext';
+import { LiveActivity } from '@/components/LiveActivity';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowRight, Radio, Headphones, Zap, Heart, BookOpen, Users } from 'lucide-react';
@@ -319,8 +320,10 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.1 }}
+                className="space-y-6"
               >
                 <ListenerStats />
+                <LiveActivity />
               </motion.div>
 
               <motion.div
@@ -328,12 +331,21 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.2 }}
+                className="space-y-6"
               >
                 <UpNext />
+                <div className="bg-accent/5 rounded-2xl p-8 border border-accent/20 flex flex-col items-center text-center justify-center h-full">
+                  <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center mb-4">
+                    <Users className="w-6 h-6 text-accent" />
+                  </div>
+                  <h4 className="font-serif font-bold text-lg mb-2">Join the Family</h4>
+                  <p className="text-sm text-muted-foreground mb-4">Be part of our growing community of believers edifying each other in truth.</p>
+                  <Link href="/contact" className="text-xs font-bold uppercase tracking-widest text-accent hover:underline">Connect Now</Link>
+                </div>
               </motion.div>
 
               <motion.div
-                className="lg:row-span-2"
+                className="lg:row-span-1"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}

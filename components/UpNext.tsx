@@ -29,15 +29,18 @@ export function UpNext() {
         )}
         
         <div className="flex-1 min-w-0">
-          <p className="font-semibold text-lg truncate">{playingNext.title}</p>
-          <p className="text-muted-foreground truncate">{playingNext.artist}</p>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="px-1.5 py-0.5 rounded bg-accent/20 text-accent text-[8px] font-bold uppercase tracking-wider">Up Next</span>
+            {playingNext.playlist && (
+              <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-tighter tabular-nums opacity-60">
+                {playingNext.playlist === 'default' ? 'Global Stream' : playingNext.playlist}
+              </span>
+            )}
+          </div>
+          <p className="font-bold text-lg truncate leading-tight mb-0.5">{playingNext.title || 'Inspirational Message'}</p>
+          <p className="text-accent-alt text-sm font-medium truncate">{playingNext.artist === 'Unknown Artist' || !playingNext.artist ? 'Light FM Ministry' : playingNext.artist}</p>
           {playingNext.album && (
-            <p className="text-sm text-muted-foreground truncate mt-1">{playingNext.album}</p>
-          )}
-          {playingNext.playlist && (
-            <p className="text-xs text-muted-foreground mt-2">
-              From playlist: <span className="font-medium">{playingNext.playlist}</span>
-            </p>
+            <p className="text-[10px] text-muted-foreground truncate italic mt-1">{playingNext.album}</p>
           )}
         </div>
       </div>
