@@ -89,6 +89,11 @@ export function Footer() {
               © {new Date().getFullYear()} The loud cry ministries-Kenya. All rights reserved. "I am the light of the world." - John 8:12
             </p>
             <p className="text-sm text-muted-foreground">
+              <Link href="/privacy-policy" className="hover:text-accent transition-colors">
+                Privacy Policy
+              </Link>
+            </p>
+            <p className="text-sm text-muted-foreground">
               Powered By Grace Through <a href="https://www.allons-ysuite.com/" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors font-medium">Allons-y Ministry</a>
             </p>
           </div>
