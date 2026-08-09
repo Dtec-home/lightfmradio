@@ -24,15 +24,27 @@ interface Article {
   featured: boolean;
 }
 
+interface PrayerRequest {
+  id: string;
+  name: string;
+  contact: string;
+  request: string;
+  isConfidential: boolean;
+  isAnswered: boolean;
+  createdAt: string;
+}
+
 export default function AdminDashboard() {
   const [shows, setShows] = useState<Show[]>([]);
   const [articles, setArticles] = useState<Article[]>([]);
-  const [activeTab, setActiveTab] = useState<'shows' | 'articles'>('shows');
+  const [prayerRequests, setPrayerRequests] = useState<PrayerRequest[]>([]);
+  const [activeTab, setActiveTab] = useState<'shows' | 'articles' | 'prayers'>('shows');
   const router = useRouter();
 
   useEffect(() => {
     fetchShows();
     fetchArticles();
+    fetchPrayerRequests();
   }, []);
 
   const fetchShows = async () => {
@@ -45,6 +57,21 @@ export default function AdminDashboard() {
     const res = await fetch('/api/articles');
     const data = await res.json();
     setArticles(data);
+  };
+
+  const fetchPrayerRequests = async () => {
+    const res = await fetch('/api/prayer-request');
+    const data = await res.json();
+    setPrayerRequests(Array.isArray(data) ? data : []);
+  };
+
+  const toggleAnswered = async (id: string, isAnswered: boolean) => {
+    await fetch(`/api/prayer-request/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ isAnswered: !isAnswered }),
+    });
+    fetchPrayerRequests();
   };
 
   const handleLogout = async () => {
@@ -93,6 +120,12 @@ export default function AdminDashboard() {
             variant={activeTab === 'articles' ? 'default' : 'outline'}
           >
             Articles
+          </Button>
+          <Button
+            onClick={() => setActiveTab('prayers')}
+            variant={activeTab === 'prayers' ? 'default' : 'outline'}
+          >
+            Prayer Requests
           </Button>
         </div>
 
@@ -150,6 +183,45 @@ export default function AdminDashboard() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'prayers' && (
+          <div>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold">Prayer Requests</h2>
+            </div>
+            <div className="grid gap-4">
+              {prayerRequests.map((pr) => (
+                <div key={pr.id} className="bg-card p-4 rounded border border-border flex justify-between items-start">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="font-semibold">{pr.name}</h3>
+                      {pr.isConfidential && (
+                        <span className="px-2 py-0.5 text-xs rounded bg-destructive/10 text-destructive">
+                          Confidential
+                        </span>
+                      )}
+                      {pr.isAnswered && (
+                        <span className="px-2 py-0.5 text-xs rounded bg-accent/10 text-accent">
+                          Answered
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-sm text-muted-foreground mb-1">{pr.contact}</p>
+                    <p className="text-sm text-foreground">{pr.request}</p>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button onClick={() => toggleAnswered(pr.id, pr.isAnswered)} variant="outline" size="sm">
+                      {pr.isAnswered ? 'Mark Unanswered' : 'Mark Answered'}
+                    </Button>
+                  </div>
+                </div>
+              ))}
+              {prayerRequests.length === 0 && (
+                <p className="text-sm text-muted-foreground">No prayer requests yet.</p>
+              )}
             </div>
           </div>
         )}

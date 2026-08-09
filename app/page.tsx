@@ -18,6 +18,9 @@ import { HeroIllustration } from '@/components/illustrations/HeroIllustration';
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel';
+import { usePlayer } from '@/context/PlayerContext';
+import { MINISTRY } from '@/lib/content';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -41,11 +44,15 @@ const itemVariants = {
 
 export default function Home() {
   const [shows, setShows] = useState([]);
-  const [articles, setArticles] = useState([]);
+  const [featuredArticles, setFeaturedArticles] = useState([]);
+  const { setIsPlaying } = usePlayer();
 
   useEffect(() => {
     fetch('/api/shows').then(res => res.json()).then(data => setShows(data.slice(0, 3)));
-    fetch('/api/articles').then(res => res.json()).then(data => setArticles(data.slice(0, 3)));
+    fetch('/api/articles').then(res => res.json()).then(data => {
+      const featured = data.filter((a: any) => a.featured);
+      setFeaturedArticles((featured.length > 0 ? featured : data).slice(0, 8));
+    });
   }, []);
 
   return (
@@ -101,16 +108,16 @@ export default function Home() {
                     Christ's love illuminate your life
                   </p>
                   <p className="text-xl text-muted-foreground leading-relaxed">
-                    Welcome to the no. 1 leading online family christian radio station in east africa.
+                    A beacon of hope through media — shining the light of Christ across nations and preparing hearts for His soon return.
                   </p>
                 </div>
 
                 {/* CTA Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4">
                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} transition={{ duration: 0.15 }}>
-                    <Button size="lg" className="w-full sm:w-auto h-auto px-8 py-4 gap-2">
+                    <Button size="lg" className="w-full sm:w-auto h-auto px-8 py-4 gap-2" onClick={() => setIsPlaying(true)}>
                       <Radio size={20} />
-                      Listen Now
+                      Listen Live
                     </Button>
                   </motion.div>
                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} transition={{ duration: 0.15 }}>
@@ -120,7 +127,7 @@ export default function Home() {
                       size="lg"
                       className="w-full sm:w-auto h-auto px-8 py-4 border-accent-alt text-accent-alt hover:bg-accent-alt/10 hover:text-accent-alt bg-transparent"
                     >
-                      <Link href="/contact">Accept Jesus</Link>
+                      <Link href="/get-involved">Support the Mission</Link>
                     </Button>
                   </motion.div>
                 </div>
@@ -202,17 +209,23 @@ export default function Home() {
             </motion.div>
 
             <motion.div
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              {articles.map((article: any) => (
-                <motion.div key={article.id} variants={itemVariants}>
-                  <NewsCard {...article} date={new Date(article.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} />
-                </motion.div>
-              ))}
+              <Carousel opts={{ align: 'start' }} className="w-full">
+                <CarouselContent className="-ml-6">
+                  {featuredArticles.map((article: any) => (
+                    <CarouselItem key={article.id} className="pl-6 sm:basis-1/2 lg:basis-1/3">
+                      <NewsCard {...article} date={new Date(article.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <div className="flex justify-end gap-2 mt-6">
+                  <CarouselPrevious className="static translate-y-0" />
+                  <CarouselNext className="static translate-y-0" />
+                </div>
+              </Carousel>
             </motion.div>
 
             <motion.div
@@ -259,17 +272,17 @@ export default function Home() {
                 {
                   iconPath: "M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z", // Book Open
                   title: 'Our Mission',
-                  description: 'Make disciples of Jesus Christ who live as His loving witnesses and proclaim to all people the everlasting gospel of the Three Angels’ Messages in preparation for His soon return.',
+                  description: MINISTRY.mission,
                 },
                 {
                   iconPath: "M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z", // Heart
                   title: 'Our Method',
-                  description: 'Guided by the Bible and the Holy Spirit, Seventh-day Adventists pursue this mission through Christ-like living, communicating, discipling, teaching, healing, and serving.',
+                  description: MINISTRY.method,
                 },
                 {
                   iconPath: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M22 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75", // Users
                   title: 'Our Vision',
-                  description: 'In harmony with Bible revelation, Seventh-day Adventists see as the climax of God’s plan the restoration of all His creation to full harmony with His perfect will and righteousness.',
+                  description: MINISTRY.vision,
                 },
               ].map((feature, i) => {
                 return (

@@ -45,3 +45,23 @@ model Article {
 
   @@map("articles")
 }
+
+model PrayerRequest {
+  id             String   @id @default(cuid())
+  name           String
+  contact        String
+  request        String
+  isConfidential Boolean  @default(false)
+  isAnswered     Boolean  @default(false)
+  createdAt      DateTime @default(now())
+
+  @@map("prayer_requests")
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+
+  @@map("newsletter_subscribers")
+}

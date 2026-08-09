@@ -75,13 +75,32 @@ export default function NewsPage() {
     fetchArticles();
   }, [fetchArticles]);
 
-  const handleSubscribe = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubscribe = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email) return;
-    toast.success("Thanks — you're on the list!", {
-      description: 'Watch your inbox for Scripture reflections and updates.',
-    });
-    setEmail('');
+
+    try {
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      if (response.ok) {
+        toast.success("Thanks — you're on the list!", {
+          description: 'Watch your inbox for Scripture reflections and updates.',
+        });
+        setEmail('');
+      } else {
+        toast.error('Something went wrong', {
+          description: 'Please check your email address and try again.',
+        });
+      }
+    } catch (err) {
+      toast.error('Something went wrong', {
+        description: 'Please check your connection and try again.',
+      });
+    }
   };
 
   const categories = ['All', ...new Set(articles.map(article => article.category))];
