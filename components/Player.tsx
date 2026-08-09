@@ -3,13 +3,15 @@
 import { usePlayer } from '@/context/PlayerContext';
 import { motion } from 'framer-motion';
 import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
 export function Player() {
   const { isPlaying, setIsPlaying, volume, setVolume, currentTrack, isLive, liveInfo } = usePlayer();
 
   return (
     <motion.div
-      className="fixed bottom-6 left-1/2 w-[95%] max-w-4xl rounded-2xl bg-background/80 backdrop-blur-xl border border-border/50 shadow-2xl z-50"
+      className="fixed bottom-[calc(1.5rem+env(safe-area-inset-bottom))] left-1/2 w-[95%] max-w-4xl rounded-2xl bg-background/80 backdrop-blur-xl border border-border/50 shadow-2xl z-50"
       initial={{ y: 100, x: "-50%" }}
       animate={{ y: 0, x: "-50%" }}
       transition={{ duration: 0.5 }}
@@ -19,7 +21,13 @@ export function Player() {
           {/* Now Playing Info */}
           <div className="flex items-center gap-3 flex-1 min-w-0">
             {currentTrack?.art && (
-              <img src={currentTrack.art} alt="Album art" className="w-12 h-12 rounded object-cover" />
+              <Image
+                src={currentTrack.art}
+                alt="Album art"
+                width={48}
+                height={48}
+                className="w-12 h-12 rounded object-cover"
+              />
             )}
             <div className="flex-1 min-w-0">
               {currentTrack ? (
@@ -29,7 +37,7 @@ export function Player() {
                       {currentTrack.title}
                     </p>
                     {isLive && (
-                      <span className="px-2 py-0.5 bg-red-500 text-white text-xs rounded-full animate-pulse">
+                      <span className="px-2 py-0.5 bg-destructive text-destructive-foreground text-xs rounded-full animate-pulse">
                         LIVE
                       </span>
                     )}
@@ -57,36 +65,46 @@ export function Player() {
 
           {/* Player Controls */}
           <div className="flex items-center gap-2">
-            <motion.button
-              onClick={() => setIsPlaying(!isPlaying)}
-              className="p-3 bg-accent rounded-lg hover:bg-accent/90 transition-colors"
+            <motion.div
+              className="inline-flex"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
             >
-              {isPlaying ? (
-                <Pause size={20} className="text-accent-foreground fill-accent-foreground" />
-              ) : (
-                <Play size={20} className="text-accent-foreground fill-accent-foreground" />
-              )}
-            </motion.button>
+              <Button
+                onClick={() => setIsPlaying(!isPlaying)}
+                variant="default"
+                size="icon-lg"
+                aria-label={isPlaying ? 'Pause' : 'Play'}
+                className="rounded-lg"
+              >
+                {isPlaying ? (
+                  <Pause size={20} className="fill-current" />
+                ) : (
+                  <Play size={20} className="fill-current" />
+                )}
+              </Button>
+            </motion.div>
           </div>
 
           {/* Volume Control */}
           <div className="flex items-center gap-2 w-32">
-            <button onClick={() => setVolume(volume === 0 ? 80 : 0)}>
-              {volume === 0 ? (
-                <VolumeX size={18} className="text-foreground" />
-              ) : (
-                <Volume2 size={18} className="text-foreground" />
-              )}
-            </button>
+            <Button
+              onClick={() => setVolume(volume === 0 ? 80 : 0)}
+              variant="ghost"
+              size="icon"
+              aria-label={volume === 0 ? 'Unmute' : 'Mute'}
+              className="text-foreground"
+            >
+              {volume === 0 ? <VolumeX size={18} /> : <Volume2 size={18} />}
+            </Button>
             <input
               type="range"
               min="0"
               max="100"
               value={volume}
               onChange={(e) => setVolume(Number(e.target.value))}
-              className="w-full h-1 bg-primary rounded-lg appearance-none cursor-pointer accent-accent"
+              aria-label="Volume"
+              className="w-full h-1 bg-muted rounded-lg appearance-none cursor-pointer accent-accent"
             />
           </div>
         </div>

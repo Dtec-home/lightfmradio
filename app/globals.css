@@ -5,96 +5,131 @@
 
 :root {
   /* ── Light theme (default) ───────────────────────────────────────── */
-  --background: #FCFAf6;
-  --foreground: #1a2040;
-  --card: #ffffff;
-  --card-foreground: #1a2040;
-  --popover: #ffffff;
-  --popover-foreground: #1a2040;
-  --primary: #eae3d5;
-  /* White Rock */
-  --primary-foreground: #1a2040;
-  --secondary: #bcac8c;
-  /* Indian Khaki */
-  --secondary-foreground: #1a2040;
-  --muted: #eae3d5;
-  /* White Rock */
-  --muted-foreground: #6b7180;
-  --accent: #be1821;
-  /* Thunderbird */
-  --accent-foreground: #ffffff;
-  --accent-alt: #8e6a30;
-  /* Potters Clay */
-  --accent-alt-foreground: #ffffff;
-  --destructive: #be1821;
-  /* Thunderbird */
-  --destructive-foreground: #ffffff;
-  --border: #bcac8c;
-  /* Indian Khaki */
-  --input: #bcac8c;
-  /* Indian Khaki */
-  --ring: #be1821;
-  /* Thunderbird */
-  --chart-1: #be1821;
-  /* Thunderbird */
-  --chart-2: #8e6a30;
-  /* Potters Clay */
-  --chart-3: #bcac8c;
-  /* Indian Khaki */
-  --chart-4: #eae3d5;
-  /* White Rock */
-  --chart-5: #1a2040;
   --radius: 0.625rem;
-  --sidebar: #eae3d5;
-  /* White Rock */
-  --sidebar-foreground: #1a2040;
-  --sidebar-primary: #be1821;
-  /* Thunderbird */
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #8e6a30;
-  /* Potters Clay */
-  --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #bcac8c;
-  /* Indian Khaki */
-  --sidebar-ring: #be1821;
-  /* Thunderbird */
+
+  --background: oklch(0.9855 0.0057 84.5660);
+  /* #FCFAf6 */
+  --foreground: oklch(0.2563 0.0606 273.3954);
+  /* #1a2040 navy */
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.2563 0.0606 273.3954);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.2563 0.0606 273.3954);
+
+  /* Brand red (Thunderbird) is the CTA color everywhere in the composition
+     layer — primary now matches that instead of the old neutral beige, so
+     components/ui/button.tsx's default variant renders correctly. */
+  --primary: oklch(0.5132 0.1965 25.9674);
+  /* #be1821 */
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.7497 0.0476 84.5062);
+  /* #bcac8c Indian Khaki */
+  --secondary-foreground: oklch(0.2563 0.0606 273.3954);
+  --muted: oklch(0.9175 0.0202 84.5911);
+  /* #eae3d5 White Rock — the section/surface wash color */
+  --muted-foreground: oklch(0.5488 0.0244 268.2356);
+  /* --accent intentionally mirrors --primary for now: every composition-layer
+     CTA already reads bg-accent (not bg-primary). Once that's migrated onto
+     <Button> (Sprint 2), accent is free to become the standard, more subtle
+     shadcn "highlight" role instead of a brand-color duplicate. */
+  --accent: oklch(0.5132 0.1965 25.9674);
+  --accent-foreground: oklch(1 0 0);
+  --accent-alt: oklch(0.5489 0.0880 76.9735);
+  /* #8e6a30 Potters Clay */
+  --accent-alt-foreground: oklch(1 0 0);
+  --destructive: oklch(0.5132 0.1965 25.9674);
+  /* #be1821 — pre-existing overlap with primary/accent; not introduced by
+     this pass, flagged as a follow-up (destructive should read as visually
+     distinct from the primary CTA per Nielsen's error-prevention heuristic). */
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.7497 0.0476 84.5062);
+  --input: oklch(0.7497 0.0476 84.5062);
+  --ring: oklch(0.5132 0.1965 25.9674);
+
+  --chart-1: oklch(0.5132 0.1965 25.9674);
+  --chart-2: oklch(0.5489 0.0880 76.9735);
+  --chart-3: oklch(0.7497 0.0476 84.5062);
+  --chart-4: oklch(0.9175 0.0202 84.5911);
+  --chart-5: oklch(0.2563 0.0606 273.3954);
+
+  --sidebar: oklch(0.9175 0.0202 84.5911);
+  --sidebar-foreground: oklch(0.2563 0.0606 273.3954);
+  --sidebar-primary: oklch(0.5132 0.1965 25.9674);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.5489 0.0880 76.9735);
+  --sidebar-accent-foreground: oklch(1 0 0);
+  --sidebar-border: oklch(0.7497 0.0476 84.5062);
+  --sidebar-ring: oklch(0.5132 0.1965 25.9674);
+
+  /* §3.2 brand-tinted, soft, low-opacity shadows — replaces flat black defaults */
+  --shadow-color: 357 78% 42%;
+  --shadow-sm: 0px 8px 30px 0px hsl(var(--shadow-color) / 0.06), 0px 1px 2px -1px hsl(var(--shadow-color) / 0.06);
+  --shadow: 0px 8px 30px 0px hsl(var(--shadow-color) / 0.06), 0px 1px 2px -1px hsl(var(--shadow-color) / 0.06);
+  --shadow-md: 0px 8px 30px 0px hsl(var(--shadow-color) / 0.08), 0px 2px 4px -1px hsl(var(--shadow-color) / 0.08);
+  --shadow-lg: 0px 12px 36px 0px hsl(var(--shadow-color) / 0.10), 0px 4px 6px -1px hsl(var(--shadow-color) / 0.10);
+  --shadow-xl: 0px 16px 44px 0px hsl(var(--shadow-color) / 0.12), 0px 6px 8px -2px hsl(var(--shadow-color) / 0.12);
+
+  --tracking-normal: -0.015em;
 }
 
 .dark {
-  --background: #0f1419;
-  --foreground: #ffffff;
-  --card: #1a202c;
-  --card-foreground: #ffffff;
-  --popover: #1a202c;
-  --popover-foreground: #ffffff;
-  --primary: #1a202c;
-  --primary-foreground: #ffffff;
-  --secondary: #2d3748;
-  --secondary-foreground: #ffffff;
-  --muted: #4a5568;
-  --muted-foreground: #cbd5e0;
-  --accent: #D4AF37;
-  --accent-foreground: #0f1419;
-  --accent-alt: #F5C754;
-  --accent-alt-foreground: #1a202c;
-  --destructive: #FF4757;
-  --destructive-foreground: #ffffff;
-  --border: #2d3748;
-  --input: #2d3748;
-  --ring: #F5A623;
-  --chart-1: #F5A623;
-  --chart-2: #FF4757;
-  --chart-3: #667eea;
-  --chart-4: #764ba2;
-  --chart-5: #f093fb;
-  --sidebar: #1a202c;
-  --sidebar-foreground: #ffffff;
-  --sidebar-primary: #F5A623;
-  --sidebar-primary-foreground: #0f1419;
-  --sidebar-accent: #FF4757;
-  --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #2d3748;
-  --sidebar-ring: #F5A623;
+  --background: oklch(0.1884 0.0128 248.5103);
+  /* #0f1419 */
+  --foreground: oklch(1 0 0);
+  --card: oklch(0.2433 0.0247 263.9506);
+  /* #1a202c */
+  --card-foreground: oklch(1 0 0);
+  --popover: oklch(0.2433 0.0247 263.9506);
+  --popover-foreground: oklch(1 0 0);
+
+  /* Fixed: was byte-identical to --card (#1a202c == #1a202c), making
+     primary surfaces/buttons disappear against cards. Lightened + kept the
+     brand hue, contrast-checked against white text (5.3:1, passes AA). */
+  --primary: oklch(0.55 0.19 25.9674);
+  /* ≈ #c92f30 */
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.3351 0.0331 260.9120);
+  /* #2d3748 */
+  --secondary-foreground: oklch(1 0 0);
+  --muted: oklch(0.4474 0.0343 261.3244);
+  /* #4a5568 */
+  --muted-foreground: oklch(0.8687 0.0187 250.6095);
+  /* #cbd5e0 */
+  --accent: oklch(0.55 0.19 25.9674);
+  --accent-foreground: oklch(1 0 0);
+  --accent-alt: oklch(0.68 0.11 76.9735);
+  /* ≈ #be8f42, lightened for dark bg */
+  --accent-alt-foreground: oklch(0.1884 0.0128 248.5103);
+  /* dark text — white on this gold only hits 2.9:1, dark text hits 6.3:1 */
+  --destructive: oklch(0.6689 0.2189 20.9143);
+  /* #FF4757, kept distinct from primary on purpose (danger vs. brand CTA) */
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.3351 0.0331 260.9120);
+  --input: oklch(0.3351 0.0331 260.9120);
+  --ring: oklch(0.55 0.19 25.9674);
+
+  --chart-1: oklch(0.55 0.19 25.9674);
+  --chart-2: oklch(0.68 0.11 76.9735);
+  --chart-3: oklch(0.7497 0.0476 84.5062);
+  --chart-4: oklch(0.4474 0.0343 261.3244);
+  --chart-5: oklch(1 0 0);
+
+  --sidebar: oklch(0.2433 0.0247 263.9506);
+  --sidebar-foreground: oklch(1 0 0);
+  --sidebar-primary: oklch(0.55 0.19 25.9674);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.68 0.11 76.9735);
+  --sidebar-accent-foreground: oklch(0.1884 0.0128 248.5103);
+  --sidebar-border: oklch(0.3351 0.0331 260.9120);
+  --sidebar-ring: oklch(0.55 0.19 25.9674);
+
+  /* dark shadows go black + deeper, per §6 */
+  --shadow-color: 0 0% 0%;
+  --shadow-sm: 0px 8px 30px 0px hsl(var(--shadow-color) / 0.35), 0px 1px 2px -1px hsl(var(--shadow-color) / 0.35);
+  --shadow: 0px 8px 30px 0px hsl(var(--shadow-color) / 0.40), 0px 1px 2px -1px hsl(var(--shadow-color) / 0.40);
+  --shadow-md: 0px 8px 30px 0px hsl(var(--shadow-color) / 0.45), 0px 2px 4px -1px hsl(var(--shadow-color) / 0.45);
+  --shadow-lg: 0px 20px 40px -10px hsl(var(--shadow-color) / 0.60), 0px 4px 6px -1px hsl(var(--shadow-color) / 0.60);
+  --shadow-xl: 0px 24px 48px -12px hsl(var(--shadow-color) / 0.65), 0px 6px 8px -2px hsl(var(--shadow-color) / 0.65);
 }
 
 @theme inline {
@@ -139,6 +174,12 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --shadow-color: var(--shadow-color);
+  --shadow-sm: var(--shadow-sm);
+  --shadow: var(--shadow);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
 }
 
 @layer base {
@@ -148,6 +189,7 @@
 
   body {
     @apply bg-background text-foreground;
+    letter-spacing: var(--tracking-normal);
   }
 }
 

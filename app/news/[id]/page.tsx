@@ -20,6 +20,8 @@ import {
   TelegramIcon,
   EmailIcon,
 } from 'next-share';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 
 export default function ArticlePage({ params }: { params: Promise<{ id: string }> }) {
   const [article, setArticle] = useState<any>(null);
@@ -130,18 +132,20 @@ export default function ArticlePage({ params }: { params: Promise<{ id: string }
 
             <div className="mt-12 pt-8 border-t border-border flex justify-center">
               <div className="relative">
-                <button
+                <Button
+                  size="lg"
+                  className="h-auto px-6 py-3 gap-2"
                   onClick={() => setShowShareMenu(!showShareMenu)}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-accent-foreground rounded-lg font-semibold hover:bg-accent/90 transition-colors"
                 >
                   <Share2 size={18} />
                   Share Article
-                </button>
+                </Button>
 
                 {showShareMenu && (
-                  <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-card border border-border rounded-lg shadow-lg p-4 min-w-[280px]">
+                  <Card className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 shadow-lg min-w-[280px] gap-0 py-0">
+                  <CardContent className="p-4">
                     <div className="text-sm font-medium text-foreground mb-3 text-center">Share this article</div>
-                    
+
                     <div className="flex justify-center gap-2 mb-4">
                       <FacebookShareButton
                         url={typeof window !== 'undefined' ? window.location.href : ''}
@@ -183,14 +187,17 @@ export default function ArticlePage({ params }: { params: Promise<{ id: string }
                       </EmailShareButton>
                     </div>
 
-                    <button
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      className="w-full gap-2"
                       onClick={copyToClipboard}
-                      className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-muted hover:bg-muted/80 rounded-md transition-colors text-sm"
                     >
                       {copied ? <Check size={16} /> : <Copy size={16} />}
                       {copied ? 'Copied!' : 'Copy Link'}
-                    </button>
-                  </div>
+                    </Button>
+                  </CardContent>
+                  </Card>
                 )}
               </div>
             </div>

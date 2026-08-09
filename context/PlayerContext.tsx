@@ -40,6 +40,7 @@ interface PlayerContextType {
   volume: number;
   setVolume: (volume: number) => void;
   currentTrack: Track | null;
+  setCurrentTrack: (track: Track | null) => void;
   isLive: boolean;
   liveInfo: LiveInfo | null;
   listeners: Listeners | null;
@@ -200,6 +201,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
       volume,
       setVolume,
       currentTrack,
+      setCurrentTrack,
       isLive,
       liveInfo,
       listeners,

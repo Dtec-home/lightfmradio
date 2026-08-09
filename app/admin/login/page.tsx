@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -39,33 +41,30 @@ export default function AdminLogin() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-2">Email</label>
-            <input
+            <label htmlFor="email" className="block text-sm font-medium mb-2">Email</label>
+            <Input
+              id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 border border-border rounded-lg bg-background"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2">Password</label>
-            <input
+            <label htmlFor="password" className="block text-sm font-medium mb-2">Password</label>
+            <Input
+              id="password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border border-border rounded-lg bg-background"
               required
             />
           </div>
 
-          <button
-            type="submit"
-            className="w-full py-3 bg-accent text-accent-foreground rounded-lg font-semibold hover:bg-accent/90"
-          >
+          <Button type="submit" size="lg" className="w-full">
             Login
-          </button>
+          </Button>
         </form>
       </div>
     </div>

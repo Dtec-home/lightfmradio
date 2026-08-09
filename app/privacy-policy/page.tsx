@@ -15,7 +15,7 @@ export default function PrivacyPolicyPage() {
       <Player />
 
       <main className="pt-24 pb-32 bg-background">
-        <section className="py-16 bg-gradient-to-b from-primary via-background to-background border-b border-border">
+        <section className="py-16 bg-gradient-to-b from-muted via-background to-background border-b border-border">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 className="text-4xl md:text-5xl font-serif font-bold text-foreground mb-4">Privacy Policy</h1>
             <p className="text-muted-foreground text-lg">

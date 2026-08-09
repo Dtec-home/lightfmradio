@@ -2,6 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
 
 export default function EditArticle() {
   const router = useRouter();
@@ -45,70 +48,71 @@ export default function EditArticle() {
         <h1 className="text-3xl font-serif font-bold mb-6">Edit Article</h1>
         <form onSubmit={handleSubmit} className="space-y-4 bg-card p-6 rounded border border-border">
           <div>
-            <label className="block text-sm font-medium mb-2">Title</label>
-            <input
+            <label htmlFor="title" className="block text-sm font-medium mb-2">Title</label>
+            <Input
+              id="title"
               type="text"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="w-full px-4 py-2 border border-border rounded bg-background"
               required
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-2">Excerpt</label>
-            <textarea
+            <label htmlFor="excerpt" className="block text-sm font-medium mb-2">Excerpt</label>
+            <Textarea
+              id="excerpt"
               value={formData.excerpt}
               onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
-              className="w-full px-4 py-2 border border-border rounded bg-background"
               rows={3}
               required
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-2">Content (Optional)</label>
-            <textarea
+            <label htmlFor="content" className="block text-sm font-medium mb-2">Content (Optional)</label>
+            <Textarea
+              id="content"
               value={formData.content || ''}
               onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-              className="w-full px-4 py-2 border border-border rounded bg-background"
               rows={6}
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-2">Date</label>
-            <input
+            <label htmlFor="date" className="block text-sm font-medium mb-2">Date</label>
+            <Input
+              id="date"
               type="date"
               value={formData.date}
               onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-              className="w-full px-4 py-2 border border-border rounded bg-background"
               required
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-2">Category</label>
-            <input
+            <label htmlFor="category" className="block text-sm font-medium mb-2">Category</label>
+            <Input
+              id="category"
               type="text"
               value={formData.category}
               onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-              className="w-full px-4 py-2 border border-border rounded bg-background"
               required
             />
           </div>
           <div className="flex items-center gap-2">
             <input
+              id="featured"
               type="checkbox"
               checked={formData.featured}
               onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
               className="w-4 h-4"
             />
-            <label className="text-sm font-medium">Featured Article</label>
+            <label htmlFor="featured" className="text-sm font-medium">Featured Article</label>
           </div>
           <div className="flex gap-4">
-            <button type="submit" className="px-6 py-2 bg-accent text-accent-foreground rounded">
+            <Button type="submit">
               Update Article
-            </button>
-            <button type="button" onClick={() => router.back()} className="px-6 py-2 bg-card border border-border rounded">
+            </Button>
+            <Button type="button" variant="outline" onClick={() => router.back()}>
               Cancel
-            </button>
+            </Button>
           </div>
         </form>
       </div>

@@ -1,17 +1,24 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Facebook, Instagram, Twitter, Youtube } from 'lucide-react';
 
 export function Footer() {
   return (
-    <footer className="bg-primary border-t border-border pt-16 pb-32">
+    <footer className="bg-muted border-t border-border pt-16 pb-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           {/* Brand */}
           <div>
             <div className="mb-4 h-12">
-              <img src="/logo.png" alt="Light FM Logo" className="h-full w-auto object-contain" />
+              <Image
+                src="/logo.png"
+                alt="Light FM Logo"
+                width={160}
+                height={48}
+                className="h-full w-auto object-contain"
+              />
             </div>
             <p className="text-sm text-muted-foreground">
               Welcome to the no. 1 leading online family christian radio station in east africa.
@@ -66,16 +73,16 @@ export function Footer() {
           <div>
             <h4 className="text-sm font-semibold text-foreground mb-4">Follow Us</h4>
             <div className="flex gap-4">
-              <a href="https://www.facebook.com/lightfmkenya" target="_blank" rel="noopener noreferrer" className="p-2 bg-secondary rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors">
+              <a href="https://www.facebook.com/lightfmkenya" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="p-2 bg-secondary rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors">
                 <Facebook size={18} />
               </a>
-              <a href="https://x.com/LightFmKenya" target="_blank" rel="noopener noreferrer" className="p-2 bg-secondary rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors">
+              <a href="https://x.com/LightFmKenya" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="p-2 bg-secondary rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors">
                 <Twitter size={18} />
               </a>
-              <a href="https://www.instagram.com/lightfmkenya/" target="_blank" rel="noopener noreferrer" className="p-2 bg-secondary rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors">
+              <a href="https://www.instagram.com/lightfmkenya/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="p-2 bg-secondary rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors">
                 <Instagram size={18} />
               </a>
-              <a href="https://www.youtube.com/@lcmstudiosKe/videos" target="_blank" rel="noopener noreferrer" className="p-2 bg-secondary rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors">
+              <a href="https://www.youtube.com/@lcmstudiosKe/videos" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="p-2 bg-secondary rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors">
                 <Youtube size={18} />
               </a>
             </div>

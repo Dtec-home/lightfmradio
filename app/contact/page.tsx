@@ -6,7 +6,13 @@ import { Footer } from '@/components/Footer';
 import { PlayerProvider } from '@/context/PlayerContext';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -28,57 +34,57 @@ const itemVariants = {
   },
 };
 
+const contactSchema = z.object({
+  name: z.string().min(2, 'Please enter your name (at least 2 characters).'),
+  email: z.string().min(1, 'Email is required.').email('Please enter a valid email address.'),
+  subject: z.string().min(1, 'Please enter a subject.'),
+  category: z.string().min(1, 'Please choose how we can help you.'),
+  message: z.string().min(10, 'Message should be at least 10 characters.'),
+});
+
+type ContactFormValues = z.infer<typeof contactSchema>;
+
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    category: 'general',
-    message: '',
-  });
   const [submitted, setSubmitted] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<ContactFormValues>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      subject: '',
+      category: 'salvation',
+      message: '',
+    },
+  });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
+  const onSubmit = async (data: ContactFormValues) => {
     setError('');
-    
+
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(data),
       });
 
       if (response.ok) {
         setSubmitted(true);
         setTimeout(() => {
-          setFormData({
-            name: '',
-            email: '',
-            subject: '',
-            category: 'salvation',
-            message: '',
-          });
+          reset();
           setSubmitted(false);
         }, 5000);
       } else {
         setError('Failed to send message. Please try again.');
       }
-    } catch (error) {
+    } catch (err) {
       setError('Failed to send message. Please try again.');
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -89,7 +95,7 @@ export default function ContactPage() {
 
       <main className="pt-24 pb-32">
         {/* Hero Section */}
-        <section className="py-16 bg-gradient-to-b from-primary via-background to-background border-b border-border">
+        <section className="py-16 bg-gradient-to-b from-muted via-background to-background border-b border-border">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -160,7 +166,7 @@ export default function ContactPage() {
 
                 {/* Gospel Message Box */}
                 <motion.div
-                  className="border-t border-border pt-8 bg-primary/50 border border-accent rounded-lg p-6"
+                  className="border-t border-border pt-8 bg-muted/50 border border-accent rounded-lg p-6"
                   variants={itemVariants}
                 >
                   <h3 className="text-lg font-semibold text-foreground mb-4">The Gospel in 3 Minutes</h3>
@@ -205,61 +211,64 @@ export default function ContactPage() {
                       </p>
                     </motion.div>
                   ) : (
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                    <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-6">
                       <motion.div variants={itemVariants}>
-                        <label className="block text-sm font-medium text-foreground mb-2">
+                        <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
                           Name
                         </label>
-                        <input
+                        <Input
+                          id="name"
                           type="text"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleChange}
-                          required
-                          className="w-full px-4 py-3 bg-primary border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:border-accent transition-colors"
                           placeholder="Your name"
+                          aria-invalid={!!errors.name}
+                          {...register('name')}
                         />
+                        {errors.name && (
+                          <p className="mt-1.5 text-sm text-destructive">{errors.name.message}</p>
+                        )}
                       </motion.div>
 
                       <motion.div variants={itemVariants}>
-                        <label className="block text-sm font-medium text-foreground mb-2">
+                        <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
                           Email
                         </label>
-                        <input
+                        <Input
+                          id="email"
                           type="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                          required
-                          className="w-full px-4 py-3 bg-primary border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:border-accent transition-colors"
                           placeholder="your@email.com"
+                          aria-invalid={!!errors.email}
+                          {...register('email')}
                         />
+                        {errors.email && (
+                          <p className="mt-1.5 text-sm text-destructive">{errors.email.message}</p>
+                        )}
                       </motion.div>
 
                       <motion.div variants={itemVariants}>
-                        <label className="block text-sm font-medium text-foreground mb-2">
+                        <label htmlFor="subject" className="block text-sm font-medium text-foreground mb-2">
                           Subject
                         </label>
-                        <input
+                        <Input
+                          id="subject"
                           type="text"
-                          name="subject"
-                          value={formData.subject}
-                          onChange={handleChange}
-                          required
-                          className="w-full px-4 py-3 bg-primary border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:border-accent transition-colors"
                           placeholder="What is this about?"
+                          aria-invalid={!!errors.subject}
+                          {...register('subject')}
                         />
+                        {errors.subject && (
+                          <p className="mt-1.5 text-sm text-destructive">{errors.subject.message}</p>
+                        )}
                       </motion.div>
 
                       <motion.div variants={itemVariants}>
-                        <label className="block text-sm font-medium text-foreground mb-2">
+                        <label htmlFor="category" className="block text-sm font-medium text-foreground mb-2">
                           How Can We Help You?
                         </label>
                         <select
-                          name="category"
-                          value={formData.category}
-                          onChange={handleChange}
-                          className="w-full px-4 py-3 bg-primary border border-border rounded-lg text-foreground focus:outline-none focus:border-accent transition-colors cursor-pointer"
+                          id="category"
+                          aria-invalid={!!errors.category}
+                          className="border-input dark:bg-input/30 flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive cursor-pointer md:text-sm text-foreground"
+                          {...register('category')}
                         >
                           <option value="salvation">I Want to Accept Jesus Christ</option>
                           <option value="prayer">I Need Prayer</option>
@@ -269,38 +278,47 @@ export default function ContactPage() {
                           <option value="giving">I Want to Give/Support Ministry</option>
                           <option value="other">Other</option>
                         </select>
+                        {errors.category && (
+                          <p className="mt-1.5 text-sm text-destructive">{errors.category.message}</p>
+                        )}
                       </motion.div>
 
                       <motion.div variants={itemVariants}>
-                        <label className="block text-sm font-medium text-foreground mb-2">
+                        <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
                           Message
                         </label>
-                        <textarea
-                          name="message"
-                          value={formData.message}
-                          onChange={handleChange}
-                          required
+                        <Textarea
+                          id="message"
                           rows={5}
-                          className="w-full px-4 py-3 bg-primary border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:border-accent transition-colors resize-none"
                           placeholder="Tell us what's on your mind..."
+                          aria-invalid={!!errors.message}
+                          className="resize-none"
+                          {...register('message')}
                         />
+                        {errors.message && (
+                          <p className="mt-1.5 text-sm text-destructive">{errors.message.message}</p>
+                        )}
                       </motion.div>
 
-                      <motion.button
-                        type="submit"
-                        disabled={isLoading}
-                        className="w-full px-6 py-3 bg-accent text-accent-foreground rounded-lg font-semibold hover:bg-accent/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                      <motion.div
+                        variants={itemVariants}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        variants={itemVariants}
                       >
-                        <Send size={18} />
-                        {isLoading ? 'Sending...' : 'Send Message'}
-                      </motion.button>
+                        <Button
+                          type="submit"
+                          disabled={isSubmitting}
+                          size="lg"
+                          className="w-full"
+                        >
+                          <Send size={18} />
+                          {isSubmitting ? 'Sending...' : 'Send Message'}
+                        </Button>
+                      </motion.div>
 
                       {error && (
                         <motion.div
-                          className="text-red-500 text-sm text-center"
+                          className="text-destructive text-sm text-center"
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                         >
@@ -316,7 +334,7 @@ export default function ContactPage() {
         </section>
 
         {/* FAQ Section - Gospel & Faith Questions */}
-        <section className="py-20 bg-primary">
+        <section className="py-20 bg-muted">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               className="text-center mb-12"

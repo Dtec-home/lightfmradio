@@ -2,6 +2,7 @@
 
 import { usePlayer } from '@/context/PlayerContext';
 import { Clock, Users } from 'lucide-react';
+import Image from 'next/image';
 
 export function RecentlyPlayed() {
   const { songHistory } = usePlayer();
@@ -15,9 +16,11 @@ export function RecentlyPlayed() {
         {songHistory.map((item, index) => (
           <div key={index} className="flex items-start gap-3 pb-3 border-b border-border last:border-0">
             {item.song.art && (
-              <img 
-                src={item.song.art} 
+              <Image
+                src={item.song.art}
                 alt={item.song.title}
+                width={48}
+                height={48}
                 className="w-12 h-12 rounded object-cover"
               />
             )}
@@ -27,7 +30,7 @@ export function RecentlyPlayed() {
                 {item.song.artist === 'Unknown Artist' || !item.song.artist ? 'Light FM Ministry' : item.song.artist}
               </p>
               {item.playlist && (
-                <span className="inline-block mt-1 text-[9px] px-1 py-0.5 rounded bg-secondary text-primary font-bold uppercase tracking-tighter opacity-80">
+                <span className="inline-block mt-1 text-[9px] px-1 py-0.5 rounded bg-secondary text-foreground font-bold uppercase tracking-tighter opacity-80">
                   {item.playlist === 'default' ? 'Global Stream' : item.playlist}
                 </span>
               )}

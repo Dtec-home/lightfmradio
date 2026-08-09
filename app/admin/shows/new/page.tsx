@@ -2,6 +2,9 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
 
 export default function NewShow() {
   const router = useRouter();
@@ -30,73 +33,73 @@ export default function NewShow() {
         <h1 className="text-3xl font-serif font-bold mb-6">Add New Show</h1>
         <form onSubmit={handleSubmit} className="space-y-4 bg-card p-6 rounded border border-border">
           <div>
-            <label className="block text-sm font-medium mb-2">Title</label>
-            <input
+            <label htmlFor="title" className="block text-sm font-medium mb-2">Title</label>
+            <Input
+              id="title"
               type="text"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="w-full px-4 py-2 border border-border rounded bg-background"
               required
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-2">Host</label>
-            <input
+            <label htmlFor="host" className="block text-sm font-medium mb-2">Host</label>
+            <Input
+              id="host"
               type="text"
               value={formData.host}
               onChange={(e) => setFormData({ ...formData, host: e.target.value })}
-              className="w-full px-4 py-2 border border-border rounded bg-background"
               required
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-2">Description</label>
-            <textarea
+            <label htmlFor="description" className="block text-sm font-medium mb-2">Description</label>
+            <Textarea
+              id="description"
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="w-full px-4 py-2 border border-border rounded bg-background"
               rows={4}
               required
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-2">Image URL</label>
-            <input
+            <label htmlFor="image" className="block text-sm font-medium mb-2">Image URL</label>
+            <Input
+              id="image"
               type="text"
               value={formData.image}
               onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-              className="w-full px-4 py-2 border border-border rounded bg-background"
               required
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-2">Schedule</label>
-            <input
+            <label htmlFor="schedule" className="block text-sm font-medium mb-2">Schedule</label>
+            <Input
+              id="schedule"
               type="text"
               value={formData.schedule}
               onChange={(e) => setFormData({ ...formData, schedule: e.target.value })}
-              className="w-full px-4 py-2 border border-border rounded bg-background"
               placeholder="e.g., Mon-Fri 7am"
               required
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-2">Category</label>
-            <input
+            <label htmlFor="category" className="block text-sm font-medium mb-2">Category</label>
+            <Input
+              id="category"
               type="text"
               value={formData.category}
               onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-              className="w-full px-4 py-2 border border-border rounded bg-background"
               required
             />
           </div>
           <div className="flex gap-4">
-            <button type="submit" className="px-6 py-2 bg-accent text-accent-foreground rounded">
+            <Button type="submit">
               Create Show
-            </button>
-            <button type="button" onClick={() => router.back()} className="px-6 py-2 bg-card border border-border rounded">
+            </Button>
+            <Button type="button" variant="outline" onClick={() => router.back()}>
               Cancel
-            </button>
+            </Button>
           </div>
         </form>
       </div>

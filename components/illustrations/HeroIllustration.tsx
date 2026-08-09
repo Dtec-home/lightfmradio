@@ -1,5 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export function HeroIllustration() {
   return (
@@ -13,10 +14,12 @@ export function HeroIllustration() {
         animate={{ y: [-10, 10, -10] }}
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
       >
-        <img
+        <Image
           src="/logo.png"
           alt="Light FM Radio"
-          className="w-full h-full object-contain drop-shadow-xl"
+          fill
+          sizes="(max-width: 1024px) 75vw, 384px"
+          className="object-contain drop-shadow-xl"
         />
 
         {/* Floating small shapes around the logo */}

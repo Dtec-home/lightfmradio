@@ -2,6 +2,7 @@
 
 import { usePlayer } from '@/context/PlayerContext';
 import { Clock, Music } from 'lucide-react';
+import Image from 'next/image';
 
 export function UpNext() {
   const { playingNext } = usePlayer();
@@ -17,9 +18,11 @@ export function UpNext() {
       
       <div className="flex items-start gap-4">
         {playingNext.art ? (
-          <img 
-            src={playingNext.art} 
+          <Image
+            src={playingNext.art}
             alt={playingNext.title}
+            width={80}
+            height={80}
             className="w-20 h-20 rounded-lg object-cover"
           />
         ) : (

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 interface Show {
   id: string;
@@ -72,27 +73,27 @@ export default function AdminDashboard() {
             <Link href="/" className="px-4 py-2 text-sm hover:text-accent">
               View Site
             </Link>
-            <button onClick={handleLogout} className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+            <Button onClick={handleLogout} variant="destructive">
               Logout
-            </button>
+            </Button>
           </div>
         </div>
       </nav>
 
       <div className="max-w-7xl mx-auto p-6">
         <div className="flex gap-4 mb-6">
-          <button
+          <Button
             onClick={() => setActiveTab('shows')}
-            className={`px-6 py-2 rounded ${activeTab === 'shows' ? 'bg-accent text-accent-foreground' : 'bg-card'}`}
+            variant={activeTab === 'shows' ? 'default' : 'outline'}
           >
             Shows
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => setActiveTab('articles')}
-            className={`px-6 py-2 rounded ${activeTab === 'articles' ? 'bg-accent text-accent-foreground' : 'bg-card'}`}
+            variant={activeTab === 'articles' ? 'default' : 'outline'}
           >
             Articles
-          </button>
+          </Button>
         </div>
 
         {activeTab === 'shows' && (
@@ -114,9 +115,9 @@ export default function AdminDashboard() {
                     <Link href={`/admin/shows/${show.id}`} className="px-3 py-1 bg-blue-500 text-white rounded text-sm">
                       Edit
                     </Link>
-                    <button onClick={() => deleteShow(show.id)} className="px-3 py-1 bg-red-500 text-white rounded text-sm">
+                    <Button onClick={() => deleteShow(show.id)} variant="destructive" size="sm">
                       Delete
-                    </button>
+                    </Button>
                   </div>
                 </div>
               ))}
@@ -143,9 +144,9 @@ export default function AdminDashboard() {
                     <Link href={`/admin/articles/${article.id}`} className="px-3 py-1 bg-blue-500 text-white rounded text-sm">
                       Edit
                     </Link>
-                    <button onClick={() => deleteArticle(article.id)} className="px-3 py-1 bg-red-500 text-white rounded text-sm">
+                    <Button onClick={() => deleteArticle(article.id)} variant="destructive" size="sm">
                       Delete
-                    </button>
+                    </Button>
                   </div>
                 </div>
               ))}

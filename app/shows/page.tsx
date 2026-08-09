@@ -6,7 +6,11 @@ import { Footer } from '@/components/Footer';
 import { ShowCard } from '@/components/ShowCard';
 import { PlayerProvider } from '@/context/PlayerContext';
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import { AlertCircle } from 'lucide-react';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -42,16 +46,29 @@ export default function ShowsPage() {
   const [shows, setShows] = useState<Show[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-  useEffect(() => {
+  const fetchShows = useCallback(() => {
+    setLoading(true);
+    setError(false);
     fetch('/api/shows')
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to fetch shows');
+        return res.json();
+      })
       .then(data => {
         setShows(data);
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch(() => {
+        setError(true);
+        setLoading(false);
+      });
   }, []);
+
+  useEffect(() => {
+    fetchShows();
+  }, [fetchShows]);
 
   const categories = ['All', ...new Set(shows.map(show => show.category))];
   const filteredShows = selectedCategory === 'All'
@@ -65,7 +82,7 @@ export default function ShowsPage() {
 
       <main className="pt-24 pb-32">
         {/* Hero Section */}
-        <section className="py-16 bg-gradient-to-b from-primary via-background to-background border-b border-border">
+        <section className="py-16 bg-gradient-to-b from-muted via-background to-background border-b border-border">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -108,61 +125,90 @@ export default function ShowsPage() {
         {/* Shows Grid */}
         <section className="py-16 bg-background">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-            >
-              {filteredShows.map((show) => (
-                <motion.div key={show.id} variants={itemVariants}>
-                  <ShowCard {...show} />
-                </motion.div>
-              ))}
-            </motion.div>
+            {loading && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <Skeleton key={i} className="h-64 rounded-xl" />
+                ))}
+              </div>
+            )}
 
-            {filteredShows.length === 0 && (
-              <motion.div
-                className="text-center py-12"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-              >
+            {!loading && error && (
+              <div className="flex flex-col items-center text-center py-16 gap-4">
+                <AlertCircle className="w-10 h-10 text-destructive" />
                 <p className="text-lg text-muted-foreground">
-                  No shows found in this category.
+                  Something went wrong loading shows, please try again.
                 </p>
-              </motion.div>
+                <Button variant="outline" onClick={fetchShows}>
+                  Retry
+                </Button>
+              </div>
+            )}
+
+            {!loading && !error && (
+              <>
+                <motion.div
+                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  {filteredShows.map((show) => (
+                    <motion.div key={show.id} variants={itemVariants}>
+                      <ShowCard {...show} />
+                    </motion.div>
+                  ))}
+                </motion.div>
+
+                {filteredShows.length === 0 && (
+                  <motion.div
+                    className="text-center py-12"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                  >
+                    <p className="text-lg text-muted-foreground">
+                      No shows found in this category.
+                    </p>
+                  </motion.div>
+                )}
+              </>
             )}
           </div>
         </section>
 
         {/* Schedule Info Section */}
-        <section className="py-16 bg-primary">
+        <section className="py-16 bg-muted">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
-              className="bg-card border border-border rounded-lg p-8"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-2xl font-serif font-bold text-foreground mb-4">
-                Teaching Schedule & Prayer Coverage
-              </h2>
-              <p className="text-muted-foreground mb-6">
-                Our programs cover every day with biblical teaching and intercession. All times shown; contact us for details in your timezone.
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {[
-                  { day: 'Monday - Friday', time: 'Devotions & Study 7am-2pm' },
-                  { day: 'Midweek', time: 'Women\'s Ministry & Prayer 2pm-7pm' },
-                  { day: 'Saturday', time: 'Youth Programs 10am, Teachings all day' },
-                  { day: 'Sunday', time: 'Full Day Teaching & Worship' },
-                ].map((slot, i) => (
-                  <div key={i} className="flex justify-between items-center py-2 border-b border-border last:border-b-0">
-                    <span className="text-foreground font-medium">{slot.day}</span>
-                    <span className="text-accent">{slot.time}</span>
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-2xl font-serif font-bold">
+                    Teaching Schedule & Prayer Coverage
+                  </CardTitle>
+                  <CardDescription>
+                    Our programs cover every day with biblical teaching and intercession. All times shown; contact us for details in your timezone.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {[
+                      { day: 'Monday - Friday', time: 'Devotions & Study 7am-2pm' },
+                      { day: 'Midweek', time: 'Women\'s Ministry & Prayer 2pm-7pm' },
+                      { day: 'Saturday', time: 'Youth Programs 10am, Teachings all day' },
+                      { day: 'Sunday', time: 'Full Day Teaching & Worship' },
+                    ].map((slot, i) => (
+                      <div key={i} className="flex justify-between items-center py-2 border-b border-border last:border-b-0">
+                        <span className="text-foreground font-medium">{slot.day}</span>
+                        <span className="text-accent">{slot.time}</span>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                </CardContent>
+              </Card>
             </motion.div>
           </div>
         </section>

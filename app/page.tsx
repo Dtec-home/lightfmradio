@@ -16,6 +16,8 @@ import Link from 'next/link';
 import { ArrowRight, Radio, Headphones, Zap, Heart, BookOpen, Users } from 'lucide-react';
 import { HeroIllustration } from '@/components/illustrations/HeroIllustration';
 import { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -53,7 +55,7 @@ export default function Home() {
 
       <main className="pt-20">
         {/* Hero Section */}
-        <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-b from-primary via-background to-primary">
+        <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-b from-muted via-background to-muted">
           {/* Background Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <motion.div
@@ -105,23 +107,22 @@ export default function Home() {
 
                 {/* CTA Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <motion.button
-                    className="px-8 py-4 bg-accent text-accent-foreground rounded-lg font-semibold hover:bg-accent/90 transition-colors flex items-center justify-center gap-2"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <Radio size={20} />
-                    Listen Now
-                  </motion.button>
-                  <Link href="/contact">
-                    <motion.button
-                      className="px-8 py-4 border border-accent-alt text-accent-alt rounded-lg font-semibold hover:bg-accent-alt/10 transition-colors"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
+                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} transition={{ duration: 0.15 }}>
+                    <Button size="lg" className="w-full sm:w-auto h-auto px-8 py-4 gap-2">
+                      <Radio size={20} />
+                      Listen Now
+                    </Button>
+                  </motion.div>
+                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} transition={{ duration: 0.15 }}>
+                    <Button
+                      asChild
+                      variant="outline"
+                      size="lg"
+                      className="w-full sm:w-auto h-auto px-8 py-4 border-accent-alt text-accent-alt hover:bg-accent-alt/10 hover:text-accent-alt bg-transparent"
                     >
-                      Accept Jesus
-                    </motion.button>
-                  </Link>
+                      <Link href="/contact">Accept Jesus</Link>
+                    </Button>
+                  </motion.div>
                 </div>
               </motion.div>
 
@@ -173,19 +174,18 @@ export default function Home() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
             >
-              <Link
-                href="/shows"
-                className="inline-flex items-center gap-2 px-6 py-3 border border-accent text-accent rounded-lg font-semibold hover:bg-accent/10 transition-colors group"
-              >
-                View All Teachings
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-              </Link>
+              <Button asChild variant="outline" size="lg" className="h-auto px-6 py-3 border-accent text-accent hover:bg-accent/10 hover:text-accent bg-transparent group">
+                <Link href="/shows">
+                  View All Teachings
+                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </Button>
             </motion.div>
           </div>
         </section>
 
         {/* Biblical Truth & Testimonies Section */}
-        <section className="py-24 bg-primary">
+        <section className="py-24 bg-muted">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               className="mb-16"
@@ -221,13 +221,12 @@ export default function Home() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
             >
-              <Link
-                href="/news"
-                className="inline-flex items-center gap-2 px-6 py-3 border border-accent text-accent rounded-lg font-semibold hover:bg-accent/10 transition-colors group"
-              >
-                Read All Articles
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-              </Link>
+              <Button asChild variant="outline" size="lg" className="h-auto px-6 py-3 border-accent text-accent hover:bg-accent/10 hover:text-accent bg-transparent group">
+                <Link href="/news">
+                  Read All Articles
+                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </Button>
             </motion.div>
           </div>
         </section>
@@ -274,22 +273,22 @@ export default function Home() {
                 },
               ].map((feature, i) => {
                 return (
-                  <motion.div
-                    key={i}
-                    className="p-8 rounded-2xl bg-background/40 backdrop-blur-xl border border-border/50 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group"
-                    variants={itemVariants}
-                  >
-                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent to-accent-alt p-0.5 mb-6 shadow-md group-hover:scale-110 transition-transform duration-300">
-                      <div className="w-full h-full bg-background rounded-[14px] flex items-center justify-center p-2">
-                        <img src="/logo.png" alt="Light FM" className="w-full h-full object-contain opacity-80" />
-                      </div>
-                    </div>
-                    <h3 className="text-xl font-serif font-bold text-foreground mb-3">
-                      {feature.title}
-                    </h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      {feature.description}
-                    </p>
+                  <motion.div key={i} variants={itemVariants}>
+                    <Card className="p-8 gap-0 rounded-2xl bg-background/40 backdrop-blur-xl border-border/50 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group">
+                      <CardContent className="p-0">
+                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent to-accent-alt p-0.5 mb-6 shadow-md group-hover:scale-110 transition-transform duration-300">
+                          <div className="w-full h-full bg-background rounded-[14px] flex items-center justify-center p-2">
+                            <img src="/logo.png" alt="Light FM" className="w-full h-full object-contain opacity-80" />
+                          </div>
+                        </div>
+                        <h3 className="text-xl font-serif font-bold text-foreground mb-3">
+                          {feature.title}
+                        </h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          {feature.description}
+                        </p>
+                      </CardContent>
+                    </Card>
                   </motion.div>
                 );
               })}
@@ -298,7 +297,7 @@ export default function Home() {
         </section>
 
         {/* Live Stats & Recently Played Section */}
-        <section className="py-24 bg-primary">
+        <section className="py-24 bg-muted">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               className="mb-16"
@@ -334,14 +333,16 @@ export default function Home() {
                 className="space-y-6"
               >
                 <UpNext />
-                <div className="bg-accent/5 rounded-2xl p-8 border border-accent/20 flex flex-col items-center text-center justify-center h-full">
-                  <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center mb-4">
-                    <Users className="w-6 h-6 text-accent" />
-                  </div>
-                  <h4 className="font-serif font-bold text-lg mb-2">Join the Family</h4>
-                  <p className="text-sm text-muted-foreground mb-4">Be part of our growing community of believers edifying each other in truth.</p>
-                  <Link href="/contact" className="text-xs font-bold uppercase tracking-widest text-accent hover:underline">Connect Now</Link>
-                </div>
+                <Card className="bg-accent/5 rounded-2xl border-accent/20 h-full gap-0 py-0">
+                  <CardContent className="flex flex-col items-center text-center justify-center h-full p-8">
+                    <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center mb-4">
+                      <Users className="w-6 h-6 text-accent" />
+                    </div>
+                    <h4 className="font-serif font-bold text-lg mb-2">Join the Family</h4>
+                    <p className="text-sm text-muted-foreground mb-4">Be part of our growing community of believers edifying each other in truth.</p>
+                    <Link href="/contact" className="text-xs font-bold uppercase tracking-widest text-accent hover:underline">Connect Now</Link>
+                  </CardContent>
+                </Card>
               </motion.div>
 
               <motion.div
@@ -358,7 +359,7 @@ export default function Home() {
         </section>
 
         {/* Gospel CTA Section */}
-        <section className="py-24 bg-gradient-to-r from-accent/10 via-primary to-accent-alt/10">
+        <section className="py-24 bg-gradient-to-r from-accent/10 via-muted to-accent-alt/10">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -372,22 +373,20 @@ export default function Home() {
                 Christ is coming again. Don't be left behind. Give your life to Jesus today and experience the peace, purpose, and eternal salvation only He can provide.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <motion.button
-                  className="px-8 py-4 bg-accent-alt text-accent-alt-foreground rounded-lg font-semibold hover:bg-accent-alt/90 transition-colors"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Link href="/contact" className="block">
-                    Accept Jesus Now
-                  </Link>
-                </motion.button>
-                <motion.button
-                  className="px-8 py-4 bg-accent text-accent-foreground rounded-lg font-semibold hover:bg-accent/90 transition-colors"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  Listen to Teachings
-                </motion.button>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} transition={{ duration: 0.15 }}>
+                  <Button
+                    asChild
+                    size="lg"
+                    className="w-full sm:w-auto h-auto px-8 py-4 bg-accent-alt text-accent-alt-foreground hover:bg-accent-alt/90"
+                  >
+                    <Link href="/contact">Accept Jesus Now</Link>
+                  </Button>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} transition={{ duration: 0.15 }}>
+                  <Button size="lg" className="w-full sm:w-auto h-auto px-8 py-4">
+                    Listen to Teachings
+                  </Button>
+                </motion.div>
               </div>
             </motion.div>
           </div>

@@ -100,7 +100,7 @@ export default function RootLayout({
     } as React.CSSProperties}>
       <body className={`${geist.className} font-sans antialiased bg-background text-foreground`}>
         <div className="noise-overlay" />
-        <ThemeProvider attribute="class" defaultTheme="light" forcedTheme="light" disableTransitionOnChange>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
           <ClientProviders>
             {children}
           </ClientProviders>

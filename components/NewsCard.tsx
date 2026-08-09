@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
 
 interface NewsCardProps {
   id: string;
@@ -15,17 +15,13 @@ interface NewsCardProps {
 
 export function NewsCard({ id, title, excerpt, date, category, featured = false }: NewsCardProps) {
   return (
-    <motion.div
-      className={`group ${
-        featured
-          ? 'md:col-span-2 bg-gradient-to-br from-accent/10 to-accent-alt/10'
-          : 'bg-card'
-      } border border-border rounded-lg overflow-hidden hover:border-accent transition-all`}
-      whileHover={{ borderColor: '#F5A623' }}
-      transition={{ duration: 0.3 }}
+    <Card
+      className={`group h-full gap-0 overflow-hidden py-0 border-border hover:border-accent-alt transition-all ${
+        featured ? 'md:col-span-2 bg-gradient-to-br from-accent/10 to-accent-alt/10' : ''
+      }`}
     >
-      <Link href={`/news/${id}`}>
-        <div className="p-6 sm:p-8 h-full flex flex-col justify-between">
+      <Link href={`/news/${id}`} className="h-full block">
+        <CardContent className="p-6 sm:p-8 h-full flex flex-col justify-between">
           {/* Header */}
           <div>
             <div className="flex items-center gap-3 mb-4">
@@ -49,8 +45,8 @@ export function NewsCard({ id, title, excerpt, date, category, featured = false 
             <span className="text-sm font-semibold">Read More</span>
             <ArrowRight size={16} />
           </div>
-        </div>
+        </CardContent>
       </Link>
-    </motion.div>
+    </Card>
   );
 }
