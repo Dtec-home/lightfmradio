@@ -95,9 +95,9 @@ export default function AdminDashboard() {
     <div className="min-h-screen bg-background">
       <nav className="bg-card border-b border-border p-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <h1 className="text-2xl font-serif font-bold">Admin Dashboard</h1>
+          <h1 className="text-2xl font-display font-bold">Admin Dashboard</h1>
           <div className="flex gap-4">
-            <Link href="/" className="px-4 py-2 text-sm hover:text-accent">
+            <Link href="/" className="px-4 py-2 text-sm hover:text-primary">
               View Site
             </Link>
             <Button onClick={handleLogout} variant="destructive">
@@ -133,7 +133,7 @@ export default function AdminDashboard() {
           <div>
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold">Shows</h2>
-              <Link href="/admin/shows/new" className="px-4 py-2 bg-accent text-accent-foreground rounded">
+              <Link href="/admin/shows/new" className="px-4 py-2 bg-primary text-primary-foreground rounded">
                 Add Show
               </Link>
             </div>
@@ -145,9 +145,9 @@ export default function AdminDashboard() {
                     <p className="text-sm text-muted-foreground">{show.host} • {show.schedule}</p>
                   </div>
                   <div className="flex gap-2">
-                    <Link href={`/admin/shows/${show.id}`} className="px-3 py-1 bg-blue-500 text-white rounded text-sm">
-                      Edit
-                    </Link>
+                    <Button asChild variant="outline" size="sm">
+                      <Link href={`/admin/shows/${show.id}`}>Edit</Link>
+                    </Button>
                     <Button onClick={() => deleteShow(show.id)} variant="destructive" size="sm">
                       Delete
                     </Button>
@@ -162,7 +162,7 @@ export default function AdminDashboard() {
           <div>
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold">Articles</h2>
-              <Link href="/admin/articles/new" className="px-4 py-2 bg-accent text-accent-foreground rounded">
+              <Link href="/admin/articles/new" className="px-4 py-2 bg-primary text-primary-foreground rounded">
                 Add Article
               </Link>
             </div>
@@ -174,9 +174,9 @@ export default function AdminDashboard() {
                     <p className="text-sm text-muted-foreground">{article.category} • {new Date(article.date).toLocaleDateString()}</p>
                   </div>
                   <div className="flex gap-2">
-                    <Link href={`/admin/articles/${article.id}`} className="px-3 py-1 bg-blue-500 text-white rounded text-sm">
-                      Edit
-                    </Link>
+                    <Button asChild variant="outline" size="sm">
+                      <Link href={`/admin/articles/${article.id}`}>Edit</Link>
+                    </Button>
                     <Button onClick={() => deleteArticle(article.id)} variant="destructive" size="sm">
                       Delete
                     </Button>
@@ -204,7 +204,7 @@ export default function AdminDashboard() {
                         </span>
                       )}
                       {pr.isAnswered && (
-                        <span className="px-2 py-0.5 text-xs rounded bg-accent/10 text-accent">
+                        <span className="px-2 py-0.5 text-xs rounded bg-primary/10 text-primary">
                           Answered
                         </span>
                       )}

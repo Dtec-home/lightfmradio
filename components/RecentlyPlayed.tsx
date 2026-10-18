@@ -1,8 +1,9 @@
 'use client';
 
 import { usePlayer } from '@/context/PlayerContext';
-import { Clock, Users } from 'lucide-react';
+import { Music } from 'lucide-react';
 import Image from 'next/image';
+import { getSafeImageSource } from '@/lib/images';
 
 export function RecentlyPlayed() {
   const { songHistory } = usePlayer();
@@ -10,38 +11,34 @@ export function RecentlyPlayed() {
   if (!songHistory || songHistory.length === 0) return null;
 
   return (
-    <div className="bg-card rounded-lg p-6 border border-border">
-      <h3 className="text-xl font-serif font-semibold mb-4">Recently Played</h3>
-      <div className="space-y-3">
-        {songHistory.map((item, index) => (
-          <div key={index} className="flex items-start gap-3 pb-3 border-b border-border last:border-0">
-            {item.song.art && (
-              <Image
-                src={item.song.art}
-                alt={item.song.title}
-                width={48}
-                height={48}
-                className="w-12 h-12 rounded object-cover"
-              />
-            )}
-            <div className="flex-1 min-w-0">
-              <p className="font-bold text-sm truncate leading-tight">{item.song.title || 'Inspirational Message'}</p>
-              <p className="text-xs text-muted-foreground truncate font-medium">
-                {item.song.artist === 'Unknown Artist' || !item.song.artist ? 'Light FM Ministry' : item.song.artist}
-              </p>
-              {item.playlist && (
-                <span className="inline-block mt-1 text-[9px] px-1 py-0.5 rounded bg-secondary text-foreground font-bold uppercase tracking-tighter opacity-80">
-                  {item.playlist === 'default' ? 'Global Stream' : item.playlist}
-                </span>
-              )}
+    <ol className="flex flex-col">
+      {songHistory.map((item) => {
+        const art = getSafeImageSource(item.song.art);
+
+        return (
+          <li
+            key={`${item.played_at}-${item.song.title}`}
+            className="flex items-center gap-4 border-b border-border py-3 last:border-0"
+          >
+          <time className="w-14 shrink-0 font-display text-sm tracking-[0.04em] text-muted-foreground tabular-nums">
+            {new Date(item.played_at * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+          </time>
+          {art ? (
+            <Image src={art} alt="" width={40} height={40} className="size-10 shrink-0 rounded-sm object-cover" />
+          ) : (
+            <div className="flex size-10 shrink-0 items-center justify-center rounded-sm bg-muted">
+              <Music className="size-4 text-muted-foreground" aria-hidden />
             </div>
-            <div className="text-xs text-muted-foreground flex items-center gap-1">
-              <Clock className="w-3 h-3" />
-              {new Date(item.played_at * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-            </div>
+          )}
+          <div className="min-w-0 flex-1">
+            <p className="truncate font-semibold">{item.song.title || 'Inspirational Message'}</p>
+            <p className="truncate text-sm text-muted-foreground">
+              {item.song.artist === 'Unknown Artist' || !item.song.artist ? 'Light FM Ministry' : item.song.artist}
+            </p>
           </div>
-        ))}
-      </div>
-    </div>
+          </li>
+        );
+      })}
+    </ol>
   );
 }

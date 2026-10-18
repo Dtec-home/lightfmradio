@@ -1,14 +1,22 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono, Playfair_Display, DM_Sans } from 'next/font/google'
+import { Barlow_Condensed, Source_Serif_4 } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { ThemeProvider } from '@/components/theme-provider'
 import { ClientProviders } from '@/components/ClientProviders'
 import './globals.css'
 
-const geist = Geist({ subsets: ["latin"] });
-const geistMono = Geist_Mono({ subsets: ["latin"] });
-const playfair = Playfair_Display({ subsets: ["latin"], variable: '--font-serif' });
-const dmSans = DM_Sans({ subsets: ["latin"], variable: '--font-sans' });
+const barlowCondensed = Barlow_Condensed({
+  subsets: ['latin'],
+  weight: ['500', '600', '700'],
+  variable: '--font-barlow-condensed',
+  display: 'swap',
+})
+const sourceSerif = Source_Serif_4({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-source-serif',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -85,7 +93,7 @@ export const metadata: Metadata = {
   },
 
   // ── Theme ─────────────────────────────────────────────────────────────────
-  themeColor: '#faf9f6',
+  themeColor: '#fcfaf6',
 }
 
 export default function RootLayout({
@@ -94,12 +102,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" style={{
-      '--font-serif': playfair.style.fontFamily,
-      '--font-sans': dmSans.style.fontFamily,
-    } as React.CSSProperties}>
-      <body className={`${geist.className} font-sans antialiased bg-background text-foreground`}>
-        <div className="noise-overlay" />
+    <html lang="en" className={`${barlowCondensed.variable} ${sourceSerif.variable}`} suppressHydrationWarning>
+      <body className="antialiased">
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
           <ClientProviders>
             {children}

@@ -1,8 +1,7 @@
-'use client';
-
+import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
 
 interface NewsCardProps {
   id: string;
@@ -10,43 +9,66 @@ interface NewsCardProps {
   excerpt: string;
   date: string;
   category: string;
+  image?: string;
   featured?: boolean;
 }
 
-export function NewsCard({ id, title, excerpt, date, category, featured = false }: NewsCardProps) {
-  return (
-    <Card
-      className={`group h-full gap-0 overflow-hidden py-0 border-border hover:border-accent-alt transition-all ${
-        featured ? 'md:col-span-2 bg-gradient-to-br from-accent/10 to-accent-alt/10' : ''
-      }`}
-    >
-      <Link href={`/news/${id}`} className="h-full block">
-        <CardContent className="p-6 sm:p-8 h-full flex flex-col justify-between">
-          {/* Header */}
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <span className="text-xs font-semibold text-accent bg-accent/10 px-3 py-1 rounded-full">
-                {category}
-              </span>
-              <span className="text-xs text-muted-foreground">{date}</span>
-            </div>
-            <h3 className={`font-serif font-bold text-foreground mb-3 group-hover:text-accent transition-colors ${
-              featured ? 'text-2xl' : 'text-lg'
-            }`}>
-              {title}
-            </h3>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              {excerpt}
-            </p>
-          </div>
+const ARTICLE_CATEGORY_IMAGES: Record<string, string> = {
+  Scripture: '/images/articles/category-scripture.jpg',
+  Testimonies: '/images/articles/category-testimonies.jpg',
+  Gospel: '/images/articles/category-gospel.jpg',
+  Prayer: '/images/articles/category-prayer.jpg',
+  Faith: '/images/articles/category-faith.jpg',
+};
 
-          {/* Footer */}
-          <div className="mt-6 flex items-center text-accent group-hover:gap-2 transition-all">
-            <span className="text-sm font-semibold">Read More</span>
-            <ArrowRight size={16} />
-          </div>
-        </CardContent>
-      </Link>
-    </Card>
+export function NewsCard({ id, title, excerpt, date, category, image, featured = false }: NewsCardProps) {
+  const resolvedImage =
+    image && !image.includes('drive.google.com') && !image.startsWith('/gradient')
+      ? image
+      : ARTICLE_CATEGORY_IMAGES[category] || '/images/articles/category-scripture.jpg';
+
+  return (
+    <article
+      className={cn(
+        'group relative flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card transition-all hover:border-primary/40 hover:shadow-md',
+        featured && 'md:col-span-2'
+      )}
+    >
+      <div className={cn('relative w-full overflow-hidden bg-muted', featured ? 'aspect-[21/9]' : 'aspect-video')}>
+        <Image
+          src={resolvedImage}
+          alt={title}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60" />
+        <div className="absolute top-3 left-3">
+          <Badge variant="secondary" className="backdrop-blur-md bg-background/85 font-medium shadow-xs">
+            {category}
+          </Badge>
+        </div>
+      </div>
+
+      <div className="flex flex-1 flex-col p-5">
+        <time className="text-xs font-semibold tracking-wider text-muted-foreground uppercase tabular-nums">
+          {date}
+        </time>
+        <h3
+          className={cn(
+            'mt-2.5 font-display leading-tight font-semibold transition-colors group-hover:text-primary',
+            featured ? 'text-2xl md:text-3xl' : 'text-xl'
+          )}
+        >
+          <Link href={`/news/${id}`} className="after:absolute after:inset-0">
+            {title}
+          </Link>
+        </h3>
+        <p className="mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-muted-foreground">{excerpt}</p>
+        <span className="mt-4 inline-flex items-center text-sm font-semibold text-primary transition-transform group-hover:translate-x-1">
+          Read more &rarr;
+        </span>
+      </div>
+    </article>
   );
 }

@@ -10,6 +10,10 @@ __v0_jsx-dev-runtime.ts
 # .DS_Store
 .env
 
+# Local agent and development-session state
+.claude/
+.coda/
+
 # Created by https://www.toptal.com/developers/gitignore/api/nextjs
 # Edit at https://www.toptal.com/developers/gitignore?templates=nextjs
 
@@ -50,4 +54,3 @@ yarn-error.log*
 next-env.d.ts
 
 # End of https://www.toptal.com/developers/gitignore/api/nextjs
-

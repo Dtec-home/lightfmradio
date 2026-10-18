@@ -1,5 +1,9 @@
 # Light FM Radio — Website Improvements Sprint Plan
 
+> **Implementation status — 2026-10-18:** Sprints 1–2 are complete, Sprints 3–7 are substantially implemented with verification gaps, and Sprint 8 is pending. Paystack hosted checkout and server-side verification were added after this plan was written. Production rollout still requires deployment of the current branch and the Paystack environment variables.
+
+> **Contact and email update — 2026-10-18:** Contact and prayer-request submissions now validate and sanitize content server-side, use shared configurable email delivery, and support explicit production SMTP/Gmail credentials. Configure the email variables in `.env`/Vercel before relying on notifications.
+
 > Source: Joshua Mbithi King'oo's "Website Improvement Recommendations" (2026-08-09).
 > Grounded against the current codebase (not assumed) — each item below is marked
 > **already satisfied**, **partially built**, or **net-new**, so effort isn't wasted
@@ -14,23 +18,24 @@
 | Sticky/always-visible header | ✅ Already satisfied | `components/Navbar.tsx` — `fixed top-0` with backdrop blur, visible on scroll on every page. No work needed. |
 | Listen Live / CTA buttons with contrast | ✅ Mostly satisfied | Hero already has "Listen Now" + a second CTA; the recent token-fixing pass made `<Button>` render the true brand red at proper contrast. Just needs the CTA *set* changed (see Sprint 3). |
 | Sermons/shows organized by category | ✅ Mostly satisfied | `prisma/schema.prisma`'s `Show` model already has a `category` field; `app/shows/page.tsx:73-76` already filters by it. This is a content/seeding task (are the right topics — prophecy, discipleship, salvation — actually in the data?), not a code task. |
-| Testimonies as cards with photos/quotes | ✅ Partially satisfied | `components/NewsCard.tsx` already renders testimony/article cards. A **slider** specifically doesn't exist yet — `embla-carousel-react` is an installed dependency with a working `components/ui/carousel.tsx` wrapper that is currently unused anywhere. |
-| Newsletter sign-up | ⚠️ Stub only | `app/news/page.tsx` has a working form UI that shows a success toast, but there is no backend — no database table, no API route, nothing is actually captured. |
-| WhatsApp integration | ⚠️ Partial | `app/news/[id]/page.tsx` has a WhatsApp **share** button for articles. There is no WhatsApp **fellowship-group invite** link anywhere. |
-| About Us page, Vision/Mission | ❌ Net-new | No `app/about/` route exists. Vision/Mission text currently lives as a 3-card block on the homepage (`app/page.tsx:258-273`) with different wording than what Joshua supplied. |
-| Get Involved (prayer requests, giving, volunteering) | ❌ Net-new | No prayer-request form, no giving/donation page anywhere. `app/contact/page.tsx` has a "Give/Support Ministry" *dropdown option* on the general contact form — that's it. |
-| Donation transparency ("funds support X") | ❌ Net-new | Nothing exists. |
+| Testimonies as cards with photos/quotes | ✅ Mostly satisfied | `components/NewsCard.tsx` renders article cards and the homepage uses the Embla carousel wrapper with featured articles. Article records currently provide text content rather than a dedicated photo/quote model. |
+| Newsletter sign-up | ✅ Implemented | `NewsletterSubscriber`, `/api/newsletter`, and the `/news` form persist validated email addresses. |
+| WhatsApp integration | ✅ Implemented | The Get Involved page and footer link to the fellowship destination, and articles support WhatsApp sharing. |
+| About Us page, Vision/Mission | ✅ Implemented | `/about` exists and reads shared Vision/Mission/Method content from `lib/content.ts`. |
+| Get Involved (prayer requests, giving, volunteering) | ✅ Implemented | `/get-involved` contains prayer requests, fellowship, support messaging, and volunteer/contact paths. |
+| Donation transparency ("funds support X") | ✅ Implemented | The current support section identifies the PA system project for Lionhill SDA Church. |
 | English/Kiswahili toggle | ❌ Net-new, large | No i18n library, no translated strings, nothing. This is a materially bigger effort than everything else combined — scoped as its own sprint with a scope decision flagged below. |
-| Per-page SEO metadata | ❌ Real gap, worth fixing while we're in here | Every page (`app/page.tsx`, `app/shows/page.tsx`, `app/news/page.tsx`, `app/contact/page.tsx`) is a **Client Component** (`'use client'` at the top). Next.js only allows `export const metadata` in Server Components, so none of these can currently define their own title/description — every page silently inherits the root layout's metadata. Google currently sees the same title/description for the homepage, the shows page, and the contact page. |
-| Image compression | ❌ Actively disabled | `next.config.mjs` has `images: { unoptimized: true }` — Next's built-in image optimization (resizing, format conversion, compression) is turned off entirely, not just misconfigured. |
+| Per-page SEO metadata | ✅ Implemented | Route layouts provide distinct metadata for About, Shows, News, Contact, and Get Involved. |
+| Image compression | ✅ Configured | `next/image` is used for local and approved AzuraCast images, with `remotePatterns` configured in `next.config.mjs`; unsupported remote sources now fall back safely instead of breaking the render. |
 
 ---
 
 ## 2. Decisions needed before some tickets can be built (flagging, not assuming)
 
 1. **Hero banner image (Sprint 3):** the current hero uses an abstract animated blob illustration (`components/illustrations/HeroIllustration.tsx`), not a photo. `/public` only has logo files and 6 generic gradient JPGs — no ministry/studio photography exists in the repo. If Joshua wants a real "bold banner image," someone needs to supply a photo (studio, congregation, presenter, etc.); otherwise Sprint 3 will keep the current illustration and just fix the copy/CTAs.
-2. **Donation mechanism (Sprint 6):** "Support the Mission" / giving-transparency can be built as an **informational page** (bank/paybill details, current project, a "Support Ministry" contact-form path) without touching payment processing. Building an actual **checkout/payment integration** (M-Pesa, card, etc.) is a materially different, security-sensitive scope that needs an explicit provider decision from the client — this plan builds the informational version and flags real payment integration as a separate, later decision.
-3. **Kiswahili scope (Sprint 8):** full bilingual site (every page, every string) vs. a lighter version (key pages only — Home, About, Get Involved). This changes the sprint size by roughly 3-4x. Sprint 8 below scopes the full version but should be confirmed before starting.
+2. **Donation mechanism (Sprint 6):** the informational giving section has been extended with Paystack hosted checkout. The secret key remains server-only; initialization and verification are implemented through `/api/paystack/initialize` and `/api/paystack/verify`.
+3. **Contact delivery (Sprint 5/7):** contact and prayer notifications use `lib/email.ts`. Configure either `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD` or Gmail's `GMAIL_APP_PASSWORD`, plus `EMAIL_FROM` and `CONTACT_EMAIL_TO`.
+4. **Kiswahili scope (Sprint 8):** full bilingual site (every page, every string) vs. a lighter version (key pages only — Home, About, Get Involved). This changes the sprint size by roughly 3-4x. Sprint 8 below scopes the full version but should be confirmed before starting.
 
 ---
 
@@ -102,9 +107,9 @@
 ### Sprint 6 — Giving/donation transparency + real newsletter backend
 **Files:** `prisma/schema.prisma` (new `NewsletterSubscriber` model, optional `GivingProject` model), new `app/api/newsletter/route.ts`, `app/news/page.tsx` (wire the existing stub to the real endpoint), new section within `app/get-involved/page.tsx`. **Depends on Sprint 2.**
 
-1. **Newsletter — make the existing stub real:** add a `NewsletterSubscriber` model, an `app/api/newsletter` POST route, and wire `app/news/page.tsx`'s already-built form (currently just shows a toast) to actually persist the email. Low effort since the entire UI already exists.
+1. **Newsletter — make the existing stub real:** complete. `NewsletterSubscriber`, `app/api/newsletter`, and the `/news` form now persist validated email addresses.
 2. **Giving/donation transparency section** on `/get-involved`: per Joshua's example ("Funds currently support PA system purchase for Lionhill SDA Church"), this needs at least one piece of real content — either a static, admin-editable text block for now, or (larger scope) a `GivingProject` model with a title/description/progress field editable from `/admin`, matching the existing Shows/Articles admin pattern. Recommend starting with the admin-editable model since the admin CRUD pattern already exists and is cheap to replicate.
-3. Ship the informational giving page (bank/paybill/mobile-money details as static content, or a "Contact us about giving" path reusing the existing contact form's "giving" category) — **explicitly not a payment checkout flow** per Decision #2 above.
+3. Ship and verify the Paystack giving flow. The callback is implemented at `/give/callback`; production must define `PAYSTACK_SECRET_KEY`, `PAYSTACK_CURRENCY`, and `NEXT_PUBLIC_SITE_URL`.
 
 **Acceptance:** newsletter signups persist to the database; `/get-involved` shows a real, admin-updatable "here's what your support is funding right now" block.
 

@@ -1,6 +1,5 @@
 'use client';
 
-import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import { Navbar } from '@/components/Navbar';
 import { Player } from '@/components/Player';
@@ -22,6 +21,8 @@ import {
 } from 'next-share';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function ArticlePage({ params }: { params: Promise<{ id: string }> }) {
   const [article, setArticle] = useState<any>(null);
@@ -57,9 +58,12 @@ export default function ArticlePage({ params }: { params: Promise<{ id: string }
     return (
       <>
         <Navbar />
-        <main className="min-h-screen pt-32 pb-24 bg-background">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="animate-pulse">Loading...</div>
+        <main className="min-h-screen pt-16 pb-24">
+          <div className="mx-auto flex max-w-3xl flex-col gap-4 px-4 py-24 sm:px-6 lg:px-8">
+            <Skeleton className="h-6 w-24" />
+            <Skeleton className="h-14 w-full" />
+            <Skeleton className="h-14 w-2/3" />
+            <Skeleton className="mt-8 h-40 w-full" />
           </div>
         </main>
         <Footer />
@@ -98,51 +102,42 @@ export default function ArticlePage({ params }: { params: Promise<{ id: string }
     <>
       <Navbar />
       <Player />
-      <main className="min-h-screen pt-32 pb-24 bg-background">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <main className="min-h-screen pt-16 pb-24">
+        <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 md:py-16 lg:px-8">
           <Link
             href="/news"
-            className="inline-flex items-center gap-2 text-muted-foreground hover:text-accent mb-8 transition-colors"
+            className="inline-flex items-center gap-2 font-display text-sm font-semibold tracking-[0.08em] text-muted-foreground uppercase transition-colors hover:text-foreground"
           >
-            <ArrowLeft size={20} />
-            Back to Testimonies
+            <ArrowLeft className="size-4" aria-hidden />
+            Back to testimonies
           </Link>
 
-          <article className="bg-card border border-border rounded-2xl p-8 md:p-12 shadow-sm">
-            <header className="mb-12 border-b border-border pb-8 text-center">
-              <span className="text-sm font-semibold text-accent bg-accent/10 px-4 py-2 rounded-full mb-6 inline-block">
-                {article.category}
-              </span>
-              <h1 className="text-4xl md:text-5xl font-serif font-bold text-foreground mb-6 leading-tight">
-                {article.title}
-              </h1>
-              <div className="flex items-center justify-center gap-2 text-muted-foreground">
-                <Clock size={18} />
-                <span>{formattedDate}</span>
+          <article className="mt-10">
+            <header className="border-b border-border pb-8">
+              <div className="flex items-center gap-3">
+                <Badge variant="secondary">{article.category}</Badge>
+                <time className="flex items-center gap-1.5 text-sm text-muted-foreground tabular-nums">
+                  <Clock className="size-3.5" aria-hidden />
+                  {formattedDate}
+                </time>
               </div>
+              <h1 className="mt-5 font-display text-5xl leading-[0.95] font-bold md:text-6xl">{article.title}</h1>
+              <p className="mt-6 text-xl leading-relaxed text-muted-foreground italic">{article.excerpt}</p>
             </header>
 
-            <div className="text-xl font-medium text-foreground/80 mb-10 text-center italic border-l-4 border-accent pl-6 bg-accent/5 py-4 rounded-r-lg">
-              {article.excerpt}
-            </div>
-
-            <div className="prose prose-lg dark:prose-invert max-w-none text-foreground/90 mx-auto whitespace-pre-wrap">
+            <div className="mt-10 max-w-prose text-lg leading-relaxed whitespace-pre-wrap text-foreground/90">
               {article.content || article.excerpt}
             </div>
 
-            <div className="mt-12 pt-8 border-t border-border flex justify-center">
+            <div className="mt-12 flex border-t border-border pt-8">
               <div className="relative">
-                <Button
-                  size="lg"
-                  className="h-auto px-6 py-3 gap-2"
-                  onClick={() => setShowShareMenu(!showShareMenu)}
-                >
-                  <Share2 size={18} />
-                  Share Article
+                <Button variant="outline" onClick={() => setShowShareMenu(!showShareMenu)}>
+                  <Share2 data-icon="inline-start" />
+                  Share article
                 </Button>
 
                 {showShareMenu && (
-                  <Card className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 shadow-lg min-w-[280px] gap-0 py-0">
+                  <Card className="absolute bottom-full left-0 mb-2 shadow-lg min-w-[280px] gap-0 py-0">
                   <CardContent className="p-4">
                     <div className="text-sm font-medium text-foreground mb-3 text-center">Share this article</div>
 

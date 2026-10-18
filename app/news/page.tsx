@@ -4,35 +4,18 @@ import { Navbar } from '@/components/Navbar';
 import { Player } from '@/components/Player';
 import { Footer } from '@/components/Footer';
 import { NewsCard } from '@/components/NewsCard';
-import { PlayerProvider } from '@/context/PlayerContext';
-import { motion } from 'framer-motion';
+import { PageHeader } from '@/components/PageHeader';
 import { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from '@/components/ui/empty';
+import { Field, FieldLabel } from '@/components/ui/field';
 import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
 import { AlertCircle } from 'lucide-react';
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: 'easeOut' },
-  },
-};
 
 interface Article {
   id: string;
@@ -114,137 +97,99 @@ export default function NewsPage() {
       <Player />
       <Toaster />
 
-      <main className="pt-24 pb-32">
-        {/* Hero Section */}
-        <section className="py-16 bg-gradient-to-b from-muted via-background to-background border-b border-border">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <h1 className="text-5xl md:text-6xl font-serif font-bold text-foreground mb-4">
-                Biblical Truth & Testimonies
-              </h1>
-              <p className="text-xl text-muted-foreground max-w-2xl">
-                Scripture insights, life-changing testimonies of God's grace, and biblical teaching to deepen your faith and prepare your heart for eternity.
-              </p>
-            </motion.div>
-          </div>
-        </section>
+      <main className="pt-16 pb-24">
+        <PageHeader
+          title="Biblical truth & testimonies"
+          intro="Scripture insights, testimonies of God's grace, and biblical teaching to deepen your faith and prepare your heart for eternity."
+        />
 
-        {/* Filter Section */}
-        <section className="py-12 bg-background sticky top-16 z-30 border-b border-border">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-wrap gap-3">
+        <div className="sticky top-16 z-30 border-b border-border bg-background">
+          <div className="mx-auto max-w-6xl overflow-x-auto px-4 py-3 sm:px-6 lg:px-8">
+            <ToggleGroup
+              type="single"
+              variant="outline"
+              value={selectedCategory}
+              onValueChange={(value) => value && setSelectedCategory(value)}
+              aria-label="Filter by category"
+            >
               {categories.map((category) => (
-                <motion.button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  className={`px-4 py-2 rounded-full font-medium transition-all ${
-                    selectedCategory === category
-                      ? 'bg-accent text-accent-foreground'
-                      : 'border border-border text-foreground hover:border-accent'
-                  }`}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
+                <ToggleGroupItem key={category} value={category} className="px-4">
                   {category}
-                </motion.button>
+                </ToggleGroupItem>
+              ))}
+            </ToggleGroup>
+          </div>
+        </div>
+
+        <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+          {loading && (
+            <div className="grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <Skeleton key={i} className="h-48" />
               ))}
             </div>
-          </div>
-        </section>
+          )}
 
-        {/* News Grid */}
-        <section className="py-16 bg-background">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            {loading && (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {Array.from({ length: 6 }).map((_, i) => (
-                  <Skeleton key={i} className="h-64 rounded-xl" />
-                ))}
-              </div>
-            )}
-
-            {!loading && error && (
-              <div className="flex flex-col items-center text-center py-16 gap-4">
-                <AlertCircle className="w-10 h-10 text-destructive" />
-                <p className="text-lg text-muted-foreground">
-                  Something went wrong loading articles, please try again.
-                </p>
-                <Button variant="outline" onClick={fetchArticles}>
-                  Retry
+          {!loading && error && (
+            <Alert variant="destructive" className="max-w-xl">
+              <AlertCircle />
+              <AlertTitle>We couldn&rsquo;t load the articles</AlertTitle>
+              <AlertDescription>
+                <p>Check your connection and try again.</p>
+                <Button variant="outline" size="sm" className="mt-3" onClick={fetchArticles}>
+                  Try again
                 </Button>
-              </div>
-            )}
+              </AlertDescription>
+            </Alert>
+          )}
 
-            {!loading && !error && (
-              <>
-                <motion.div
-                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-                  variants={containerVariants}
-                  initial="hidden"
-                  animate="visible"
-                >
-                  {filteredArticles.map((article) => (
-                    <motion.div key={article.id} variants={itemVariants}>
-                      <NewsCard {...article} />
-                    </motion.div>
-                  ))}
-                </motion.div>
+          {!loading && !error && filteredArticles.length > 0 && (
+            <div className="grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
+              {filteredArticles.map((article) => (
+                <NewsCard key={article.id} {...article} />
+              ))}
+            </div>
+          )}
 
-                {filteredArticles.length === 0 && (
-                  <motion.div
-                    className="text-center py-12"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                  >
-                    <p className="text-lg text-muted-foreground">
-                      No articles found in this category.
-                    </p>
-                  </motion.div>
-                )}
-              </>
-            )}
-          </div>
+          {!loading && !error && filteredArticles.length === 0 && (
+            <Empty>
+              <EmptyHeader>
+                <EmptyTitle>No articles here yet</EmptyTitle>
+                <EmptyDescription>Try another category, or check back soon.</EmptyDescription>
+              </EmptyHeader>
+            </Empty>
+          )}
         </section>
 
-        {/* Newsletter Section */}
-        <section className="py-16 bg-muted">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <Card className="gap-0 py-0">
-                <CardContent className="p-8 md:p-12 text-center">
-                  <h2 className="text-3xl font-serif font-bold text-foreground mb-4">
-                    Stay Updated in Your Faith Journey
-                  </h2>
-                  <p className="text-lg text-muted-foreground mb-8">
-                    Subscribe to receive daily Scripture reflections, teaching updates, testimonies, and prayer requests from Light FM Christian Ministry.
-                  </p>
-                  <form
-                    onSubmit={handleSubscribe}
-                    className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto"
-                  >
-                    <input
-                      type="email"
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="Enter your email"
-                      className="flex-1 px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:border-accent"
-                    />
-                    <Button type="submit" size="lg" className="h-auto px-6 py-3 whitespace-nowrap">
-                      Subscribe
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
-            </motion.div>
+        <section className="bg-foreground py-16 text-background md:py-24 dark:bg-card dark:text-foreground">
+          <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:items-end lg:px-8">
+            <div>
+              <h2 className="font-display text-4xl leading-none font-bold uppercase md:text-5xl">
+                Stay updated in your faith journey
+              </h2>
+              <p className="mt-4 max-w-lg text-lg leading-relaxed opacity-80">
+                Daily Scripture reflections, teaching updates, testimonies, and prayer requests from Light FM.
+              </p>
+            </div>
+            <form onSubmit={handleSubscribe} className="flex flex-col gap-3 sm:flex-row sm:items-end">
+              <Field className="flex-1">
+                <FieldLabel htmlFor="newsletter-email" className="sr-only">
+                  Email address
+                </FieldLabel>
+                <Input
+                  id="newsletter-email"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  className="h-12 bg-background text-foreground"
+                />
+              </Field>
+              <Button type="submit" size="lg" className="h-12 px-7">
+                Subscribe
+              </Button>
+            </form>
           </div>
         </section>
       </main>
