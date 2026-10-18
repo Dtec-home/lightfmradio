@@ -4,33 +4,14 @@ import { Navbar } from '@/components/Navbar';
 import { Player } from '@/components/Player';
 import { Footer } from '@/components/Footer';
 import { ShowCard } from '@/components/ShowCard';
-import { PlayerProvider } from '@/context/PlayerContext';
-import { motion } from 'framer-motion';
+import { PageHeader, SectionHeader } from '@/components/PageHeader';
 import { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from '@/components/ui/empty';
 import { AlertCircle } from 'lucide-react';
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: 'easeOut' },
-  },
-};
 
 interface Show {
   id: string;
@@ -41,6 +22,13 @@ interface Show {
   schedule: string;
   category: string;
 }
+
+const SCHEDULE = [
+  { day: 'Monday – Friday', time: 'Devotions & study, 7am – 2pm' },
+  { day: 'Midweek', time: "Women's ministry & prayer, 2pm – 7pm" },
+  { day: 'Saturday', time: 'Youth programs 10am, teachings all day' },
+  { day: 'Sunday', time: 'Full day of teaching & worship' },
+];
 
 export default function ShowsPage() {
   const [shows, setShows] = useState<Show[]>([]);
@@ -80,136 +68,84 @@ export default function ShowsPage() {
       <Navbar />
       <Player />
 
-      <main className="pt-24 pb-32">
-        {/* Hero Section */}
-        <section className="py-16 bg-gradient-to-b from-muted via-background to-background border-b border-border">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <h1 className="text-5xl md:text-6xl font-serif font-bold text-foreground mb-4">
-                Christian Teachings & Programs
-              </h1>
-              <p className="text-xl text-muted-foreground max-w-2xl">
-                Discover our complete lineup of Bible-centered teachings, devotions, and programs designed to draw you closer to Jesus and prepare your heart for His return.
-              </p>
-            </motion.div>
-          </div>
-        </section>
+      <main className="pt-16 pb-24">
+        <PageHeader
+          title="Teachings & programs"
+          intro="Bible-centered teachings, devotions, and programs to draw you closer to Jesus and prepare your heart for His return."
+        />
 
-        {/* Filter Section */}
-        <section className="py-12 bg-background sticky top-16 z-30">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-wrap gap-3">
+        <div className="sticky top-16 z-30 border-b border-border bg-background">
+          <div className="mx-auto max-w-6xl overflow-x-auto px-4 py-3 sm:px-6 lg:px-8">
+            <ToggleGroup
+              type="single"
+              variant="outline"
+              value={selectedCategory}
+              onValueChange={(value) => value && setSelectedCategory(value)}
+              aria-label="Filter by category"
+            >
               {categories.map((category) => (
-                <motion.button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  className={`px-4 py-2 rounded-full font-medium transition-all ${
-                    selectedCategory === category
-                      ? 'bg-accent text-accent-foreground'
-                      : 'border border-border text-foreground hover:border-accent'
-                  }`}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
+                <ToggleGroupItem key={category} value={category} className="px-4">
                   {category}
-                </motion.button>
+                </ToggleGroupItem>
+              ))}
+            </ToggleGroup>
+          </div>
+        </div>
+
+        <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+          {loading && (
+            <div className="grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <Skeleton key={i} className="h-56" />
               ))}
             </div>
-          </div>
-        </section>
+          )}
 
-        {/* Shows Grid */}
-        <section className="py-16 bg-background">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            {loading && (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {Array.from({ length: 6 }).map((_, i) => (
-                  <Skeleton key={i} className="h-64 rounded-xl" />
-                ))}
-              </div>
-            )}
-
-            {!loading && error && (
-              <div className="flex flex-col items-center text-center py-16 gap-4">
-                <AlertCircle className="w-10 h-10 text-destructive" />
-                <p className="text-lg text-muted-foreground">
-                  Something went wrong loading shows, please try again.
-                </p>
-                <Button variant="outline" onClick={fetchShows}>
-                  Retry
+          {!loading && error && (
+            <Alert variant="destructive" className="max-w-xl">
+              <AlertCircle />
+              <AlertTitle>We couldn&rsquo;t load the teachings</AlertTitle>
+              <AlertDescription>
+                <p>Check your connection and try again.</p>
+                <Button variant="outline" size="sm" className="mt-3" onClick={fetchShows}>
+                  Try again
                 </Button>
-              </div>
-            )}
+              </AlertDescription>
+            </Alert>
+          )}
 
-            {!loading && !error && (
-              <>
-                <motion.div
-                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-                  variants={containerVariants}
-                  initial="hidden"
-                  animate="visible"
-                >
-                  {filteredShows.map((show) => (
-                    <motion.div key={show.id} variants={itemVariants}>
-                      <ShowCard {...show} />
-                    </motion.div>
-                  ))}
-                </motion.div>
+          {!loading && !error && filteredShows.length > 0 && (
+            <div className="grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
+              {filteredShows.map((show) => (
+                <ShowCard key={show.id} {...show} />
+              ))}
+            </div>
+          )}
 
-                {filteredShows.length === 0 && (
-                  <motion.div
-                    className="text-center py-12"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                  >
-                    <p className="text-lg text-muted-foreground">
-                      No shows found in this category.
-                    </p>
-                  </motion.div>
-                )}
-              </>
-            )}
-          </div>
+          {!loading && !error && filteredShows.length === 0 && (
+            <Empty>
+              <EmptyHeader>
+                <EmptyTitle>No teachings here yet</EmptyTitle>
+                <EmptyDescription>Try another category, or check back soon.</EmptyDescription>
+              </EmptyHeader>
+            </Empty>
+          )}
         </section>
 
-        {/* Schedule Info Section */}
-        <section className="py-16 bg-muted">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-2xl font-serif font-bold">
-                    Teaching Schedule & Prayer Coverage
-                  </CardTitle>
-                  <CardDescription>
-                    Our programs cover every day with biblical teaching and intercession. All times shown; contact us for details in your timezone.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {[
-                      { day: 'Monday - Friday', time: 'Devotions & Study 7am-2pm' },
-                      { day: 'Midweek', time: 'Women\'s Ministry & Prayer 2pm-7pm' },
-                      { day: 'Saturday', time: 'Youth Programs 10am, Teachings all day' },
-                      { day: 'Sunday', time: 'Full Day Teaching & Worship' },
-                    ].map((slot, i) => (
-                      <div key={i} className="flex justify-between items-center py-2 border-b border-border last:border-b-0">
-                        <span className="text-foreground font-medium">{slot.day}</span>
-                        <span className="text-accent">{slot.time}</span>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
+        <section className="border-t border-border py-16 md:py-24">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <SectionHeader
+              title="Weekly schedule"
+              description="Our programs cover every day with biblical teaching and intercession. Contact us for times in your timezone."
+            />
+            <dl className="grid grid-cols-1 md:grid-cols-2 md:gap-x-12">
+              {SCHEDULE.map((slot) => (
+                <div key={slot.day} className="flex flex-col gap-1 border-b border-border py-4 sm:flex-row sm:items-baseline sm:justify-between">
+                  <dt className="font-display text-xl font-semibold uppercase">{slot.day}</dt>
+                  <dd className="text-muted-foreground">{slot.time}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
         </section>
       </main>

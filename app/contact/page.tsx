@@ -3,36 +3,37 @@
 import { Navbar } from '@/components/Navbar';
 import { Player } from '@/components/Player';
 import { Footer } from '@/components/Footer';
-import { PlayerProvider } from '@/context/PlayerContext';
-import { motion } from 'framer-motion';
+import { PageHeader, SectionHeader } from '@/components/PageHeader';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
+import { Mail, Phone, Send, CheckCircle } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
-    },
+const FAQS = [
+  {
+    q: 'How do I become a Christian?',
+    a: "Simply believe in Jesus Christ, repent of your sins, and accept Him as your Lord and Savior. Pray and tell God you want to follow Jesus. We're here to help you take this life-changing step.",
   },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: 'easeOut' },
+  {
+    q: 'What happens after I accept Jesus?',
+    a: "You experience God's forgiveness, peace, and eternal life. We recommend finding a local church, getting baptized, and connecting with a faith community to grow in your relationship with Christ.",
   },
-};
+  {
+    q: 'Is it too late for God to forgive me?',
+    a: "No! God's grace is unlimited. No matter what you've done, Jesus can forgive you. He died for ALL our sins. It's never too late to turn to Him.",
+  },
+  {
+    q: 'How can I know Jesus is real?',
+    a: 'Millions testify to encountering Jesus through prayer, Scripture, and the Holy Spirit. We invite you to seek Him with an open heart. Jesus said, "Ask and it will be given to you." (Matthew 7:7)',
+  },
+];
 
 const contactSchema = z.object({
   name: z.string().min(2, 'Please enter your name (at least 2 characters).'),
@@ -93,302 +94,140 @@ export default function ContactPage() {
       <Navbar />
       <Player />
 
-      <main className="pt-24 pb-32">
-        {/* Hero Section */}
-        <section className="py-16 bg-gradient-to-b from-muted via-background to-background border-b border-border">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <h1 className="text-5xl md:text-6xl font-serif font-bold text-foreground mb-4">
-                Your Spiritual Journey Matters
-              </h1>
-              <p className="text-xl text-muted-foreground max-w-2xl">
-                Whether you're accepting Jesus for the first time, seeking prayer, or have questions about faith, we're here to help you on your path to Christ.
-              </p>
-            </motion.div>
-          </div>
-        </section>
+      <main className="pt-16 pb-24">
+        <PageHeader
+          title="Your spiritual journey matters"
+          intro="Whether you're accepting Jesus for the first time, seeking prayer, or have questions about faith, we're here to help you on your path to Christ."
+        />
 
-        {/* Contact Section */}
-        <section className="py-20 bg-background">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-              {/* Spiritual Resources & Contact Info */}
-              <motion.div
-                className="space-y-8"
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-              >
-                <motion.div
-                  className="flex gap-4"
-                  variants={itemVariants}
-                >
-                  <div className="w-12 h-12 bg-accent/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Mail className="w-6 h-6 text-accent" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-foreground mb-2">Get Help Now</h3>
-                    <p className="text-muted-foreground">lcministries254@gmail.com</p>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  className="flex gap-4"
-                  variants={itemVariants}
-                >
-                  <div className="w-12 h-12 bg-accent-alt/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Phone className="w-6 h-6 text-accent-alt" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-foreground mb-2">Prayer Line (24/7)</h3>
-                    <p className="text-muted-foreground">0713710041</p>
-                    <p className="text-xs text-muted-foreground mt-1">Call anytime for prayer or counseling</p>
-                  </div>
-                </motion.div>
-
-                {/* <motion.div
-                  className="flex gap-4"
-                  variants={itemVariants}
-                >
-                  <div className="w-12 h-12 bg-accent/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <MapPin className="w-6 h-6 text-accent" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-foreground mb-2">Visit Us</h3>
-                    <p className="text-muted-foreground">Light FM Christian Center</p>
-                    <p className="text-muted-foreground">123 Grace Street, Faith City, FC 12345</p>
-                  </div>
-                </motion.div> */}
-
-                {/* Gospel Message Box */}
-                <motion.div
-                  className="border-t border-border pt-8 bg-muted/50 border border-accent rounded-lg p-6"
-                  variants={itemVariants}
-                >
-                  <h3 className="text-lg font-semibold text-foreground mb-4">The Gospel in 3 Minutes</h3>
-                  <p className="text-sm text-muted-foreground mb-3">
-                    <span className="font-semibold text-accent">God loves you</span> (John 3:16) and has a plan for your life. But our sins separate us from God. Jesus died for your sins and rose again. Believe in Him, confess your sins, and accept His forgiveness today.
-                  </p>
-                  <p className="text-xs text-muted-foreground italic">
-                    "If you confess with your mouth that Jesus is Lord and believe in your heart that God raised him from the dead, you will be saved." - Romans 10:9
-                  </p>
-                </motion.div>
-              </motion.div>
-
-              {/* Contact Form */}
-              <motion.div
-                className="lg:col-span-2"
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-              >
-                <div className="bg-card border border-border rounded-lg p-8">
-                  {submitted ? (
-                    <motion.div
-                      className="flex flex-col items-center justify-center py-12 text-center"
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                    >
-                      <motion.div
-                        className="w-16 h-16 bg-accent-alt/20 rounded-full flex items-center justify-center mb-4"
-                        animate={{ scale: [1, 1.1, 1] }}
-                        transition={{ duration: 0.5 }}
-                      >
-                        <CheckCircle className="w-8 h-8 text-accent-alt" />
-                      </motion.div>
-                      <h3 className="text-2xl font-serif font-bold text-foreground mb-2">
-                        Thank You, Friend!
-                      </h3>
-                      <p className="text-muted-foreground max-w-sm mb-4">
-                        Your request has been received. Our ministry team will reach out to you within 24 hours to pray with you and support your spiritual journey.
-                      </p>
-                      <p className="text-sm text-accent font-semibold">
-                        May the peace of Christ be with you. John 14:27
-                      </p>
-                    </motion.div>
-                  ) : (
-                    <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-6">
-                      <motion.div variants={itemVariants}>
-                        <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
-                          Name
-                        </label>
-                        <Input
-                          id="name"
-                          type="text"
-                          placeholder="Your name"
-                          aria-invalid={!!errors.name}
-                          {...register('name')}
-                        />
-                        {errors.name && (
-                          <p className="mt-1.5 text-sm text-destructive">{errors.name.message}</p>
-                        )}
-                      </motion.div>
-
-                      <motion.div variants={itemVariants}>
-                        <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-                          Email
-                        </label>
-                        <Input
-                          id="email"
-                          type="email"
-                          placeholder="your@email.com"
-                          aria-invalid={!!errors.email}
-                          {...register('email')}
-                        />
-                        {errors.email && (
-                          <p className="mt-1.5 text-sm text-destructive">{errors.email.message}</p>
-                        )}
-                      </motion.div>
-
-                      <motion.div variants={itemVariants}>
-                        <label htmlFor="subject" className="block text-sm font-medium text-foreground mb-2">
-                          Subject
-                        </label>
-                        <Input
-                          id="subject"
-                          type="text"
-                          placeholder="What is this about?"
-                          aria-invalid={!!errors.subject}
-                          {...register('subject')}
-                        />
-                        {errors.subject && (
-                          <p className="mt-1.5 text-sm text-destructive">{errors.subject.message}</p>
-                        )}
-                      </motion.div>
-
-                      <motion.div variants={itemVariants}>
-                        <label htmlFor="category" className="block text-sm font-medium text-foreground mb-2">
-                          How Can We Help You?
-                        </label>
-                        <select
-                          id="category"
-                          aria-invalid={!!errors.category}
-                          className="border-input dark:bg-input/30 flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive cursor-pointer md:text-sm text-foreground"
-                          {...register('category')}
-                        >
-                          <option value="salvation">I Want to Accept Jesus Christ</option>
-                          <option value="prayer">I Need Prayer</option>
-                          <option value="counseling">I Need Spiritual Counseling</option>
-                          <option value="questions">I Have Questions About Faith</option>
-                          <option value="volunteer">I Want to Volunteer</option>
-                          <option value="giving">I Want to Give/Support Ministry</option>
-                          <option value="other">Other</option>
-                        </select>
-                        {errors.category && (
-                          <p className="mt-1.5 text-sm text-destructive">{errors.category.message}</p>
-                        )}
-                      </motion.div>
-
-                      <motion.div variants={itemVariants}>
-                        <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
-                          Message
-                        </label>
-                        <Textarea
-                          id="message"
-                          rows={5}
-                          placeholder="Tell us what's on your mind..."
-                          aria-invalid={!!errors.message}
-                          className="resize-none"
-                          {...register('message')}
-                        />
-                        {errors.message && (
-                          <p className="mt-1.5 text-sm text-destructive">{errors.message.message}</p>
-                        )}
-                      </motion.div>
-
-                      <motion.div
-                        variants={itemVariants}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <Button
-                          type="submit"
-                          disabled={isSubmitting}
-                          size="lg"
-                          className="w-full"
-                        >
-                          <Send size={18} />
-                          {isSubmitting ? 'Sending...' : 'Send Message'}
-                        </Button>
-                      </motion.div>
-
-                      {error && (
-                        <motion.div
-                          className="text-destructive text-sm text-center"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                        >
-                          {error}
-                        </motion.div>
-                      )}
-                    </form>
-                  )}
-                </div>
-              </motion.div>
+        <section className="mx-auto grid max-w-6xl grid-cols-1 gap-14 px-4 py-16 sm:px-6 md:py-24 lg:grid-cols-12 lg:px-8">
+          <aside className="flex flex-col gap-10 lg:col-span-4">
+            <div className="flex flex-col gap-6">
+              <a href="mailto:lcministries254@gmail.com" className="group flex gap-4">
+                <Mail className="mt-1 size-5 shrink-0 text-primary" aria-hidden />
+                <span>
+                  <span className="block font-display text-lg font-semibold tracking-[0.06em] uppercase">Email us</span>
+                  <span className="text-muted-foreground group-hover:text-foreground group-hover:underline">lcministries254@gmail.com</span>
+                </span>
+              </a>
+              <a href="tel:+254713710041" className="group flex gap-4">
+                <Phone className="mt-1 size-5 shrink-0 text-primary" aria-hidden />
+                <span>
+                  <span className="block font-display text-lg font-semibold tracking-[0.06em] uppercase">Prayer line, 24/7</span>
+                  <span className="text-muted-foreground tabular-nums group-hover:text-foreground group-hover:underline">0713 710 041</span>
+                  <span className="mt-1 block text-sm text-muted-foreground">Call anytime for prayer or counseling</span>
+                </span>
+              </a>
             </div>
+
+            <div className="border-t-2 border-foreground pt-6">
+              <h2 className="font-display text-2xl font-semibold uppercase">The gospel in three minutes</h2>
+              <p className="mt-3 leading-relaxed text-muted-foreground">
+                <span className="font-semibold text-foreground">God loves you</span> (John 3:16) and has a plan for your life. But our sins separate us from God. Jesus died for your sins and rose again. Believe in Him, confess your sins, and accept His forgiveness today.
+              </p>
+              <blockquote className="mt-4 text-foreground/80 italic">
+                &ldquo;If you confess with your mouth that Jesus is Lord and believe in your heart that God raised him from the dead, you will be saved.&rdquo; Romans 10:9
+              </blockquote>
+            </div>
+          </aside>
+
+          <div className="lg:col-span-7 lg:col-start-6">
+            {submitted ? (
+              <div className="flex animate-rise flex-col items-start gap-4 border-t-2 border-foreground pt-8">
+                <CheckCircle className="size-8 text-accent-alt" aria-hidden />
+                <h2 className="font-display text-4xl font-bold uppercase">Thank you, friend</h2>
+                <p className="max-w-md text-lg leading-relaxed text-muted-foreground">
+                  Your request has been received. Our ministry team will reach out to you within 24 hours to pray with you and support your spiritual journey.
+                </p>
+                <p className="text-accent-alt italic">May the peace of Christ be with you. John 14:27</p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit(onSubmit)} noValidate>
+                <FieldGroup>
+                  <div className="grid grid-cols-1 gap-7 sm:grid-cols-2">
+                    <Field data-invalid={!!errors.name || undefined}>
+                      <FieldLabel htmlFor="name">Name</FieldLabel>
+                      <Input id="name" type="text" placeholder="Your name" aria-invalid={!!errors.name} {...register('name')} />
+                      <FieldError errors={[errors.name]} />
+                    </Field>
+
+                    <Field data-invalid={!!errors.email || undefined}>
+                      <FieldLabel htmlFor="email">Email</FieldLabel>
+                      <Input id="email" type="email" placeholder="you@example.com" aria-invalid={!!errors.email} {...register('email')} />
+                      <FieldError errors={[errors.email]} />
+                    </Field>
+                  </div>
+
+                  <Field data-invalid={!!errors.category || undefined}>
+                    <FieldLabel htmlFor="category">How can we help you?</FieldLabel>
+                    <select
+                      id="category"
+                      aria-invalid={!!errors.category}
+                      className="border-input dark:bg-input/30 flex h-9 w-full min-w-0 cursor-pointer rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 md:text-sm dark:aria-invalid:ring-destructive/40"
+                      {...register('category')}
+                    >
+                      <option value="salvation">I want to accept Jesus Christ</option>
+                      <option value="prayer">I need prayer</option>
+                      <option value="counseling">I need spiritual counseling</option>
+                      <option value="questions">I have questions about faith</option>
+                      <option value="volunteer">I want to volunteer</option>
+                      <option value="giving">I want to give or support the ministry</option>
+                      <option value="other">Other</option>
+                    </select>
+                    <FieldError errors={[errors.category]} />
+                  </Field>
+
+                  <Field data-invalid={!!errors.subject || undefined}>
+                    <FieldLabel htmlFor="subject">Subject</FieldLabel>
+                    <Input id="subject" type="text" placeholder="What is this about?" aria-invalid={!!errors.subject} {...register('subject')} />
+                    <FieldError errors={[errors.subject]} />
+                  </Field>
+
+                  <Field data-invalid={!!errors.message || undefined}>
+                    <FieldLabel htmlFor="message">Message</FieldLabel>
+                    <Textarea
+                      id="message"
+                      rows={6}
+                      placeholder="Tell us what's on your mind…"
+                      aria-invalid={!!errors.message}
+                      className="resize-none"
+                      {...register('message')}
+                    />
+                    <FieldError errors={[errors.message]} />
+                  </Field>
+
+                  {error && (
+                    <Alert variant="destructive">
+                      <AlertDescription>{error}</AlertDescription>
+                    </Alert>
+                  )}
+
+                  <Button type="submit" disabled={isSubmitting} size="lg" className="h-12 sm:self-start sm:px-8">
+                    <Send data-icon="inline-start" />
+                    {isSubmitting ? 'Sending…' : 'Send message'}
+                  </Button>
+                </FieldGroup>
+              </form>
+            )}
           </div>
         </section>
 
-        {/* FAQ Section - Gospel & Faith Questions */}
-        <section className="py-20 bg-muted">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              className="text-center mb-12"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-4xl font-serif font-bold text-foreground mb-4">
-                Common Questions About Jesus & Salvation
-              </h2>
-              <p className="text-muted-foreground">
-                Biblical answers to help you understand faith and God's plan for your life
-              </p>
-            </motion.div>
-
-            <motion.div
-              className="space-y-4"
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
-              {[
-                {
-                  q: 'How do I become a Christian?',
-                  a: 'Simply believe in Jesus Christ, repent of your sins, and accept Him as your Lord and Savior. Pray and tell God you want to follow Jesus. We\'re here to help you take this life-changing step.',
-                },
-                {
-                  q: 'What happens after I accept Jesus?',
-                  a: 'You experience God\'s forgiveness, peace, and eternal life. We recommend finding a local church, getting baptized, and connecting with a faith community to grow in your relationship with Christ.',
-                },
-                {
-                  q: 'Is it too late for God to forgive me?',
-                  a: 'No! God\'s grace is unlimited. No matter what you\'ve done, Jesus can forgive you. He died for ALL our sins. It\'s never too late to turn to Him.',
-                },
-                {
-                  q: 'How can I know Jesus is real?',
-                  a: 'Millions testify to encountering Jesus through prayer, Scripture, and the Holy Spirit. We invite you to seek Him with an open heart. Jesus said, "Ask and it will be given to you." (Matthew 7:7)',
-                },
-              ].map((faq, i) => (
-                <motion.div
-                  key={i}
-                  className="bg-card border border-border rounded-lg p-6 hover:border-accent-alt transition-colors"
-                  variants={itemVariants}
-                >
-                  <h3 className="text-lg font-semibold text-foreground mb-3">
-                    {faq.q}
-                  </h3>
-                  <p className="text-muted-foreground">
+        <section className="border-t border-border py-16 md:py-24">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <SectionHeader
+              title="Questions about Jesus & salvation"
+              description="Biblical answers to help you understand faith and God's plan for your life."
+            />
+            <Accordion type="single" collapsible className="max-w-3xl">
+              {FAQS.map((faq) => (
+                <AccordionItem key={faq.q} value={faq.q}>
+                  <AccordionTrigger className="font-display text-xl font-semibold">{faq.q}</AccordionTrigger>
+                  <AccordionContent className="max-w-prose text-base leading-relaxed text-muted-foreground">
                     {faq.a}
-                  </p>
-                </motion.div>
+                  </AccordionContent>
+                </AccordionItem>
               ))}
-            </motion.div>
+            </Accordion>
           </div>
         </section>
       </main>

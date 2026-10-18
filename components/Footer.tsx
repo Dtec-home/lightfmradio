@@ -21,42 +21,37 @@ function WhatsAppIcon({ size = 18 }: { size?: number }) {
   );
 }
 
+const linkClass = 'text-muted-foreground transition-colors hover:text-foreground';
+const socialClass =
+  'flex size-10 items-center justify-center rounded-md border border-border text-foreground/80 transition-colors hover:border-foreground hover:text-foreground';
+const headingClass = 'mb-4 font-display text-sm font-semibold uppercase tracking-[0.12em] text-foreground';
+
 export function Footer() {
   return (
-    <footer className="bg-muted border-t border-border pt-16 pb-32">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-          {/* Brand */}
-          <div>
-            <div className="mb-4 h-12">
-              <Image
-                src="/logo.png"
-                alt="Light FM Logo"
-                width={160}
-                height={48}
-                className="h-full w-auto object-contain"
-              />
-            </div>
-            <p className="text-sm text-muted-foreground">
+    <footer className="border-t border-border bg-background pt-16 pb-32">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-12">
+          <div className="md:col-span-5">
+            <Image src="/logo.png" alt="Light FM" width={160} height={48} className="h-14 w-auto object-contain" />
+            <p className="mt-4 max-w-sm text-muted-foreground">
               Welcome to the no. 1 leading online family christian radio station in east africa.
+            </p>
+            <p className="mt-6 font-display text-2xl font-semibold uppercase text-accent-alt">
+              Jesus is coming again. Be ready.
             </p>
           </div>
 
-          {/* Navigation */}
-          <div>
-            <h4 className="text-sm font-semibold text-foreground mb-4">Navigate</h4>
-            <ul className="space-y-2">
+          <div className="md:col-span-2">
+            <h4 className={headingClass}>Navigate</h4>
+            <ul className="flex flex-col gap-2">
               {[
                 { label: 'Home', href: '/' },
                 { label: 'Teachings', href: '/shows' },
                 { label: 'Testimonies', href: '/news' },
-                { label: 'Respond', href: '/contact' },
+                { label: 'About', href: '/about' },
               ].map((item) => (
                 <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="text-sm text-muted-foreground hover:text-accent transition-colors"
-                  >
+                  <Link href={item.href} className={linkClass}>
                     {item.label}
                   </Link>
                 </li>
@@ -64,68 +59,63 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Resources */}
-          <div>
-            <h4 className="text-sm font-semibold text-foreground mb-4">Ministry</h4>
-            <ul className="space-y-2">
+          <div className="md:col-span-2">
+            <h4 className={headingClass}>Ministry</h4>
+            <ul className="flex flex-col gap-2">
               <li>
-                <Link href="/contact" className="text-sm text-muted-foreground hover:text-accent transition-colors">
+                <Link href="/contact" className={linkClass}>
                   Accept Jesus
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-sm text-muted-foreground hover:text-accent transition-colors">
-                  Prayer Request
+                <Link href="/get-involved#prayer-request" className={linkClass}>
+                  Prayer request
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-sm text-muted-foreground hover:text-accent transition-colors">
-                  Giving & Support
+                <Link href="/get-involved#give" className={linkClass}>
+                  Giving &amp; support
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Social */}
-          <div>
-            <h4 className="text-sm font-semibold text-foreground mb-4">Follow Us</h4>
-            <div className="flex gap-4">
-              <a href="https://www.facebook.com/lightfmkenya" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="p-2 bg-secondary rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors">
+          <div className="md:col-span-3">
+            <h4 className={headingClass}>Follow us</h4>
+            <div className="flex flex-wrap gap-2">
+              <a href="https://www.facebook.com/lightfmkenya" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className={socialClass}>
                 <Facebook size={18} />
               </a>
-              <a href="https://x.com/LightFmKenya" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="p-2 bg-secondary rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors">
+              <a href="https://x.com/LightFmKenya" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)" className={socialClass}>
                 <Twitter size={18} />
               </a>
-              <a href="https://www.instagram.com/lightfmkenya/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="p-2 bg-secondary rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors">
+              <a href="https://www.instagram.com/lightfmkenya/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className={socialClass}>
                 <Instagram size={18} />
               </a>
-              <a href="https://www.youtube.com/@lcmstudiosKe/videos" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="p-2 bg-secondary rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors">
+              <a href="https://www.youtube.com/@lcmstudiosKe/videos" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className={socialClass}>
                 <Youtube size={18} />
               </a>
-              <Link href="/get-involved#fellowship" aria-label="WhatsApp" className="p-2 bg-secondary rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors">
+              <Link href="/get-involved#fellowship" aria-label="WhatsApp fellowship" className={socialClass}>
                 <WhatsAppIcon size={18} />
               </Link>
             </div>
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="border-t border-border pt-8 flex flex-col md:flex-row items-center justify-between">
-          <div className="flex flex-col gap-2">
-            <p className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} The loud cry ministries-Kenya. All rights reserved. "I am the light of the world." - John 8:12
-            </p>
-            <p className="text-sm text-muted-foreground">
-              <Link href="/privacy-policy" className="hover:text-accent transition-colors">
-                Privacy Policy
-              </Link>
-            </p>
-            <p className="text-sm text-muted-foreground">
-              Powered By Grace Through <a href="https://www.allons-ysuite.com/" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors font-medium">Allons-y Ministry</a>
-            </p>
-          </div>
-          <p className="text-sm text-accent-alt font-semibold mt-4 md:mt-0">
-            Jesus is Coming Again! Be Ready.
+        <div className="mt-14 flex flex-col gap-3 border-t border-border pt-6 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
+          <p>
+            © {new Date().getFullYear()} The Loud Cry Ministries–Kenya. <span className="italic">&ldquo;I am the light of the world.&rdquo; John 8:12</span>
+          </p>
+          <p className="flex flex-wrap gap-x-4 gap-y-1">
+            <Link href="/privacy-policy" className={linkClass}>
+              Privacy policy
+            </Link>
+            <span>
+              Powered by grace through{' '}
+              <a href="https://www.allons-ysuite.com/" target="_blank" rel="noopener noreferrer" className={linkClass}>
+                Allons-y Ministry
+              </a>
+            </span>
           </p>
         </div>
       </div>

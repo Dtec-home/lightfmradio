@@ -1,63 +1,77 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { Play } from 'lucide-react';
 import { usePlayer } from '@/context/PlayerContext';
-import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 
 interface ShowCardProps {
   id: string;
   title: string;
   host: string;
   description: string;
-  image: string;
+  image?: string;
   schedule: string;
+  category?: string;
 }
 
-export function ShowCard({ id, title, host, description, image, schedule }: ShowCardProps) {
+const CATEGORY_IMAGE_MAP: Record<string, string> = {
+  Devotions: '/images/shows/daily-devotions.jpg',
+  Study: '/images/shows/bible-study-prayer.jpg',
+  Youth: '/images/shows/youth-ministry.jpg',
+  Women: '/images/shows/womens-fellowship.jpg',
+  Testimonies: '/images/shows/testimonies-grace.jpg',
+  Prophecy: '/images/shows/end-times-prophecy.jpg',
+};
+
+export function ShowCard({ title, host, description, image, schedule, category }: ShowCardProps) {
   const { setIsPlaying, setCurrentTrack } = usePlayer();
 
   const handlePlay = () => {
-    setCurrentTrack({
-      title,
-      artist: host,
-      duration: 0,
-    });
+    setCurrentTrack({ title, artist: host, duration: 0 });
     setIsPlaying(true);
   };
 
-  return (
-    <motion.div whileHover={{ y: -8 }} transition={{ duration: 0.3 }}>
-      <Card className="group relative gap-0 overflow-hidden py-0 hover:border-accent transition-colors">
-        {/* Image */}
-        <div className="relative aspect-square overflow-hidden bg-secondary">
-          <div className="absolute inset-0 bg-gradient-to-br from-accent-alt/10 to-destructive/10" />
-          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40">
-            <motion.button
-              onClick={handlePlay}
-              className="p-4 bg-accent rounded-full hover:bg-accent/90 transition-colors"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Play size={24} className="text-accent-foreground fill-accent-foreground" />
-            </motion.button>
-          </div>
-        </div>
+  const resolvedImage =
+    image && !image.includes('drive.google.com') && !image.startsWith('/gradient')
+      ? image
+      : (category && CATEGORY_IMAGE_MAP[category]) || '/images/shows/daily-devotions.jpg';
 
-        {/* Content */}
-        <CardContent className="p-6">
-          <h3 className="text-lg font-serif font-bold text-foreground mb-2 line-clamp-2">
-            {title}
-          </h3>
-          <p className="text-sm text-accent font-medium mb-3">{host}</p>
-          <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
-            {description}
-          </p>
-          <p className="text-xs text-muted-foreground bg-secondary px-3 py-1 rounded-full inline-block">
-            {schedule}
-          </p>
-        </CardContent>
-      </Card>
-    </motion.div>
+  return (
+    <article className="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card transition-all hover:border-primary/40 hover:shadow-md">
+      <div className="relative aspect-video w-full overflow-hidden bg-muted">
+        <Image
+          src={resolvedImage}
+          alt={title}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+        {category && (
+          <div className="absolute top-3 left-3">
+            <Badge variant="secondary" className="backdrop-blur-md bg-background/85 font-medium shadow-xs">
+              {category}
+            </Badge>
+          </div>
+        )}
+        <div className="absolute right-3 bottom-3 left-3 flex items-center justify-between text-xs font-semibold tracking-wider text-white uppercase drop-shadow-sm">
+          <span>{schedule}</span>
+        </div>
+      </div>
+
+      <div className="flex flex-1 flex-col p-5">
+        <h3 className="font-display text-2xl leading-tight font-semibold tracking-tight transition-colors group-hover:text-primary">
+          {title}
+        </h3>
+        <p className="mt-1 text-sm font-semibold text-accent-alt">{host}</p>
+        <p className="mt-2.5 line-clamp-3 flex-1 text-sm leading-relaxed text-muted-foreground">{description}</p>
+        <Button variant="outline" size="sm" className="mt-5 self-start gap-2" onClick={handlePlay}>
+          <Play className="size-3.5 fill-current" />
+          Listen
+        </Button>
+      </div>
+    </article>
   );
 }

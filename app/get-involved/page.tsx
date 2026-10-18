@@ -4,40 +4,37 @@ import { Navbar } from '@/components/Navbar';
 import { Player } from '@/components/Player';
 import { Footer } from '@/components/Footer';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
+import { PageHeader } from '@/components/PageHeader';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
 import Link from 'next/link';
-import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { HeartHandshake, MessageCircle, HandHeart, Users, Send } from 'lucide-react';
+import { ArrowRight, Send } from 'lucide-react';
+import { GivingForm } from '@/components/GivingForm';
 
 const WAYS_TO_HELP = [
   {
-    icon: HeartHandshake,
     title: 'Prayer Requests',
     description: 'Share what\'s on your heart — our team prays over every request.',
     href: '#prayer-request',
   },
   {
-    icon: MessageCircle,
     title: 'WhatsApp Fellowship',
     description: 'Join our Bible study community for daily encouragement.',
     href: '#fellowship',
   },
   {
-    icon: HandHeart,
     title: 'Support the Mission',
     description: 'See what your generosity is funding right now.',
     href: '#give',
   },
   {
-    icon: Users,
     title: 'Volunteer',
     description: 'Serve alongside our ministry team in outreach and media.',
     href: '/contact?category=volunteer',
@@ -101,157 +98,123 @@ export default function GetInvolvedPage() {
       <Player />
       <Toaster />
 
-      <main className="pt-24 pb-32 bg-background">
-        <section className="py-16 bg-gradient-to-b from-muted via-background to-background border-b border-border">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-4xl md:text-5xl font-serif font-bold text-foreground mb-4">Get Involved</h1>
-            <p className="text-muted-foreground text-lg max-w-2xl">
-              Whether through prayer, fellowship, giving, or serving — there's a place for you in this ministry.
-            </p>
-          </div>
+      <main className="pt-16 pb-24">
+        <PageHeader
+          title="Get involved"
+          intro="Whether through prayer, fellowship, giving, or serving, there's a place for you in this ministry."
+        />
+
+        <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6 md:py-16 lg:px-8">
+          <ul className="grid grid-cols-1 md:grid-cols-2 md:gap-x-12">
+            {WAYS_TO_HELP.map((way) => (
+              <li key={way.title} className="border-b border-border">
+                <Link href={way.href} className="group flex items-start justify-between gap-6 py-6">
+                  <span>
+                    <span className="block font-display text-2xl font-semibold uppercase transition-colors group-hover:text-primary">
+                      {way.title}
+                    </span>
+                    <span className="mt-1 block text-muted-foreground">{way.description}</span>
+                  </span>
+                  <ArrowRight className="mt-1.5 size-5 shrink-0 text-primary transition-transform group-hover:translate-x-1" aria-hidden />
+                </Link>
+              </li>
+            ))}
+          </ul>
         </section>
 
-        <section className="py-16">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {WAYS_TO_HELP.map((way) => (
-                <Card key={way.title} className="p-6 gap-0 rounded-2xl hover:shadow-lg transition-shadow">
-                  <CardContent className="p-0 flex flex-col items-start">
-                    <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-4">
-                      <way.icon size={22} className="text-accent" />
-                    </div>
-                    <h3 className="font-serif font-bold text-foreground mb-2">{way.title}</h3>
-                    <p className="text-sm text-muted-foreground mb-4">{way.description}</p>
-                    <Button asChild variant="outline" size="sm">
-                      <Link href={way.href}>Learn more</Link>
-                    </Button>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Prayer Request Section */}
-        <section id="prayer-request" className="py-16 bg-muted scroll-mt-24">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-10">
-              <h2 className="text-3xl font-serif font-bold text-foreground mb-4">Share a Prayer Request</h2>
-              <p className="text-muted-foreground">
-                Whatever you're carrying, our team would be honored to pray over it with you.
+        <section id="prayer-request" className="scroll-mt-24 border-t border-border py-16 md:py-24">
+          <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 px-4 sm:px-6 lg:grid-cols-12 lg:px-8">
+            <div className="lg:col-span-5">
+              <h2 className="font-display text-4xl leading-none font-bold uppercase md:text-5xl">Share a prayer request</h2>
+              <p className="mt-4 max-w-md text-lg leading-relaxed text-muted-foreground">
+                Whatever you&rsquo;re carrying, our team would be honored to pray over it with you.
               </p>
             </div>
 
-            <Card className="p-6 sm:p-8">
-              <CardContent className="p-0">
-                <form onSubmit={handleSubmit(onSubmitPrayerRequest)} noValidate className="space-y-6">
-                  <div>
-                    <label htmlFor="pr-name" className="block text-sm font-medium text-foreground mb-2">
-                      Name
-                    </label>
-                    <Input
-                      id="pr-name"
-                      type="text"
-                      placeholder="Your name"
-                      aria-invalid={!!errors.name}
-                      {...register('name')}
-                    />
-                    {errors.name && (
-                      <p className="mt-1.5 text-sm text-destructive">{errors.name.message}</p>
-                    )}
-                  </div>
+            <form onSubmit={handleSubmit(onSubmitPrayerRequest)} noValidate className="lg:col-span-7">
+              <FieldGroup>
+                <Field data-invalid={!!errors.name || undefined}>
+                  <FieldLabel htmlFor="pr-name">Name</FieldLabel>
+                  <Input id="pr-name" type="text" placeholder="Your name" aria-invalid={!!errors.name} className="bg-background" {...register('name')} />
+                  <FieldError errors={[errors.name]} />
+                </Field>
 
-                  <div>
-                    <label htmlFor="pr-contact" className="block text-sm font-medium text-foreground mb-2">
-                      Email or Phone
-                    </label>
-                    <Input
-                      id="pr-contact"
-                      type="text"
-                      placeholder="your@email.com or phone number"
-                      aria-invalid={!!errors.contact}
-                      {...register('contact')}
-                    />
-                    {errors.contact && (
-                      <p className="mt-1.5 text-sm text-destructive">{errors.contact.message}</p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label htmlFor="pr-request" className="block text-sm font-medium text-foreground mb-2">
-                      Your Prayer Request
-                    </label>
-                    <Textarea
-                      id="pr-request"
-                      rows={5}
-                      placeholder="Share what's on your heart..."
-                      aria-invalid={!!errors.request}
-                      className="resize-none"
-                      {...register('request')}
-                    />
-                    {errors.request && (
-                      <p className="mt-1.5 text-sm text-destructive">{errors.request.message}</p>
-                    )}
-                  </div>
-
-                  <Controller
-                    control={control}
-                    name="isConfidential"
-                    render={({ field }) => (
-                      <div className="flex items-center gap-2">
-                        <Checkbox
-                          id="pr-confidential"
-                          checked={field.value}
-                          onCheckedChange={(checked) => field.onChange(checked === true)}
-                        />
-                        <label htmlFor="pr-confidential" className="text-sm text-muted-foreground cursor-pointer">
-                          Keep this request confidential
-                        </label>
-                      </div>
-                    )}
+                <Field data-invalid={!!errors.contact || undefined}>
+                  <FieldLabel htmlFor="pr-contact">Email or phone</FieldLabel>
+                  <Input
+                    id="pr-contact"
+                    type="text"
+                    placeholder="you@example.com or 07XX XXX XXX"
+                    aria-invalid={!!errors.contact}
+                    className="bg-background"
+                    {...register('contact')}
                   />
+                  <FieldError errors={[errors.contact]} />
+                </Field>
 
-                  <Button type="submit" disabled={isSubmitting} size="lg" className="w-full">
-                    <Send size={18} />
-                    {isSubmitting ? 'Sending...' : 'Send Prayer Request'}
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
+                <Field data-invalid={!!errors.request || undefined}>
+                  <FieldLabel htmlFor="pr-request">Your prayer request</FieldLabel>
+                  <Textarea
+                    id="pr-request"
+                    rows={5}
+                    placeholder="Share what's on your heart…"
+                    aria-invalid={!!errors.request}
+                    className="resize-none bg-background"
+                    {...register('request')}
+                  />
+                  <FieldError errors={[errors.request]} />
+                </Field>
+
+                <Controller
+                  control={control}
+                  name="isConfidential"
+                  render={({ field }) => (
+                    <Field orientation="horizontal">
+                      <Checkbox
+                        id="pr-confidential"
+                        checked={field.value}
+                        onCheckedChange={(checked) => field.onChange(checked === true)}
+                      />
+                      <FieldLabel htmlFor="pr-confidential" className="font-normal">
+                        Keep this request confidential
+                      </FieldLabel>
+                    </Field>
+                  )}
+                />
+
+                <Button type="submit" disabled={isSubmitting} size="lg" className="h-12 sm:self-start sm:px-8">
+                  <Send data-icon="inline-start" />
+                  {isSubmitting ? 'Sending…' : 'Send prayer request'}
+                </Button>
+              </FieldGroup>
+            </form>
           </div>
         </section>
 
-        {/* WhatsApp Fellowship Section */}
-        <section id="fellowship" className="py-16 scroll-mt-24">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div className="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center mx-auto mb-6">
-              <MessageCircle size={26} className="text-accent" />
+        <section id="fellowship" className="scroll-mt-24 py-16 md:py-24">
+          <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 px-4 sm:px-6 lg:grid-cols-12 lg:items-end lg:px-8">
+            <div className="lg:col-span-8">
+              <h2 className="font-display text-4xl leading-none font-bold uppercase md:text-5xl">WhatsApp Bible study fellowship</h2>
+              <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted-foreground">
+                Reach out and we&rsquo;ll add you to a community of believers growing together in daily Scripture and prayer.
+              </p>
             </div>
-            <h2 className="text-3xl font-serif font-bold text-foreground mb-4">WhatsApp Bible Study Fellowship</h2>
-            <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
-              Join our WhatsApp Bible Study Fellowship — reach out and we'll add you to a community of
-              believers growing together in daily Scripture and prayer.
-            </p>
             {/* TODO: replace with a real wa.me group invite link once supplied by the client */}
-            <Button asChild size="lg">
-              <Link href="/contact">Ask to Join</Link>
+            <Button asChild size="lg" className="h-12 px-8 lg:col-span-4 lg:justify-self-end">
+              <Link href="/contact">Ask to join</Link>
             </Button>
           </div>
         </section>
 
-        {/* Giving / Transparency Section */}
-        <section id="give" className="py-16 bg-muted scroll-mt-24">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div className="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center mx-auto mb-6">
-              <HandHeart size={26} className="text-accent" />
+        <section id="give" className="scroll-mt-24 border-t border-border py-16 md:py-24">
+          <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 px-4 sm:px-6 lg:grid-cols-12 lg:items-end lg:px-8">
+            <div className="lg:col-span-8">
+              <h2 className="font-display text-4xl leading-none font-bold uppercase md:text-5xl">What your support is funding</h2>
+              <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted-foreground">
+                Right now, your generosity is helping fund a PA system purchase for Lionhill SDA Church.
+              </p>
+              <GivingForm />
             </div>
-            <h2 className="text-3xl font-serif font-bold text-foreground mb-4">What Your Support Is Funding</h2>
-            <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
-              Right now, your generosity is helping fund a PA system purchase for Lionhill SDA Church.
-            </p>
-            <Button asChild size="lg">
-              <Link href="/contact">Support the Mission</Link>
-            </Button>
           </div>
         </section>
       </main>

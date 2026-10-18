@@ -2,7 +2,15 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
 import { verifyToken } from '@/lib/auth';
-import nodemailer from 'nodemailer';
+import { z } from 'zod';
+import { createEmailTransport, escapeHtml, getEmailAddresses } from '@/lib/email';
+
+const prayerRequestSchema = z.object({
+  name: z.string().trim().min(2).max(100),
+  contact: z.string().trim().min(3).max(254),
+  request: z.string().trim().min(10).max(5000),
+  isConfidential: z.boolean().optional(),
+});
 
 export async function GET() {
   try {
@@ -24,7 +32,12 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const { name, contact, request: prayerText, isConfidential } = await request.json();
+    const input = prayerRequestSchema.safeParse(await request.json());
+    if (!input.success) {
+      return NextResponse.json({ error: 'Please check the form fields and try again.' }, { status: 400 });
+    }
+
+    const { name, contact, request: prayerText, isConfidential = false } = input.data;
 
     const prayerRequest = await prisma.prayerRequest.create({
       data: {
@@ -35,28 +48,21 @@ export async function POST(request: Request) {
       },
     });
 
-    // Best-effort notification email — a failure here should not fail the request,
-    // since the DB write (the record of the prayer request) is what matters most.
     try {
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: 'lcministries254@gmail.com',
-          pass: process.env.GMAIL_APP_PASSWORD,
-        },
-      });
+      const transporter = createEmailTransport();
+      const { from, contactTo } = getEmailAddresses();
 
       await transporter.sendMail({
-        from: 'lcministries254@gmail.com',
-        to: 'lcministries254@gmail.com',
+        from,
+        to: contactTo,
         subject: `New Prayer Request from ${name}`,
         html: `
           <h3>New Prayer Request</h3>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Contact:</strong> ${contact}</p>
+          <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+          <p><strong>Contact:</strong> ${escapeHtml(contact)}</p>
           <p><strong>Confidential:</strong> ${isConfidential ? 'Yes' : 'No'}</p>
           <p><strong>Request:</strong></p>
-          <p>${String(prayerText).replace(/\n/g, '<br>')}</p>
+          <p>${escapeHtml(prayerText).replace(/\n/g, '<br>')}</p>
         `,
       });
     } catch (emailError) {

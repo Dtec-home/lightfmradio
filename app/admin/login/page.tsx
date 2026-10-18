@@ -31,10 +31,10 @@ export default function AdminLogin() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
       <div className="max-w-md w-full bg-card p-8 rounded-lg border border-border">
-        <h1 className="text-3xl font-serif font-bold mb-6 text-center">Admin Login</h1>
+        <h1 className="text-3xl font-display font-bold mb-6 text-center">Admin Login</h1>
         
         {error && (
-          <div className="mb-4 p-3 bg-red-500/10 border border-red-500 text-red-500 rounded">
+          <div className="mb-4 p-3 bg-destructive/10 border border-destructive text-destructive rounded-md">
             {error}
           </div>
         )}

@@ -30,7 +30,7 @@ export default function NewShow() {
   return (
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-2xl mx-auto">
-        <h1 className="text-3xl font-serif font-bold mb-6">Add New Show</h1>
+        <h1 className="text-3xl font-display font-bold mb-6">Add New Show</h1>
         <form onSubmit={handleSubmit} className="space-y-4 bg-card p-6 rounded border border-border">
           <div>
             <label htmlFor="title" className="block text-sm font-medium mb-2">Title</label>

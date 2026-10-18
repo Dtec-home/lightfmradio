@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Navbar } from '@/components/Navbar';
 import { Player } from '@/components/Player';
 import { Footer } from '@/components/Footer';
-import { Card, CardContent } from '@/components/ui/card';
+import { PageHeader } from '@/components/PageHeader';
 import { MINISTRY } from '@/lib/content';
 
 export const metadata: Metadata = {
@@ -17,39 +17,28 @@ export default function AboutPage() {
       <Navbar />
       <Player />
 
-      <main className="pt-24 pb-32 bg-background">
-        <section className="py-16 bg-gradient-to-b from-muted via-background to-background border-b border-border">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-4xl md:text-5xl font-serif font-bold text-foreground mb-4">About Light FM</h1>
-            <p className="text-muted-foreground text-lg max-w-2xl">
-              A media-based ministry dedicated to Christ-centered teaching, prayer, and preparing hearts for eternity.
-            </p>
-          </div>
-        </section>
+      <main className="pt-16 pb-24">
+        <PageHeader
+          title="About Light FM"
+          intro="A media-based ministry dedicated to Christ-centered teaching, prayer, and preparing hearts for eternity."
+        />
 
-        <section className="py-16">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-            <Card className="p-8 gap-0 rounded-2xl">
-              <CardContent className="p-0">
-                <h2 className="text-2xl font-serif font-bold text-foreground mb-3">Our Vision</h2>
-                <p className="text-muted-foreground leading-relaxed">{MINISTRY.vision}</p>
-              </CardContent>
-            </Card>
-
-            <Card className="p-8 gap-0 rounded-2xl">
-              <CardContent className="p-0">
-                <h2 className="text-2xl font-serif font-bold text-foreground mb-3">Our Mission</h2>
-                <p className="text-muted-foreground leading-relaxed">{MINISTRY.mission}</p>
-              </CardContent>
-            </Card>
-
-            <Card className="p-8 gap-0 rounded-2xl">
-              <CardContent className="p-0">
-                <h2 className="text-2xl font-serif font-bold text-foreground mb-3">Our Method</h2>
-                <p className="text-muted-foreground leading-relaxed">{MINISTRY.method}</p>
-              </CardContent>
-            </Card>
-          </div>
+        <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
+          <dl className="flex flex-col">
+            {[
+              { title: 'Our vision', body: MINISTRY.vision },
+              { title: 'Our mission', body: MINISTRY.mission },
+              { title: 'Our method', body: MINISTRY.method },
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="grid grid-cols-1 gap-3 border-t border-border py-10 first:border-foreground md:grid-cols-12 md:gap-8"
+              >
+                <dt className="font-display text-2xl font-semibold uppercase md:col-span-4">{item.title}</dt>
+                <dd className="max-w-prose text-lg leading-relaxed text-foreground/85 md:col-span-8">{item.body}</dd>
+              </div>
+            ))}
+          </dl>
         </section>
       </main>
 

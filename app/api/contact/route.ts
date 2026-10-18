@@ -1,36 +1,45 @@
 import { NextRequest, NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import { z } from 'zod';
+import { createEmailTransport, escapeHtml, getEmailAddresses } from '@/lib/email';
+
+const contactSchema = z.object({
+  name: z.string().trim().min(2).max(100),
+  email: z.string().trim().email().max(254),
+  subject: z.string().trim().min(1).max(200),
+  category: z.string().trim().min(1).max(80),
+  message: z.string().trim().min(10).max(5000),
+});
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, subject, category, message } = await request.json();
+    const input = contactSchema.safeParse(await request.json());
+    if (!input.success) {
+      return NextResponse.json({ error: 'Please check the form fields and try again.' }, { status: 400 });
+    }
 
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: 'lcministries254@gmail.com',
-        pass: process.env.GMAIL_APP_PASSWORD,
-      },
-    });
+    const { name, email, subject, category, message } = input.data;
+    const { from, contactTo } = getEmailAddresses();
+    const transporter = createEmailTransport();
 
     await transporter.sendMail({
-      from: 'lcministries254@gmail.com',
-      to: 'lcministries254@gmail.com',
+      from,
+      to: contactTo,
+      replyTo: email,
       subject: `Contact Form: ${subject}`,
       html: `
         <h3>New Contact Form Submission</h3>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Category:</strong> ${category}</p>
-        <p><strong>Subject:</strong> ${subject}</p>
+        <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+        <p><strong>Category:</strong> ${escapeHtml(category)}</p>
+        <p><strong>Subject:</strong> ${escapeHtml(subject)}</p>
         <p><strong>Message:</strong></p>
-        <p>${message.replace(/\n/g, '<br>')}</p>
+        <p>${escapeHtml(message).replace(/\n/g, '<br>')}</p>
       `,
     });
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Email error:', error);
-    return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
+    console.error('Contact email delivery error:', error);
+    return NextResponse.json({ error: 'We could not send your message right now. Please try again later.' }, { status: 503 });
   }
 }
