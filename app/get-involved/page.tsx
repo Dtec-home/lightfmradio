@@ -209,9 +209,9 @@ export default function GetInvolvedPage() {
         <section id="give" className="scroll-mt-24 border-t border-border py-16 md:py-24">
           <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 px-4 sm:px-6 lg:grid-cols-12 lg:items-end lg:px-8">
             <div className="lg:col-span-8">
-              <h2 className="font-display text-4xl leading-none font-bold uppercase md:text-5xl">What your support is funding</h2>
+              <h2 className="font-display text-4xl leading-none font-bold uppercase md:text-5xl">Support the Mission</h2>
               <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted-foreground">
-                Right now, your generosity is helping fund a PA system purchase for Lionhill SDA Church.
+                Your generosity helps fund Light FM Radio broadcasting, gospel outreach missions, and Christian media ministry across East Africa.
               </p>
               <GivingForm />
             </div>
