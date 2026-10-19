@@ -5,6 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+import { ImageUploadInput } from '@/components/admin/ImageUploadInput';
 
 export default function EditShow() {
   const router = useRouter();
@@ -72,16 +73,14 @@ export default function EditShow() {
               required
             />
           </div>
-          <div>
-            <label htmlFor="image" className="block text-sm font-medium mb-2">Image URL</label>
-            <Input
-              id="image"
-              type="text"
-              value={formData.image}
-              onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-              required
-            />
-          </div>
+
+          <ImageUploadInput
+            value={formData.image}
+            onChange={(url) => setFormData({ ...formData, image: url })}
+            label="Show Artwork (URL or Upload)"
+            helpText="Upload an image file directly to the server or enter an image URL."
+          />
+
           <div>
             <label htmlFor="schedule" className="block text-sm font-medium mb-2">Schedule</label>
             <Input

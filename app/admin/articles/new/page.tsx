@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+import { ImageUploadInput } from '@/components/admin/ImageUploadInput';
 
 export default function NewArticle() {
   const router = useRouter();
@@ -12,6 +13,7 @@ export default function NewArticle() {
     title: '',
     excerpt: '',
     content: '',
+    image: '',
     date: new Date().toISOString().split('T')[0],
     category: '',
     featured: false,
@@ -61,6 +63,14 @@ export default function NewArticle() {
               rows={6}
             />
           </div>
+
+          <ImageUploadInput
+            value={formData.image}
+            onChange={(url) => setFormData({ ...formData, image: url })}
+            label="Featured Image (URL or Upload)"
+            helpText="Upload a custom photo for this testimony/teaching or enter an image URL. If left empty, a category fallback image is used."
+          />
+
           <div>
             <label htmlFor="date" className="block text-sm font-medium mb-2">Date</label>
             <Input

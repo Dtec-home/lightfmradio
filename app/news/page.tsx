@@ -24,6 +24,7 @@ interface Article {
   date: string;
   category: string;
   featured: boolean;
+  image?: string;
 }
 
 export default function NewsPage() {

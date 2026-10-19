@@ -37,6 +37,7 @@ model Article {
   title     String
   excerpt   String
   content   String?
+  image     String?
   date      DateTime
   category  String
   featured  Boolean  @default(false)
