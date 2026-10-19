@@ -1,9 +1,13 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Barlow_Condensed, Source_Serif_4 } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { ThemeProvider } from '@/components/theme-provider'
 import { ClientProviders } from '@/components/ClientProviders'
 import './globals.css'
+
+export const viewport: Viewport = {
+  themeColor: '#fcfaf6',
+}
 
 const barlowCondensed = Barlow_Condensed({
   subsets: ['latin'],
@@ -91,9 +95,6 @@ export const metadata: Metadata = {
     ],
     apple: [{ url: '/apple-icon.png', sizes: '180x180' }],
   },
-
-  // ── Theme ─────────────────────────────────────────────────────────────────
-  themeColor: '#fcfaf6',
 }
 
 export default function RootLayout({

@@ -6,7 +6,16 @@ import { Player } from '@/components/Player';
 import { Footer } from '@/components/Footer';
 import { ArrowLeft, Clock, Share2, Copy, Check } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
+
+const ARTICLE_CATEGORY_IMAGES: Record<string, string> = {
+  Scripture: '/images/articles/category-scripture.jpg',
+  Testimonies: '/images/articles/category-testimonies.jpg',
+  Gospel: '/images/articles/category-gospel.jpg',
+  Prayer: '/images/articles/category-prayer.jpg',
+  Faith: '/images/articles/category-faith.jpg',
+};
 import {
   FacebookShareButton,
   TwitterShareButton,
@@ -124,6 +133,21 @@ export default function ArticlePage({ params }: { params: Promise<{ id: string }
               <h1 className="mt-5 font-display text-5xl leading-[0.95] font-bold md:text-6xl">{article.title}</h1>
               <p className="mt-6 text-xl leading-relaxed text-muted-foreground italic">{article.excerpt}</p>
             </header>
+
+            <div className="relative mt-8 aspect-video w-full overflow-hidden rounded-xl border border-border bg-muted shadow-sm">
+              <Image
+                src={
+                  article.image && !article.image.includes('drive.google.com') && !article.image.startsWith('/gradient')
+                    ? article.image
+                    : ARTICLE_CATEGORY_IMAGES[article.category] || '/images/articles/category-scripture.jpg'
+                }
+                alt={article.title}
+                fill
+                priority
+                sizes="(max-width: 768px) 100vw, 800px"
+                className="object-cover"
+              />
+            </div>
 
             <div className="mt-10 max-w-prose text-lg leading-relaxed whitespace-pre-wrap text-foreground/90">
               {article.content || article.excerpt}
