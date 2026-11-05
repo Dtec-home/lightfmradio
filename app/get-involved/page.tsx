@@ -30,8 +30,8 @@ const WAYS_TO_HELP = [
     href: '#fellowship',
   },
   {
-    title: 'Support the Mission',
-    description: 'See what your generosity is funding right now.',
+    title: 'Your Gift Shines the Light',
+    description: 'Every shilling keeps Light FM on air and the gospel spreading.',
     href: '#give',
   },
   {
@@ -209,9 +209,9 @@ export default function GetInvolvedPage() {
         <section id="give" className="scroll-mt-24 border-t border-border py-16 md:py-24">
           <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 px-4 sm:px-6 lg:grid-cols-12 lg:items-end lg:px-8">
             <div className="lg:col-span-8">
-              <h2 className="font-display text-4xl leading-none font-bold uppercase md:text-5xl">Support the Mission</h2>
+              <h2 className="font-display text-4xl leading-none font-bold uppercase md:text-5xl">YOUR GIFT SHINES THE LIGHT</h2>
               <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted-foreground">
-                Your generosity helps fund Light FM Radio broadcasting, gospel outreach missions, and Christian media ministry across East Africa.
+                Every shilling goes toward keeping Light FM on air and spreading the gospel to those who need to hear it. Thank you for partnering with us.
               </p>
               <GivingForm />
             </div>
